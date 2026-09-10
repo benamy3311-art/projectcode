@@ -621,8 +621,14 @@
     </div>
 
     <figure style="margin-bottom:clamp(48px,6vw,76px)">
-      <div class="shot"><img src="img/recogidas.jpg" alt="Tablero de recogidas entre sedes con estados pendiente, preparado y entregado" loading="lazy"></div>
-      <figcaption class="cap">Tablero de la sede que recibe: qué llega, de dónde, para quién y desde hace cuánto.</figcaption>
+      <div class="shot">
+        <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+               poster="video/recogidas-poster.jpg" aria-label="Registro de una recogida y cambio de estado en el tablero">
+          <source src="video/recogidas.mp4" type="video/mp4">
+          <img src="img/recogidas.jpg" alt="Tablero de recogidas entre sedes con estados pendiente, preparado y entregado">
+        </video>
+      </div>
+      <figcaption class="cap">Se registra la recogida, la sede destino queda notificada y la tarjeta cambia de estado. Grabado del sistema.</figcaption>
     </figure>
 
     <div class="cols cols-4">
@@ -968,6 +974,23 @@
         v.pause();
         v.setAttribute('controls', '');
       });
+    } catch (e) {}
+  })();
+
+  // Cada video corre solo mientras se ve: fuera de pantalla no tiene sentido
+  // gastarle bateria ni CPU a quien esta leyendo otra seccion.
+  (function () {
+    try {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!('IntersectionObserver' in window)) return;
+      var obs = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) {
+          var v = e.target;
+          if (e.isIntersecting) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+          else if (!v.paused) v.pause();
+        });
+      }, { threshold: 0.2 });
+      document.querySelectorAll('video[autoplay]').forEach(function (v) { obs.observe(v); });
     } catch (e) {}
   })();
 </script>
