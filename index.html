@@ -214,6 +214,9 @@
 
   /* ─── Bloques de texto en columnas ─── */
   .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 44px 40px; }
+  /* Cuatro bloques se reparten 2x2: con auto-fit quedaba uno solo en la ultima fila. */
+  .cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px clamp(40px, 6vw, 88px); }
+  @media (max-width: 700px) { .cols-4 { grid-template-columns: 1fr; } }
   .col { display: flex; flex-direction: column; gap: 10px; }
   .col h3 { font-size: 1.28rem; }
 
@@ -265,6 +268,18 @@
     outline: 1px solid var(--shot-edge); outline-offset: -1px;
   }
   .slot b { color: var(--text); font-weight: 600; }
+
+  /* ─── Distintivo de lo que todavia no esta en produccion ─── */
+  .pronto {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+    color: var(--blue); background: var(--chip-bg);
+    padding: 7px 15px; border-radius: 980px;
+    outline: 1px solid var(--shot-edge); outline-offset: -1px;
+  }
+  .pronto::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--blue);
+  }
 
   /* ─── Documentos legales (desplegables) ─── */
   .docs { max-width: 820px; margin: 56px auto 0; }
@@ -324,6 +339,7 @@
     <nav class="nav-links">
       <a href="#producto">Producto</a>
       <a href="#trayectoria">Trayectoria</a>
+      <a href="#labs">Labs</a>
       <a href="#arranca">Cómo arranca</a>
       <a href="#legal">Datos</a>
       <a class="pill pill-sm" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Ver una demo</a>
@@ -337,7 +353,7 @@
     <div class="head-c">
       <p class="eyebrow">ProjectCode</p>
       <h1>La lista de precios<br>cambió otra vez.</h1>
-      <p class="sub copy">Su proveedor manda un PDF nuevo cada semana. Ochocientas referencias que nadie alcanza a revisar a tiempo. ProjectCode convierte ese PDF en catálogo, le dice exactamente qué cambió y deja a su equipo cotizando en segundos.</p>
+      <p class="sub copy">Su proveedor mueve los precios cada semana. Ochocientas referencias que nadie alcanza a revisar a tiempo. ProjectCode las convierte en catálogo, le dice exactamente qué cambió y deja a su equipo cotizando en segundos.</p>
       <div class="actions actions-c" style="margin-top:10px">
         <a class="pill" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Escribir por WhatsApp</a>
         <a class="chev" href="#producto">Ver el producto</a>
@@ -392,12 +408,12 @@
   <div class="w">
     <div class="head-c" style="margin-bottom:64px">
       <p class="eyebrow">Por qué existe</p>
-      <h2>Entre el PDF del proveedor y el precio<br>que sale al mostrador hay tres días.</h2>
+      <h2>Entre el precio que cambia el proveedor<br>y el que sale al mostrador hay tres días.</h2>
     </div>
     <div class="cols">
       <div class="col">
         <h3>Llega la lista</h3>
-        <p class="body-2">Un PDF de ochocientas referencias, a dos columnas, con los precios en miles y las categorías metidas en el medio. Nadie lo va a pasar a mano.</p>
+        <p class="body-2">Ochocientas referencias nuevas, casi siempre en el peor formato posible: dos columnas, precios en miles y las categorías metidas en la mitad. Nadie lo va a pasar a mano.</p>
       </div>
       <div class="col">
         <h3>Se cotiza con la anterior</h3>
@@ -422,10 +438,10 @@
 
     <div class="split" style="margin-bottom:clamp(64px,8vw,112px)">
       <div class="split-txt">
-        <h3>Sube el PDF del proveedor y sale el catálogo, con el diff incluido.</h3>
-        <p class="body-2">El sistema lee el PDF, arma el catálogo y lo compara contra el anterior. En vez de un archivo nuevo del que nadie se entera, el equipo recibe la lista de qué subió, qué bajó, qué entró y qué se agotó, con el precio viejo al lado del nuevo.</p>
+        <h3>Su lista de precios entra sola, venga como venga.</h3>
+        <p class="body-2">El sistema lee la lista, arma el catálogo y lo compara contra el anterior. En vez de un archivo nuevo del que nadie se entera, el equipo recibe qué subió, qué bajó, qué entró y qué se agotó, con el precio viejo al lado del nuevo.</p>
         <div class="points">
-          <div class="point">Se cambia la fuente de la lista sin tocar el resto de la aplicación.</div>
+          <div class="point">Conecta con el portal o la API del proveedor cuando existe, y con el PDF o el Excel cuando toca.</div>
           <div class="point">El equipo ve el cambio al abrir, no cuando el cliente reclama.</div>
         </div>
       </div>
@@ -493,6 +509,42 @@
       <div class="shot"><img src="img/metricas.jpg" alt="Panel de métricas con cotizaciones por vendedor, productos más cotizados y búsquedas sin resultados" loading="lazy"></div>
       <figcaption class="cap">Cotizaciones por asesor, productos más cotizados y búsquedas sin resultados: demanda que se está yendo por la puerta.</figcaption>
     </figure>
+  </div>
+</section>
+
+<!-- ─── ProjectCode Labs ─── -->
+<section class="sec sec-alt" id="labs">
+  <div class="w">
+    <div class="head-c" style="margin-bottom:clamp(48px,6vw,72px)">
+      <p class="eyebrow">ProjectCode Labs</p>
+      <h2>Cotizar lo que hay,<br>no lo que estaba en la lista.</h2>
+      <p class="sub copy">El catálogo dice cuánto vale cada referencia. Labs le agrega la otra mitad: cuántas quedan, en qué sede están y cuánto margen deja cada venta. Es la consola del administrador, y solo la ve quien usted autorice.</p>
+      <span class="pronto">En desarrollo &middot; primera versión con los clientes que entren este año</span>
+    </div>
+
+    <figure style="margin-bottom:clamp(48px,6vw,72px)">
+      <div class="shot"><img src="img/labs.jpg" alt="Consola de administración de ProjectCode Labs con inventario, disponibilidad, márgenes y stock por sede" loading="lazy"></div>
+      <figcaption class="cap">Diseño de la consola. Es la única pantalla de esta página que todavía no está en operación.</figcaption>
+    </figure>
+
+    <div class="cols cols-4">
+      <div class="col">
+        <h3>Inventario por sede</h3>
+        <p class="body-2">Cuántas unidades quedan de cada referencia y en cuál punto de venta. El asesor deja de prometer lo que no hay y de mandar al cliente a la sede equivocada.</p>
+      </div>
+      <div class="col">
+        <h3>Disponibilidad real</h3>
+        <p class="body-2">Disponible, quedan pocas, agotada o por encargo con los días que toma. El estado viaja al catálogo, así que se ve en el momento de cotizar y no después de vender.</p>
+      </div>
+      <div class="col">
+        <h3>Costo, venta y margen</h3>
+        <p class="body-2">Al lado del precio de venta queda el costo de la lista y el margen que deja. Cuando el proveedor sube un precio, se ve de una cuáles referencias quedaron vendiéndose demasiado baratas.</p>
+      </div>
+      <div class="col">
+        <h3>Se actualiza sola</h3>
+        <p class="body-2">Cada vez que entra una lista nueva, los costos y los márgenes se recalculan sin que nadie los toque. Usted revisa las excepciones, no las ochocientas referencias.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -676,6 +728,7 @@
     <div class="foot-links">
       <a href="#producto">Producto</a>
       <a href="#trayectoria">Trayectoria</a>
+      <a href="#labs">Labs</a>
       <a href="#arranca">Cómo arranca</a>
       <a href="#legal">Términos de uso</a>
       <a href="#legal">Tratamiento de datos</a>
