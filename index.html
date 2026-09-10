@@ -160,6 +160,9 @@
   .head-c { text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
   .head-c .sub, .head-c .body-2 { max-width: 700px; }
 
+  /* ─── Video del hero ─── */
+  .hero-video { display: block; width: 100%; height: auto; background: var(--bg-card); }
+
   /* ─── Pantallazos ─── */
   .shot {
     border-radius: 18px; overflow: hidden;
@@ -422,8 +425,14 @@
       </div>
     </div>
     <figure style="margin-top:clamp(48px,6vw,80px)">
-      <div class="shot"><img src="img/cotizacion.jpg" alt="Pantalla de cotización con ocho productos, total en pesos, descuento e IVA"></div>
-      <figcaption class="cap">Cotización armada: total en vivo, descuento, retefuente, IVA y QR de verificación en el documento.</figcaption>
+      <div class="shot">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto"
+               poster="video/hero-poster.jpg" aria-label="Recorrido por seis pantallas del sistema en operación">
+          <source src="video/hero.mp4" type="video/mp4">
+          <img src="img/cotizacion.jpg" alt="Pantalla de cotización con ocho productos, total en pesos, descuento e IVA">
+        </video>
+      </div>
+      <figcaption class="cap">Seis pantallas del sistema en operación, con el catálogo y los documentos de una tienda real.</figcaption>
     </figure>
   </div>
 </section>
@@ -946,6 +955,22 @@
     </div>
   </div>
 </footer>
+
+<script>
+  // Respetar a quien tiene activado "reducir movimiento" en el sistema:
+  // se queda con el poster en vez de reproducirse solo.
+  (function () {
+    try {
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.querySelectorAll('video[autoplay]').forEach(function (v) {
+        v.removeAttribute('autoplay');
+        v.removeAttribute('loop');
+        v.pause();
+        v.setAttribute('controls', '');
+      });
+    } catch (e) {}
+  })();
+</script>
 
 </body>
 </html>
