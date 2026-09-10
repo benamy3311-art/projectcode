@@ -302,6 +302,31 @@
   .keep-col.viene .keep-li::before { content: "+"; color: var(--blue); font-weight: 600; }
   @media (max-width: 700px) { .keep-grid { grid-template-columns: 1fr; } }
 
+  /* ─── Listado de lo que varia entre negocios ─── */
+  .varia {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 clamp(36px, 6vw, 80px);
+    max-width: 940px; margin: clamp(44px, 5vw, 64px) auto 0;
+  }
+  .varia-li {
+    display: flex; gap: 14px; align-items: baseline;
+    padding: 15px 0; font-size: 16px; line-height: 1.45;
+    border-top: 1px solid var(--hairline);
+  }
+  .varia-li b { font-weight: 600; }
+  .varia-li::before {
+    content: ""; flex: 0 0 5px; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue); transform: translateY(-3px);
+  }
+  .sec-dark .varia-li { border-top-color: #2a2a2c; color: #a1a1a6; }
+  .sec-dark .varia-li b { color: #f5f5f7; }
+  .cierre {
+    max-width: 640px; margin: clamp(44px, 5vw, 64px) auto 0;
+    text-align: center; font-size: clamp(1.05rem, 1.7vw, 1.24rem);
+    line-height: 1.45; letter-spacing: -0.019em;
+  }
+  @media (max-width: 700px) { .varia { grid-template-columns: 1fr; } }
+
   /* ─── Distintivo de lo que todavia no esta en produccion ─── */
   .pronto {
     display: inline-flex; align-items: center; gap: 8px;
@@ -696,6 +721,30 @@
   </div>
 </section>
 
+<!-- ─── Adaptacion al negocio de cada tienda ─── -->
+<section class="sec sec-dark" id="medida">
+  <div class="w">
+    <div class="head-c">
+      <p class="eyebrow">Hecho a la medida</p>
+      <h2>Si su negocio funciona distinto,<br>el sistema se cambia.</h2>
+      <p class="sub copy">Ninguna tienda cotiza igual que otra. Esto no salió de un catálogo de funciones: cada cosa que hace existe porque alguien, parado en un mostrador, la necesitó para cerrar una venta. Si a usted le falta algo o le sobra, esa misma puerta sigue abierta.</p>
+    </div>
+
+    <div class="varia">
+      <div class="varia-li"><span><b>Cómo numera sus cotizaciones.</b> Consecutivo por asesor, por sede, por año, con el prefijo que usted ya usa.</span></div>
+      <div class="varia-li"><span><b>Cómo se reparten sus listas.</b> Por proveedor, por margen o por línea de negocio, con las que necesite activas al tiempo.</span></div>
+      <div class="varia-li"><span><b>Qué medios de pago maneja.</b> Con los nombres que usan en su caja, no con los que trae el sistema.</span></div>
+      <div class="varia-li"><span><b>Una sede o cinco.</b> Y cómo se mueve una venta que el cliente recoge en otro punto.</span></div>
+      <div class="varia-li"><span><b>Con qué factura.</b> El formato de copiado se ajusta al software contable que ya tenga.</span></div>
+      <div class="varia-li"><span><b>Qué dice su documento formal.</b> Condiciones, garantías, régimen y notas legales, para que compras se lo reciba sin devolvérselo.</span></div>
+      <div class="varia-li"><span><b>Quién ve qué.</b> Qué alcanza a ver un asesor nuevo, qué el de confianza y qué solo usted.</span></div>
+      <div class="varia-li"><span><b>Qué le sobra.</b> Lo que no usa se apaga, para que la herramienta no pese más de lo que ayuda.</span></div>
+    </div>
+
+    <p class="cierre">No hay una mesa de soporte en otro país ni un ticket que espera tres semanas. Quien escribió el sistema es quien hace el cambio, y el alcance se acuerda con usted antes de empezar.</p>
+  </div>
+</section>
+
 <!-- ─── Contacto ─── -->
 <section class="sec" id="contacto">
   <div class="w">
@@ -818,6 +867,7 @@
       <a href="#trayectoria">Trayectoria</a>
       <a href="#labs">Labs</a>
       <a href="#arranca">Cómo arranca</a>
+      <a href="#medida">Hecho a la medida</a>
       <a href="#legal">Términos de uso</a>
       <a href="#legal">Tratamiento de datos</a>
       <a href="https://wa.me/573046217300" target="_blank" rel="noopener">Contacto</a>
