@@ -296,6 +296,10 @@
   .keep-li::before { flex: 0 0 18px; font-size: 15px; line-height: 1.5; }
   .keep-col.igual .keep-li::before { content: "="; color: var(--text-2); font-weight: 600; }
   .keep-col.ahora .keep-li::before { content: "+"; color: var(--blue); font-weight: 600; }
+  .keep-col.hoy   > .lbl { color: var(--down); }
+  .keep-col.viene > .lbl { color: var(--blue); }
+  .keep-col.hoy .keep-li::before   { content: "\2713"; color: var(--down); font-weight: 700; }
+  .keep-col.viene .keep-li::before { content: "+"; color: var(--blue); font-weight: 600; }
   @media (max-width: 700px) { .keep-grid { grid-template-columns: 1fr; } }
 
   /* ─── Distintivo de lo que todavia no esta en produccion ─── */
@@ -368,6 +372,7 @@
     <nav class="nav-links">
       <a href="#producto">Producto</a>
       <a href="#trayectoria">Trayectoria</a>
+      <a href="#guardas">Control</a>
       <a href="#labs">Labs</a>
       <a href="#arranca">Cómo arranca</a>
       <a href="#legal">Datos</a>
@@ -479,8 +484,39 @@
   </div>
 </section>
 
+<!-- ─── Prevención de errores ─── -->
+<section class="sec sec-alt" id="guardas">
+  <div class="w">
+    <div class="head-c" style="margin-bottom:clamp(44px,5vw,64px)">
+      <p class="eyebrow">Antes de que llegue al mostrador</p>
+      <h2>Un cero de menos le puede costar<br>el margen del mes.</h2>
+      <p class="sub copy">Una lista de ochocientas referencias la digita o la parsea alguien, y alguien se equivoca. Si ese precio llega al catálogo sin que nadie lo note, el error no aparece en una hoja de cálculo: aparece en una venta ya cerrada.</p>
+    </div>
+
+    <div class="keep" style="margin-top:0">
+      <div class="keep-grid">
+        <div class="keep-col hoy">
+          <div class="lbl">Ya lo hace hoy</div>
+          <div class="keep-li">Marca las referencias que entraron sin precio o sin categoría, una por una.</div>
+          <div class="keep-li">Detecta nombres con texto promocional pegado —&ldquo;por la compra de&hellip;&rdquo;, &ldquo;obsequio&rdquo;— porque casi siempre significa que dos productos quedaron mezclados en la misma línea.</div>
+          <div class="keep-li">Si más del 15&nbsp;% de la lista llega con problemas, el aviso no le sale solo al administrador: lo ve todo el que abra la aplicación, antes de cotizar.</div>
+          <div class="keep-li">Toda cotización guardada se puede recalcular con los precios de hoy antes de reenviarla.</div>
+        </div>
+        <div class="keep-col viene">
+          <div class="lbl">Lo que viene con Labs</div>
+          <div class="keep-li">Un precio que cae de un millón a cien mil no es una oferta, es un cero de menos. Se detiene y pide confirmación.</div>
+          <div class="keep-li">Venta por debajo del costo: si la lista nueva subió y el precio de venta quedó abajo, no pasa callado.</div>
+          <div class="keep-li">Precio fuera del rango de su categoría: una gráfica de gama alta a precio de teclado se marca sola.</div>
+          <div class="keep-li">El mismo SKU dos veces en el mismo archivo, con dos precios distintos.</div>
+          <div class="keep-li">Cotizar algo agotado: avisa en el momento, no cuando el cliente ya dijo que sí.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─── Producto ─── -->
-<section class="sec sec-alt" id="producto">
+<section class="sec" id="producto">
   <div class="w">
     <div class="head-c" style="margin-bottom:clamp(56px,7vw,96px)">
       <p class="eyebrow">El producto</p>
@@ -539,7 +575,7 @@
 </section>
 
 <!-- ─── Cierre de caja y ventas por vendedor ─── -->
-<section class="sec">
+<section class="sec sec-alt">
   <div class="w">
     <div class="head-c" style="margin-bottom:clamp(48px,6vw,80px)">
       <p class="eyebrow">Cierre de caja</p>
@@ -565,7 +601,7 @@
 </section>
 
 <!-- ─── ProjectCode Labs ─── -->
-<section class="sec sec-alt" id="labs">
+<section class="sec" id="labs">
   <div class="w">
     <div class="head-c" style="margin-bottom:clamp(48px,6vw,72px)">
       <p class="eyebrow">ProjectCode Labs</p>
