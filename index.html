@@ -325,6 +325,16 @@
   @keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .panel { animation: none; } }
 
+  /* ─── Panel de pestana con video a todo el ancho ─── */
+  .panel-video { display: grid; gap: clamp(28px, 4vw, 44px); }
+  .pv-txt {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 16px clamp(28px, 5vw, 64px); align-items: start;
+  }
+  .pv-txt h3 { font-size: clamp(1.5rem, 2.6vw, 2rem); text-wrap: balance; }
+  .pv-txt .points { margin-top: 14px; }
+  @media (max-width: 800px) { .pv-txt { grid-template-columns: 1fr; } }
+
   /* ─── Listado de lo que varia entre negocios ─── */
   .varia {
     display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -521,13 +531,14 @@
     <div class="head-c" style="margin-bottom:clamp(40px,5vw,64px)">
       <p class="eyebrow">El producto</p>
       <h2>Una sola aplicación,<br>abierta todo el día en el mostrador.</h2>
-      <p class="sub copy">Cuatro cosas que hoy viven repartidas en archivos, chats y memoria. Todo lo que sigue son pantallas reales del sistema.</p>
+      <p class="sub copy">Cinco cosas que hoy viven repartidas en archivos, chats y memoria. Todo lo que sigue son pantallas reales del sistema.</p>
     </div>
 
     <div class="tabs" role="tablist" aria-label="Funciones del producto">
       <button class="tab" role="tab" id="t-p1" aria-controls="p-p1" aria-selected="true">Catálogo al día</button>
       <button class="tab" role="tab" id="t-p2" aria-controls="p-p2" aria-selected="false">Cotizar</button>
-      <button class="tab" role="tab" id="t-p3" aria-controls="p-p3" aria-selected="false">Asistente</button>
+      <button class="tab" role="tab" id="t-pc" aria-controls="p-pc" aria-selected="false">Armar un PC</button>
+      <button class="tab" role="tab" id="t-p3" aria-controls="p-p3" aria-selected="false">Foto a cotización</button>
       <button class="tab" role="tab" id="t-p4" aria-controls="p-p4" aria-selected="false">Seguimiento</button>
     </div>
 
@@ -553,13 +564,32 @@
       <figure><div class="shot"><img src="img/catalogo.jpg" alt="Catálogo filtrado por RTX 5070 mostrando nueve productos con precio" loading="lazy"></div></figure>
     </div>
 
+    <div class="panel panel-video" role="tabpanel" id="p-pc" aria-labelledby="t-pc" hidden>
+      <div class="pv-txt">
+        <h3>“PC gamer de 10 millones.” Con eso basta.</h3>
+        <div>
+          <p class="body-2">El asesor pega el mensaje tal como lo mandó el cliente. El asistente recorre el catálogo de la tienda, arma el equipo completo —procesador, board, memoria, disco, tarjeta de video, fuente, caja y disipador—, revisa que las piezas sean compatibles entre sí y lo ajusta al presupuesto.</p>
+          <div class="points">
+              <div class="point">Cada pieza trae su porqué, escrito para que el cliente lo entienda.</div>
+              <div class="point">Los precios salen de su lista, no de la IA: lo que no está en el catálogo no entra.</div>
+          </div>
+        </div>
+      </div>
+      <figure>
+        <div class="shot">
+          <video class="hero-video" muted loop playsinline preload="none"
+                 poster="video/armar-pc-poster.jpg" aria-label="El asistente arma un PC gamer de 10 millones con el catálogo de la tienda y lo pasa a la cotización">
+            <source src="video/armar-pc.mp4" type="video/mp4">
+          </video>
+        </div>
+        <figcaption class="cap">Grabado del sistema: del mensaje del cliente a la cotización. La espera de la IA, que en la práctica es de 25 a 45 segundos, está acortada.</figcaption>
+      </figure>
+    </div>
+
     <div class="panel split" role="tabpanel" id="p-p3" aria-labelledby="t-p3" hidden>
       <div class="split-txt">
         <h3>La foto que manda el cliente se vuelve cotización.</h3>
         <p class="body-2">El cliente manda la captura de una lista de la competencia o el papelito de lo que quiere. El asistente lo traduce a productos del catálogo propio: cuáles son exactos, cuáles son equivalentes y por qué, y cuáles no existen en la lista activa.</p>
-        <div class="points">
-            <div class="point">También arma un PC completo desde un requerimiento escrito.</div>
-        </div>
       </div>
       <figure><div class="shot"><img src="img/ia.jpg" alt="Modal de cotización inteligente emparejando productos del cliente con el catálogo" loading="lazy"></div></figure>
     </div>
@@ -615,17 +645,29 @@
   <div class="w">
     <div class="head-c" style="margin-bottom:clamp(40px,5vw,64px)">
       <p class="eyebrow">Cierre de caja</p>
-      <h2>El día cierra cuadrado,<br>y cada venta tiene nombre.</h2>
-      <p class="sub copy">Al final de la jornada el sistema separa el efectivo de lo digital, resta los egresos y dice cuánto tiene que entrar a la caja. Y al cierre del mes, cuántas cotizaciones hizo cada asesor y por cuánto, sin tener que reconstruirlo de memoria.</p>
+      <h2>El día cierra cuadrado.<br>El mes, también.</h2>
+      <p class="sub copy">Cada venta queda registrada con su número de factura y su forma de pago, y cada cierre con el nombre de quien lo hizo, sin pasar nada a un Excel. El día termina con lo que debe haber en la caja; el mes, con el total, el promedio y el detalle de cada jornada. Y si algún día algo no cuadra, se busca por fecha, asesor o número de factura, y ahí está.</p>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="Cierre de caja y ventas por asesor">
-      <button class="tab" role="tab" id="t-c1" aria-controls="p-c1" aria-selected="true">Cuadre del día</button>
+    <div class="tabs" role="tablist" aria-label="Resumen del mes, historial y cierre de caja">
+      <button class="tab" role="tab" id="t-c0" aria-controls="p-c0" aria-selected="true">Resumen del mes</button>
+      <button class="tab" role="tab" id="t-ch" aria-controls="p-ch" aria-selected="false">Historial</button>
+      <button class="tab" role="tab" id="t-c1" aria-controls="p-c1" aria-selected="false">Cuadre del día</button>
       <button class="tab" role="tab" id="t-c2" aria-controls="p-c2" aria-selected="false">Trabajo de cada asesor</button>
     </div>
 
-    <figure class="panel" role="tabpanel" id="p-c1" aria-labelledby="t-c1">
-      <div class="shot"><img src="img/cuadre.jpg" alt="Cuadre de caja del día con ventas por forma de pago, efectivo y digital separados"></div>
+    <figure class="panel" role="tabpanel" id="p-c0" aria-labelledby="t-c0">
+      <div class="shot"><img src="img/cuadre-resumen.jpg" alt="Resumen de agosto: total del mes, promedio por día, mejor día, total de facturas y gráfica de ventas por día"></div>
+      <figcaption class="cap">El mes sale solo de los cierres diarios: total, promedio por día, mejor día y facturas. Cifras de ejemplo.</figcaption>
+    </figure>
+
+    <figure class="panel" role="tabpanel" id="p-ch" aria-labelledby="t-ch" style="max-width:900px;margin-inline:auto" hidden>
+      <div class="shot"><img src="img/cuadre-historial.jpg" alt="Historial de cierres de caja con buscador por fecha, asesor, factura o remisión y calendario del mes" loading="lazy"></div>
+      <figcaption class="cap">Cada día cerrado queda guardado y se encuentra por fecha, asesor, número de factura o remisión. Cifras de ejemplo.</figcaption>
+    </figure>
+
+    <figure class="panel" role="tabpanel" id="p-c1" aria-labelledby="t-c1" hidden>
+      <div class="shot"><img src="img/cuadre.jpg" alt="Cuadre de caja del día con ventas por forma de pago, efectivo y digital separados" loading="lazy"></div>
       <figcaption class="cap">Cada venta con su forma de pago, y el total a entregar en caja calculado solo.</figcaption>
     </figure>
 
@@ -921,7 +963,11 @@
           t.tabIndex = activo ? 0 : -1;
           var panel = document.getElementById(t.getAttribute('aria-controls'));
           if (!panel) return;
-          if (activo) { panel.hidden = false; } else { panel.hidden = true; }
+          panel.hidden = !activo;
+          Array.prototype.forEach.call(panel.querySelectorAll('video'), function (v) {
+            if (activo) { try { v.currentTime = 0; } catch (e) {} var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); }
+            else { v.pause(); }
+          });
         });
       }
       tabs.forEach(function (t, i) {
