@@ -12,20 +12,6 @@
   <meta property="og:locale" content="es_CO">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>P</text></svg>">
   <title>ProjectCode - Suite para Tiendas de Tecnologia</title>
-  <script>
-    (function () {
-      try {
-        var params = new URLSearchParams(window.location.search);
-        var v = params.get('v');
-        var pref = localStorage.getItem('projectcode_version');
-        if (v === 'live' || (!v && pref === 'live')) {
-          window.location.replace('live.html' + (window.location.hash || ''));
-        } else if (v === 'codex' || (!v && pref === 'codex')) {
-          window.location.replace('codex.html' + (window.location.hash || ''));
-        }
-      } catch (e) {}
-    })();
-  </script>
   <style>
     /* Diseno Apple SF Pro limpio con soporte claro y oscuro */
     :root {
