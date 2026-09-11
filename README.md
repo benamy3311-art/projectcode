@@ -10,37 +10,21 @@ por vendedor.
 
 ## Qué hay acá
 
-Solo el sitio de presentación. Es HTML, CSS y JavaScript estáticos, sin
-dependencias ni proceso de build.
+Solo el sitio de presentación. Es HTML y CSS estáticos, sin dependencias, sin
+build y sin JavaScript propio.
 
 ```
-index.html              página principal con la versión definitiva (híbrida) y selector flotante
-definitiva.html         versión definitiva: combina la fuerza de ventas original con mejoras de diseño
-live.html               versión original (LIVE) con diseño SF Pro / Apple minimalista
-codex.html              propuesta creada por Codex con diseño Space Grotesk / modo oscuro
-comparar.html           herramienta de comparación lado a lado con scroll sincronizado
-version-switcher.css    estilos de la barra flotante conmutadora (sin emojis)
-version-switcher.js     lógica del conmutador, sincronización de posición y persistencia
-styles.css              estilos de la versión Codex
-script.js               interactividad de la versión Codex
-img/                    capturas de la aplicación y diseño de Labs
-video/                  demostraciones y sus imágenes de portada
-fonts/                  Space Grotesk local y su licencia SIL OFL
+index.html      la página completa
+img/            ocho capturas del sistema en operación
 ```
 
-Las capturas muestran la aplicación; Labs es un diseño en desarrollo, identificado
-como tal en la página. Los datos de clientes que aparecen son ficticios.
-
-Los videos se reproducen únicamente cuando el visitante lo decide. El inicial
-usa una velocidad de 0,65× con una guía de atención sincronizada. Las capturas
-se pueden ampliar, también a tamaño original. Las pestañas admiten flechas,
-Inicio y Fin; Escape cierra la imagen ampliada. Sin JavaScript, se muestran
-todas las funciones y las capturas siguen siendo enlaces a los archivos.
+Todas las imágenes son pantallas reales de la aplicación funcionando. Los datos
+de clientes que aparecen en ellas son ficticios.
 
 ## Cómo se publica
 
 GitHub Pages sirve la rama `main` desde la raíz. Cualquier cambio en `index.html`
-o en los estilos, scripts y recursos queda publicado al hacer push.
+o en `img/` queda publicado al hacer push.
 
 Para verlo local, basta con abrir `index.html` en el navegador — no necesita
 servidor.
