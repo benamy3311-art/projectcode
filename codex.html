@@ -16,19 +16,6 @@
   <link rel="preload" href="fonts/space-grotesk-latin-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="version-switcher.css">
-  <script>
-    (function () {
-      try {
-        var params = new URLSearchParams(window.location.search);
-        var v = params.get('v');
-        var pref = localStorage.getItem('projectcode_version');
-        if (v === 'live' || (!v && pref === 'live')) {
-          var hash = window.location.hash || '';
-          window.location.replace('live.html' + hash);
-        }
-      } catch (e) {}
-    })();
-  </script>
   <script src="script.js" defer></script>
 </head>
 <body>

@@ -1,0 +1,209 @@
+/* ─── Conmutador Flotante de Versiones (Live vs Codex) ─── */
+.pc-switcher-root {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: normal;
+  pointer-events: none;
+}
+
+.pc-switcher-root * {
+  box-sizing: border-box;
+}
+
+.pc-switcher-bar {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(18, 20, 26, 0.88);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.45), 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 5px 6px;
+  border-radius: 999px;
+  color: #f1f2f6;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.pc-switcher-tag {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px 0 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #9499a8;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.pc-switcher-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #30d158;
+  box-shadow: 0 0 6px #30d158;
+}
+
+.pc-switcher-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pc-switcher-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #c2c6d4;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.pc-switcher-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.pc-switcher-btn.is-active {
+  background: #ffffff;
+  color: #0b0c10;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  cursor: default;
+}
+
+.pc-switcher-btn.is-active .pc-btn-badge {
+  background: #0b0c10;
+  color: #ffffff;
+}
+
+.pc-btn-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #9499a8;
+  transition: all 0.18s ease;
+}
+
+.pc-switcher-btn-compare {
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  padding-left: 8px;
+  margin-left: 2px;
+}
+
+.pc-switcher-btn-compare .pc-switcher-btn {
+  background: rgba(56, 139, 253, 0.15);
+  border-color: rgba(56, 139, 253, 0.35);
+  color: #79b8ff;
+}
+
+.pc-switcher-btn-compare .pc-switcher-btn:hover {
+  background: rgba(56, 139, 253, 0.28);
+  color: #ffffff;
+  border-color: rgba(56, 139, 253, 0.6);
+}
+
+.pc-switcher-minimize {
+  background: transparent;
+  border: none;
+  color: #8b90a0;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.15s ease;
+}
+
+.pc-switcher-minimize:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Burbuja Colapsada ─── */
+.pc-switcher-bubble {
+  pointer-events: auto;
+  display: none;
+  align-items: center;
+  gap: 6px;
+  background: rgba(18, 20, 26, 0.92);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: #f1f2f6;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pc-switcher-bubble:hover {
+  transform: scale(1.04);
+  background: rgba(28, 31, 40, 0.96);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.pc-switcher-root.is-minimized .pc-switcher-bar {
+  display: none;
+}
+
+.pc-switcher-root.is-minimized .pc-switcher-bubble {
+  display: flex;
+}
+
+/* ─── Adaptación para Pantallas Pequeñas ─── */
+@media (max-width: 640px) {
+  .pc-switcher-root {
+    bottom: 12px;
+    width: calc(100% - 24px);
+    max-width: 440px;
+  }
+  .pc-switcher-bar {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+  }
+  .pc-switcher-tag {
+    display: none;
+  }
+  .pc-switcher-btn {
+    padding: 7px 9px;
+    font-size: 11.5px;
+    gap: 4px;
+  }
+  .pc-btn-badge {
+    display: none;
+  }
+  .pc-switcher-btn-compare {
+    padding-left: 4px;
+  }
+}

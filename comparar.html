@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProjectCode · Comparador Lado a Lado</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg-toolbar: #0f1117;
+      --border-color: #242835;
+      --text-main: #f0f3f8;
+      --text-muted: #8c93a8;
+      --accent-blue: #2f81f7;
+      --accent-green: #2ea043;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #08090d;
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Toolbar Superior ─── */
+    .compare-toolbar {
+      height: 56px;
+      background: var(--bg-toolbar);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toolbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .toolbar-brand span {
+      color: var(--accent-blue);
+    }
+
+    .toolbar-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(47, 129, 247, 0.18);
+      color: #58a6ff;
+      border: 1px solid rgba(47, 129, 247, 0.35);
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .toolbar-center {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #181b24;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .mode-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mode-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .mode-btn.active {
+      background: #232734;
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sync-toggle-btn {
+      background: rgba(46, 160, 67, 0.12);
+      border: 1px solid rgba(46, 160, 67, 0.3);
+      color: #3fb950;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.16s ease;
+    }
+
+    .sync-toggle-btn.disabled {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border-color);
+      color: var(--text-muted);
+    }
+
+    .btn-return {
+      background: #232734;
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-return:hover {
+      background: #2c3242;
+      border-color: #3e4559;
+    }
+
+    /* ─── Área de Contenedores y Marcos ─── */
+    .compare-viewport {
+      flex: 1;
+      display: flex;
+      width: 100%;
+      height: calc(100vh - 56px);
+      position: relative;
+      background: #000000;
+    }
+
+    .compare-pane {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+      min-width: 0;
+      position: relative;
+      transition: flex 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    }
+
+    .compare-pane-header {
+      height: 38px;
+      background: #141720;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .pane-title {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pane-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .pane-tag-live {
+      background: rgba(46, 160, 67, 0.2);
+      color: #3fb950;
+    }
+
+    .pane-tag-codex {
+      background: rgba(163, 113, 247, 0.2);
+      color: #bc8cff;
+    }
+
+    .pane-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 11.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.15s;
+    }
+
+    .pane-link:hover {
+      color: var(--accent-blue);
+      text-decoration: underline;
+    }
+
+    .pane-frame-wrap {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: calc(100% - 38px);
+      background: #ffffff;
+    }
+
+    .pane-frame-wrap.dark-frame {
+      background: #0b0c0e;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .compare-divider {
+      width: 4px;
+      background: var(--border-color);
+      cursor: col-resize;
+      position: relative;
+      z-index: 10;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+
+    .compare-divider:hover {
+      background: var(--accent-blue);
+    }
+
+    /* Modos de vista */
+    .compare-viewport.mode-solo-live #paneCodex,
+    .compare-viewport.mode-solo-live .compare-divider {
+      display: none;
+    }
+    .compare-viewport.mode-solo-live #paneLive {
+      flex: 1 0 100%;
+    }
+
+    .compare-viewport.mode-solo-codex #paneLive,
+    .compare-viewport.mode-solo-codex .compare-divider {
+      display: none;
+    }
+    .compare-viewport.mode-solo-codex #paneCodex {
+      flex: 1 0 100%;
+    }
+
+    @media (max-width: 800px) {
+      .compare-toolbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 10px 12px;
+      }
+      .compare-viewport {
+        height: calc(100vh - 90px);
+        flex-direction: column;
+      }
+      .compare-divider {
+        height: 4px;
+        width: 100%;
+        cursor: row-resize;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra Superior -->
+  <header class="compare-toolbar">
+    <div class="toolbar-left">
+      <a href="index.html" class="toolbar-brand">
+        Project<span>Code</span>
+      </a>
+      <span class="toolbar-badge">Comparador</span>
+    </div>
+
+    <div class="toolbar-center">
+      <button type="button" class="mode-btn active" id="btnModeSplit" data-mode="split" title="Ver ambas versiones lado a lado">
+        <span>◫ Lado a lado</span>
+      </button>
+      <button type="button" class="mode-btn" id="btnModeLive" data-mode="solo-live" title="Ver solo la versión original en vivo">
+        <span>⚡ Solo Live</span>
+      </button>
+      <button type="button" class="mode-btn" id="btnModeCodex" data-mode="solo-codex" title="Ver solo la nueva versión de Codex">
+        <span>✨ Solo Codex</span>
+      </button>
+    </div>
+
+    <div class="toolbar-right">
+      <button type="button" class="sync-toggle-btn" id="btnSyncScroll" title="Sincronizar el desplazamiento entre ambas ventanas">
+        <span>🔗 Scroll Sincronizado</span>
+      </button>
+      <a href="index.html" class="btn-return" title="Volver al sitio web principal">
+        <span>← Volver</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Viewport de Comparación -->
+  <main class="compare-viewport" id="compareViewport">
+    <!-- Panel Izquierdo: LIVE -->
+    <section class="compare-pane" id="paneLive">
+      <header class="compare-pane-header">
+        <div class="pane-title">
+          <span class="pane-tag pane-tag-live">Original (Live)</span>
+          <span>SF Pro · Minimalista Apple · Claro/Oscuro</span>
+        </div>
+        <a href="live.html" target="_blank" class="pane-link" title="Abrir en pestaña completa">
+          Abrir completa ↗
+        </a>
+      </header>
+      <div class="pane-frame-wrap">
+        <iframe id="frameLive" src="live.html" title="Versión Original Live"></iframe>
+      </div>
+    </section>
+
+    <!-- Divisor central -->
+    <div class="compare-divider" id="compareDivider" title="Arrastrar para redimensionar"></div>
+
+    <!-- Panel Derecho: CODEX -->
+    <section class="compare-pane" id="paneCodex">
+      <header class="compare-pane-header">
+        <div class="pane-title">
+          <span class="pane-tag pane-tag-codex">Nueva (Codex)</span>
+          <span>Space Grotesk · Modo Oscuro · Interactiva</span>
+        </div>
+        <a href="codex.html" target="_blank" class="pane-link" title="Abrir en pestaña completa">
+          Abrir completa ↗
+        </a>
+      </header>
+      <div class="pane-frame-wrap dark-frame">
+        <iframe id="frameCodex" src="codex.html" title="Versión Nueva Codex"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const viewport = document.getElementById('compareViewport');
+      const modeButtons = document.querySelectorAll('.mode-btn');
+      const syncBtn = document.getElementById('btnSyncScroll');
+      const frameLive = document.getElementById('frameLive');
+      const frameCodex = document.getElementById('frameCodex');
+
+      let isSyncActive = true;
+      let isSyncingScroll = false;
+
+      // ─── Control de Modos (Split, Solo Live, Solo Codex) ───
+      modeButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          modeButtons.forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const mode = btn.getAttribute('data-mode');
+          viewport.classList.remove('mode-solo-live', 'mode-solo-codex');
+
+          if (mode === 'solo-live') {
+            viewport.classList.add('mode-solo-live');
+          } else if (mode === 'solo-codex') {
+            viewport.classList.add('mode-solo-codex');
+          }
+        });
+      });
+
+      // ─── Control de Scroll Sincronizado ───
+      syncBtn.addEventListener('click', () => {
+        isSyncActive = !isSyncActive;
+        syncBtn.classList.toggle('disabled', !isSyncActive);
+        syncBtn.querySelector('span').textContent = isSyncActive ? '🔗 Scroll Sincronizado' : '⛓️ Scroll Independiente';
+      });
+
+      function setupFrameSync(sourceFrame, targetFrame) {
+        try {
+          const srcWin = sourceFrame.contentWindow;
+          const tgtWin = targetFrame.contentWindow;
+
+          srcWin.addEventListener('scroll', () => {
+            if (!isSyncActive || isSyncingScroll) return;
+            isSyncingScroll = true;
+
+            const srcDoc = srcWin.document.documentElement;
+            const tgtDoc = tgtWin.document.documentElement;
+
+            const maxSrc = Math.max(1, srcDoc.scrollHeight - srcWin.innerHeight);
+            const maxTgt = Math.max(1, tgtDoc.scrollHeight - tgtWin.innerHeight);
+
+            const ratio = srcWin.scrollY / maxSrc;
+            tgtWin.scrollTo({ top: ratio * maxTgt, behavior: 'instant' });
+
+            requestAnimationFrame(() => {
+              isSyncingScroll = false;
+            });
+          }, { passive: true });
+        } catch (e) {
+          // El navegador puede restringir acceso cross-frame en file:// estricto
+        }
+      }
+
+      frameLive.addEventListener('load', () => {
+        frameCodex.addEventListener('load', () => {
+          setupFrameSync(frameLive, frameCodex);
+          setupFrameSync(frameCodex, frameLive);
+        });
+      });
+
+      // ─── Redimensionar División Arrastrando ───
+      const divider = document.getElementById('compareDivider');
+      const paneLive = document.getElementById('paneLive');
+      let isDragging = false;
+
+      divider.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        document.body.style.cursor = 'col-resize';
+        e.preventDefault();
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const containerRect = viewport.getBoundingClientRect();
+        const offsetX = e.clientX - containerRect.left;
+        const percent = Math.max(20, Math.min(80, (offsetX / containerRect.width) * 100));
+        paneLive.style.flex = `0 0 ${percent}%`;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          document.body.style.cursor = '';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
