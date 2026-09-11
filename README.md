@@ -14,11 +14,12 @@ Solo el sitio de presentación. Es HTML, CSS y JavaScript estáticos, sin
 dependencias ni proceso de build.
 
 ```
-index.html              página principal con selector de versión (por defecto Codex o última elegida)
+index.html              página principal con la versión definitiva (híbrida) y selector flotante
+definitiva.html         versión definitiva: combina la fuerza de ventas original con mejoras de diseño
 live.html               versión original (LIVE) con diseño SF Pro / Apple minimalista
-codex.html              versión nueva (Codex) con diseño Space Grotesk / modo oscuro
-comparar.html           comparador lado a lado con scroll sincronizado (split view)
-version-switcher.css    estilos de la barra flotante conmutadora
+codex.html              propuesta creada por Codex con diseño Space Grotesk / modo oscuro
+comparar.html           herramienta de comparación lado a lado con scroll sincronizado
+version-switcher.css    estilos de la barra flotante conmutadora (sin emojis)
 version-switcher.js     lógica del conmutador, sincronización de posición y persistencia
 styles.css              estilos de la versión Codex
 script.js               interactividad de la versión Codex

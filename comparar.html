@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ProjectCode · Comparador Lado a Lado</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%96%EF%B8%8F%3C/text%3E%3C/svg%3E">
+  <title>ProjectCode - Comparador de Versiones</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>P</text></svg>">
   <style>
     :root {
       --bg-toolbar: #0f1117;
       --border-color: #242835;
       --text-main: #f0f3f8;
       --text-muted: #8c93a8;
-      --accent-blue: #2f81f7;
-      --accent-green: #2ea043;
+      --accent-blue: #0071e3;
+      --accent-green: #30d158;
     }
 
     *, *::before, *::after {
@@ -22,7 +22,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background: #08090d;
       color: var(--text-main);
       height: 100vh;
@@ -31,9 +31,8 @@
       flex-direction: column;
     }
 
-    /* ─── Toolbar Superior ─── */
     .compare-toolbar {
-      height: 56px;
+      height: 54px;
       background: var(--bg-toolbar);
       border-bottom: 1px solid var(--border-color);
       display: flex;
@@ -57,7 +56,6 @@
       gap: 8px;
       font-weight: 700;
       font-size: 14px;
-      letter-spacing: -0.01em;
       color: #ffffff;
       text-decoration: none;
     }
@@ -71,9 +69,9 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      background: rgba(47, 129, 247, 0.18);
+      background: rgba(0, 113, 227, 0.18);
       color: #58a6ff;
-      border: 1px solid rgba(47, 129, 247, 0.35);
+      border: 1px solid rgba(0, 113, 227, 0.35);
       padding: 2px 7px;
       border-radius: 999px;
     }
@@ -81,38 +79,26 @@
     .toolbar-center {
       display: flex;
       align-items: center;
-      gap: 6px;
-      background: #181b24;
-      padding: 4px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
+      gap: 8px;
     }
 
-    .mode-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 12.5px;
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.16s ease;
-      display: inline-flex;
+    .select-group {
+      display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
     }
 
-    .mode-btn:hover {
+    select {
+      background: #181b24;
+      border: 1px solid var(--border-color);
       color: var(--text-main);
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .mode-btn.active {
-      background: #232734;
-      color: #ffffff;
-      font-weight: 600;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      outline: none;
     }
 
     .toolbar-right {
@@ -122,17 +108,14 @@
     }
 
     .sync-toggle-btn {
-      background: rgba(46, 160, 67, 0.12);
-      border: 1px solid rgba(46, 160, 67, 0.3);
-      color: #3fb950;
+      background: rgba(48, 209, 88, 0.12);
+      border: 1px solid rgba(48, 209, 88, 0.3);
+      color: #30d158;
       font-size: 12px;
       font-weight: 500;
       padding: 6px 12px;
       border-radius: 6px;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       transition: all 0.16s ease;
     }
 
@@ -152,9 +135,6 @@
       border-radius: 6px;
       text-decoration: none;
       transition: all 0.16s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .btn-return:hover {
@@ -162,12 +142,11 @@
       border-color: #3e4559;
     }
 
-    /* ─── Área de Contenedores y Marcos ─── */
     .compare-viewport {
       flex: 1;
       display: flex;
       width: 100%;
-      height: calc(100vh - 56px);
+      height: calc(100vh - 54px);
       position: relative;
       background: #000000;
     }
@@ -179,7 +158,6 @@
       height: 100%;
       min-width: 0;
       position: relative;
-      transition: flex 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
     }
 
     .compare-pane-header {
@@ -209,23 +187,20 @@
       text-transform: uppercase;
     }
 
-    .pane-tag-live {
-      background: rgba(46, 160, 67, 0.2);
-      color: #3fb950;
+    .pane-tag-left {
+      background: rgba(48, 209, 88, 0.2);
+      color: #30d158;
     }
 
-    .pane-tag-codex {
-      background: rgba(163, 113, 247, 0.2);
-      color: #bc8cff;
+    .pane-tag-right {
+      background: rgba(0, 113, 227, 0.2);
+      color: #58a6ff;
     }
 
     .pane-link {
       color: var(--text-muted);
       text-decoration: none;
       font-size: 11.5px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
       transition: color 0.15s;
     }
 
@@ -240,10 +215,6 @@
       width: 100%;
       height: calc(100% - 38px);
       background: #ffffff;
-    }
-
-    .pane-frame-wrap.dark-frame {
-      background: #0b0c0e;
     }
 
     iframe {
@@ -266,45 +237,10 @@
     .compare-divider:hover {
       background: var(--accent-blue);
     }
-
-    /* Modos de vista */
-    .compare-viewport.mode-solo-live #paneCodex,
-    .compare-viewport.mode-solo-live .compare-divider {
-      display: none;
-    }
-    .compare-viewport.mode-solo-live #paneLive {
-      flex: 1 0 100%;
-    }
-
-    .compare-viewport.mode-solo-codex #paneLive,
-    .compare-viewport.mode-solo-codex .compare-divider {
-      display: none;
-    }
-    .compare-viewport.mode-solo-codex #paneCodex {
-      flex: 1 0 100%;
-    }
-
-    @media (max-width: 800px) {
-      .compare-toolbar {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 10px 12px;
-      }
-      .compare-viewport {
-        height: calc(100vh - 90px);
-        flex-direction: column;
-      }
-      .compare-divider {
-        height: 4px;
-        width: 100%;
-        cursor: row-resize;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Barra Superior -->
   <header class="compare-toolbar">
     <div class="toolbar-left">
       <a href="index.html" class="toolbar-brand">
@@ -314,61 +250,64 @@
     </div>
 
     <div class="toolbar-center">
-      <button type="button" class="mode-btn active" id="btnModeSplit" data-mode="split" title="Ver ambas versiones lado a lado">
-        <span>◫ Lado a lado</span>
-      </button>
-      <button type="button" class="mode-btn" id="btnModeLive" data-mode="solo-live" title="Ver solo la versión original en vivo">
-        <span>⚡ Solo Live</span>
-      </button>
-      <button type="button" class="mode-btn" id="btnModeCodex" data-mode="solo-codex" title="Ver solo la nueva versión de Codex">
-        <span>✨ Solo Codex</span>
-      </button>
+      <div class="select-group">
+        <label for="selectLeft">Izquierda:</label>
+        <select id="selectLeft">
+          <option value="live.html" selected>Original (Live)</option>
+          <option value="codex.html">Codex (Nueva)</option>
+          <option value="index.html">Definitiva (Hibrida)</option>
+        </select>
+      </div>
+      <div class="select-group">
+        <label for="selectRight">Derecha:</label>
+        <select id="selectRight">
+          <option value="index.html" selected>Definitiva (Hibrida)</option>
+          <option value="codex.html">Codex (Nueva)</option>
+          <option value="live.html">Original (Live)</option>
+        </select>
+      </div>
     </div>
 
     <div class="toolbar-right">
-      <button type="button" class="sync-toggle-btn" id="btnSyncScroll" title="Sincronizar el desplazamiento entre ambas ventanas">
-        <span>🔗 Scroll Sincronizado</span>
+      <button type="button" class="sync-toggle-btn" id="btnSyncScroll">
+        Scroll sincronizado
       </button>
-      <a href="index.html" class="btn-return" title="Volver al sitio web principal">
-        <span>← Volver</span>
+      <a href="index.html" class="btn-return">
+        Volver a la web
       </a>
     </div>
   </header>
 
-  <!-- Viewport de Comparación -->
   <main class="compare-viewport" id="compareViewport">
-    <!-- Panel Izquierdo: LIVE -->
-    <section class="compare-pane" id="paneLive">
+    <section class="compare-pane" id="paneLeft">
       <header class="compare-pane-header">
         <div class="pane-title">
-          <span class="pane-tag pane-tag-live">Original (Live)</span>
-          <span>SF Pro · Minimalista Apple · Claro/Oscuro</span>
+          <span class="pane-tag pane-tag-left" id="tagLeft">Panel Izquierdo</span>
+          <span id="titleLeft">Original (Live)</span>
         </div>
-        <a href="live.html" target="_blank" class="pane-link" title="Abrir en pestaña completa">
-          Abrir completa ↗
+        <a href="live.html" target="_blank" class="pane-link" id="linkLeft">
+          Abrir completa
         </a>
       </header>
       <div class="pane-frame-wrap">
-        <iframe id="frameLive" src="live.html" title="Versión Original Live"></iframe>
+        <iframe id="frameLeft" src="live.html" title="Panel Izquierdo"></iframe>
       </div>
     </section>
 
-    <!-- Divisor central -->
-    <div class="compare-divider" id="compareDivider" title="Arrastrar para redimensionar"></div>
+    <div class="compare-divider" id="compareDivider" title="Arrastrar para ajustar ancho"></div>
 
-    <!-- Panel Derecho: CODEX -->
-    <section class="compare-pane" id="paneCodex">
+    <section class="compare-pane" id="paneRight">
       <header class="compare-pane-header">
         <div class="pane-title">
-          <span class="pane-tag pane-tag-codex">Nueva (Codex)</span>
-          <span>Space Grotesk · Modo Oscuro · Interactiva</span>
+          <span class="pane-tag pane-tag-right" id="tagRight">Panel Derecho</span>
+          <span id="titleRight">Definitiva (Hibrida)</span>
         </div>
-        <a href="codex.html" target="_blank" class="pane-link" title="Abrir en pestaña completa">
-          Abrir completa ↗
+        <a href="index.html" target="_blank" class="pane-link" id="linkRight">
+          Abrir completa
         </a>
       </header>
-      <div class="pane-frame-wrap dark-frame">
-        <iframe id="frameCodex" src="codex.html" title="Versión Nueva Codex"></iframe>
+      <div class="pane-frame-wrap">
+        <iframe id="frameRight" src="index.html" title="Panel Derecho"></iframe>
       </div>
     </section>
   </main>
@@ -377,37 +316,33 @@
     (function () {
       'use strict';
 
-      const viewport = document.getElementById('compareViewport');
-      const modeButtons = document.querySelectorAll('.mode-btn');
+      const selectLeft = document.getElementById('selectLeft');
+      const selectRight = document.getElementById('selectRight');
+      const frameLeft = document.getElementById('frameLeft');
+      const frameRight = document.getElementById('frameRight');
+      const titleLeft = document.getElementById('titleLeft');
+      const titleRight = document.getElementById('titleRight');
+      const linkLeft = document.getElementById('linkLeft');
+      const linkRight = document.getElementById('linkRight');
       const syncBtn = document.getElementById('btnSyncScroll');
-      const frameLive = document.getElementById('frameLive');
-      const frameCodex = document.getElementById('frameCodex');
 
       let isSyncActive = true;
       let isSyncingScroll = false;
 
-      // ─── Control de Modos (Split, Solo Live, Solo Codex) ───
-      modeButtons.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          modeButtons.forEach((b) => b.classList.remove('active'));
-          btn.classList.add('active');
+      function updatePanel(select, frame, title, link) {
+        const val = select.value;
+        frame.src = val;
+        link.href = val;
+        title.textContent = select.options[select.selectedIndex].text;
+      }
 
-          const mode = btn.getAttribute('data-mode');
-          viewport.classList.remove('mode-solo-live', 'mode-solo-codex');
+      selectLeft.addEventListener('change', () => updatePanel(selectLeft, frameLeft, titleLeft, linkLeft));
+      selectRight.addEventListener('change', () => updatePanel(selectRight, frameRight, titleRight, linkRight));
 
-          if (mode === 'solo-live') {
-            viewport.classList.add('mode-solo-live');
-          } else if (mode === 'solo-codex') {
-            viewport.classList.add('mode-solo-codex');
-          }
-        });
-      });
-
-      // ─── Control de Scroll Sincronizado ───
       syncBtn.addEventListener('click', () => {
         isSyncActive = !isSyncActive;
         syncBtn.classList.toggle('disabled', !isSyncActive);
-        syncBtn.querySelector('span').textContent = isSyncActive ? '🔗 Scroll Sincronizado' : '⛓️ Scroll Independiente';
+        syncBtn.textContent = isSyncActive ? 'Scroll sincronizado' : 'Scroll independiente';
       });
 
       function setupFrameSync(sourceFrame, targetFrame) {
@@ -432,21 +367,15 @@
               isSyncingScroll = false;
             });
           }, { passive: true });
-        } catch (e) {
-          // El navegador puede restringir acceso cross-frame en file:// estricto
-        }
+        } catch (e) {}
       }
 
-      frameLive.addEventListener('load', () => {
-        frameCodex.addEventListener('load', () => {
-          setupFrameSync(frameLive, frameCodex);
-          setupFrameSync(frameCodex, frameLive);
-        });
-      });
+      frameLeft.addEventListener('load', () => setupFrameSync(frameLeft, frameRight));
+      frameRight.addEventListener('load', () => setupFrameSync(frameRight, frameLeft));
 
-      // ─── Redimensionar División Arrastrando ───
       const divider = document.getElementById('compareDivider');
-      const paneLive = document.getElementById('paneLive');
+      const paneLeft = document.getElementById('paneLeft');
+      const viewport = document.getElementById('compareViewport');
       let isDragging = false;
 
       divider.addEventListener('mousedown', (e) => {
@@ -460,7 +389,7 @@
         const containerRect = viewport.getBoundingClientRect();
         const offsetX = e.clientX - containerRect.left;
         const percent = Math.max(20, Math.min(80, (offsetX / containerRect.width) * 100));
-        paneLive.style.flex = `0 0 ${percent}%`;
+        paneLeft.style.flex = `0 0 ${percent}%`;
       });
 
       window.addEventListener('mouseup', () => {
