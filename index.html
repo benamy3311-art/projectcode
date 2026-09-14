@@ -304,6 +304,8 @@
   .keep-col.hoy .keep-li::before   { content: "\2713"; color: var(--down); font-weight: 700; }
   .keep-col.viene .keep-li::before { content: "+"; color: var(--blue); font-weight: 600; }
   @media (max-width: 700px) { .keep-grid { grid-template-columns: 1fr; } }
+  .keep-foot { margin: 0; padding: 18px clamp(24px, 3.5vw, 36px) 24px; background: var(--bg-card);
+               border-top: 1px solid var(--hairline); font-size: 14px; line-height: 1.5; color: var(--text-2); }
 
   /* ─── Pestanas: un solo marco para varias funciones ─── */
   .tabs {
@@ -809,7 +811,7 @@
     <div class="head-c" style="margin-bottom:clamp(48px,6vw,72px)">
       <p class="eyebrow">Transparencia</p>
       <h2>Sus datos son suyos.</h2>
-      <p class="sub copy">El catálogo, las cotizaciones y los clientes que su tienda carga en ProjectCode son de su empresa. Esto es exactamente qué se guarda, dónde vive y quién puede verlo. El detalle completo está en el documento de tratamiento de datos, abajo.</p>
+      <p class="sub copy">El catálogo, las cotizaciones y los clientes que su tienda carga en ProjectCode son de su empresa. Esto es exactamente qué se guarda, dónde vive, quién lo ve y qué recibe la inteligencia artificial. El detalle completo está en los documentos de abajo.</p>
     </div>
 
     <div class="cols">
@@ -818,9 +820,36 @@
         <p class="body-2">Cada cotización con el nombre del cliente, su teléfono, las notas de seguimiento y los productos. En modo Empresas, además la razón social y el NIT del comprador. Su catálogo de precios. Y una cuenta por asesor con su correo, su sede y su consecutivo.</p>
       </div>
       <div class="col">
-        <h3>Dónde vive</h3>
-        <p class="body-2">En Google Firebase, sobre infraestructura de Google Cloud. Cada asesor ve sus propias cotizaciones; el administrador de su tienda ve las de todo el equipo. El navegador guarda además una copia local de las últimas ochenta, para poder cotizar sin conexión.</p>
+        <h3>Dónde vive y quién lo ve</h3>
+        <p class="body-2">En Google Firebase, sobre infraestructura de Google Cloud. Los asesores aprobados de su tienda pueden consultar las cotizaciones del equipo, para retomar la de un compañero; solo quien la creó puede editarla o borrarla. El soporte de ProjectCode tiene acceso de lectura para atender fallas. El navegador guarda además una copia de las últimas ochenta, para cotizar sin conexión.</p>
       </div>
+      <div class="col">
+        <h3>Qué recibe la inteligencia artificial</h3>
+        <p class="body-2">Lo que el asesor le manda a cada función: la imagen de una lista, la pregunta de un cliente, el pedido para armar un PC o el contexto que escriba, junto con el catálogo. Nunca la base de clientes. Si el asesor escribe datos de un cliente en esos campos, esos datos sí viajan al proveedor.</p>
+      </div>
+    </div>
+
+    <div class="keep" style="margin-top:clamp(40px,5vw,56px)">
+      <div class="keep-hd">
+        <span class="pronto">Próxima versión &middot; se activa desde Configuración</span>
+        <h3 style="margin-top:16px">Cifrado en el navegador: ni ProjectCode ni Google pueden leer lo guardado.</h3>
+        <p class="body-2 copy">Los datos de sus clientes se cifran en el computador del asesor antes de salir hacia la base de datos, con una llave que el sistema genera para su empresa. La activa el administrador de su tienda, se muestra una sola vez y queda solo en los equipos donde se ingresa. A la base llega texto ilegible.</p>
+      </div>
+      <div class="keep-grid">
+        <div class="keep-col hoy">
+          <div class="lbl">Se cifra</div>
+          <div class="keep-li">Nombre, teléfono y notas de seguimiento de cada cliente.</div>
+          <div class="keep-li">En cotizaciones a empresas: razón social, NIT, contacto, correo y ciudad.</div>
+          <div class="keep-li">En las recogidas entre sedes: cliente, teléfono, productos, notas y la foto.</div>
+        </div>
+        <div class="keep-col igual">
+          <div class="lbl">Queda legible, y por qué</div>
+          <div class="keep-li">Productos, totales, estado y fechas de las cotizaciones: con eso se calculan el cierre de caja y las métricas.</div>
+          <div class="keep-li">El correo del asesor: con eso se sabe quién hizo cada cotización.</div>
+          <div class="keep-li">El catálogo de precios: no tiene datos de personas.</div>
+        </div>
+      </div>
+      <p class="keep-foot">Si su empresa pierde la llave y la copia que guardó, nadie puede recuperar esos datos, tampoco nosotros: esa es la garantía. El cifrado protege lo que queda en la base de datos; un computador con la sesión abierta sigue dependiendo de la seguridad de su tienda.</p>
     </div>
 
     <div class="docs">
@@ -875,7 +904,7 @@
           </div>
           <div>
             <h4>4. Quién más los ve</h4>
-            <p>Google (Firebase Authentication y Cloud Firestore) aloja la información. Los proveedores de inteligencia artificial —Google Gemini, DeepSeek y Groq— reciben únicamente el contenido que el asesor envía a esas funciones: la imagen que sube y el catálogo de productos. No reciben la base de clientes.</p>
+            <p>Google (Firebase Authentication y Cloud Firestore) aloja la información. Los proveedores de inteligencia artificial reciben solo lo que el asesor envía a cada función: Google Gemini, la imagen que se escanea y la pregunta del cliente con el contexto que se agregue; Groq (Estados Unidos), los productos, los precios y el contexto que el asesor escriba en “Generar texto”, que puede incluir datos personales; DeepSeek (República Popular China), el pedido que el asesor escribe en “Armar PC” junto con el catálogo. Ninguno recibe la base de clientes.</p>
           </div>
           <div>
             <h4>5. Derechos del titular</h4>
@@ -883,14 +912,14 @@
           </div>
           <div>
             <h4>6. Seguridad</h4>
-            <p>El ingreso es con cuenta de Google sobre una lista de correos autorizados por el administrador de su tienda. Cada cuenta admite una sola sesión activa a la vez. Las reglas de acceso a la base de datos limitan a cada asesor a sus propias cotizaciones.</p>
+            <p>El ingreso es con cuenta de Google sobre una lista de correos autorizados por el administrador de su tienda. Cada cuenta admite una sola sesión activa a la vez. Solo quien creó una cotización puede editarla o borrarla; la consulta está abierta a los usuarios aprobados de su tienda. En la próxima versión, los datos personales de los clientes se guardan cifrados con una llave de su empresa.</p>
           </div>
           <div>
             <h4>7. Lo que le corresponde a su empresa</h4>
             <p>Obtener de sus clientes la autorización para tratar sus datos, publicar su propio aviso de privacidad y —si le aplica por tamaño— registrar sus bases de datos ante la Superintendencia de Industria y Comercio. Son gestiones que hace su empresa directamente, porque es la titular de la relación con esos clientes; ProjectCode no puede hacerlas en su nombre.</p>
           </div>
           <div class="doc-note">
-            Estos textos describen con exactitud cómo funciona el sistema hoy y sirven de base para el contrato, pero no son un documento legal revisado. Antes de firmarlos con un cliente, hágalos revisar por un abogado.
+            Estos textos describen cómo funciona el sistema a septiembre de 2026 y sirven de base para el contrato, pero no son un documento legal revisado. Antes de firmarlos con un cliente, hágalos revisar por un abogado.
           </div>
         </div>
       </details>
