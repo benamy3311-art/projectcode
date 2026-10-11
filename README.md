@@ -2,11 +2,12 @@
 
 Página de venta de **ProjectCode**, suite empresarial para tiendas de tecnología.
 
-El sistema toma la lista de precios que manda el proveedor —normalmente un PDF de
-cientos de referencias—, la convierte en catálogo, calcula qué cambió contra la
-lista anterior y deja al asesor cotizando en segundos. Incluye documento
-corporativo A4, historial con seguimiento comercial, recogidas entre sedes,
-cierre de caja y métricas por vendedor.
+El sitio presenta el valor para vendedores y dueños: preparar cotizaciones con
+menos trabajo, retomar clientes y consultar el estado de las oportunidades.
+El recorrido se concentra en seis secciones: portada, seguimiento comercial,
+funciones, puesta en marcha, datos y demo. Las demostraciones de cotización, IA,
+catálogo, sedes y caja están agrupadas en pestañas. Los textos de privacidad y
+condiciones se conservan en desplegables.
 
 ## Qué hay acá
 
@@ -19,6 +20,7 @@ assets/site.css           estilos
 assets/site.js            barra, pestañas, aparición y las maquetas animadas
 assets/hilos.js           los hilos de luz de fondo (imagen de marca)
 assets/img/               cotizaciones de ejemplo generadas por la aplicación
+assets/brand/             símbolo original, variantes y logotipo de ProjectCode
 assets/fonts/             tipografía Inter, con su licencia (SIL OFL 1.1)
 favicon.svg               ícono de la pestaña
 apple-touch-icon.png      ícono al agregar la página a la pantalla de inicio
@@ -27,29 +29,30 @@ og.jpg                    imagen que se ve al compartir el enlace por WhatsApp
 
 ## Diseño
 
-- Fondo casi negro y un único acento violeta (`#8b5cff`), con azul en los hilos de
-  fondo. Paneles de vidrio translúcido sobre el fondo.
-- Titulares sans (Inter, peso 500) con una palabra en cursiva serif; etiquetas,
-  cifras y tiempos en monoespaciada. Las dos tipografías extra son del sistema,
-  no se descargan.
-- La imagen de marca es un haz de hilos de luz (`assets/hilos.js`) que cruza la
-  pantalla, se cierra en un nudo y se desplaza a medida que se baja por la página.
+- Fondo carbón (`#18181b`) y símbolo original: una P de contorno suave con un
+  corte diagonal que alude al código. El degradado va de azul y violeta a coral
+  y amarillo. Versión vectorial y monocroma en `assets/brand/`.
+- Wordmark en minúsculas y titulares Inter de peso 660; los énfasis usan tonos
+  suaves del degradado. Los botones principales son amarillo pálido con texto
+  oscuro. Los colores de estado conservan su función informativa.
+- Hilos de luz animados con la paleta de la marca; paneles translúcidos y radios
+  suaves. No se agregan secciones al recorrido comercial.
 - El producto se muestra con **maquetas animadas** hechas en HTML, que imitan la
   aplicación (Total cotización, Catálogo, Copiar imagen, PDF). Las cotizaciones de
   `assets/img/` (la imagen para WhatsApp y la hoja A4) las genera la aplicación
   real, cargada con una tienda y productos ficticios ("Su Tienda S.A.S.", NIT
   900.000.000-0). Ninguna cifra ni producto sale de la lista de precios de un
   cliente.
-- La sección «Cómo ahorra tiempo» corre, paso por paso, lo que hace el sistema
-  cuando llega una lista nueva. Los tiempos son de ejemplo.
+- La pestaña «Catálogo» conserva la importación animada, con tiempos de ejemplo.
+  La sección de seguimiento destaca estados y notas ficticios: no simula envíos
+  automáticos ni acredita contactos que la aplicación no registra.
 - **No hace ninguna petición a terceros**: sin analítica, sin cookies y sin
   tipografías externas.
 - Respeta `prefers-reduced-motion`: los hilos quedan quietos, las maquetas se
   muestran ya terminadas y todo el texto aparece de una vez. El pie tiene además
   un botón para pausar todas las animaciones.
-- Contraste AA en todo el texto: el gris más tenue (`--dim`) da 4,8:1 sobre los
-  paneles, y los botones violeta usan un tono más oscuro (`--acc-btn`) para que
-  el blanco encima pase 4,5:1.
+- El texto secundario es gris claro sobre carbón. Los botones amarillos usan
+  texto oscuro; los controles internos de las maquetas conservan el violeta.
 
 ## Cómo verlo local
 
@@ -80,3 +83,17 @@ propietario. No se concede licencia para reproducirlo, distribuirlo ni crear obr
 derivadas. El software ProjectCode que describe la página se licencia por separado
 y su código fuente no forma parte de este repositorio. La tipografía Inter se
 distribuye bajo la licencia SIL Open Font License 1.1 (`assets/fonts/Inter-OFL.txt`).
+
+
+## Dirección comercial y visual — octubre de 2026
+
+Portada carbón sobrio, marca multicolor y demostración de seguimiento legible desde el inicio. Las notas se seleccionan manualmente y los formatos de documento cambian a petición del visitante. Se conservan las demostraciones de catálogo y recogidas, con pausa y movimiento reducido.
+
+Planes mensuales por empresa: Esencial COP 99.000; Equipo + IA COP 299.000; Adaptado + IA COP 499.000. La implementación personalizada se cotiza por separado. La propuesta comercial debe definir usuarios, sedes, cuota de IA e impuestos antes de contratar. No se prometen porcentajes de productividad sin medición.
+
+
+## Auditoría de movimiento y uso — 11 de octubre de 2026
+
+Se recuperó la demostración animada de cotización y la rotación del seguimiento. `assets/site.js` coordina los ejemplos con un reloj compartido que se detiene fuera de pantalla, con la pestaña oculta, durante la pausa y con movimiento reducido. La selección manual conserva su estado; cada demostración principal permite reanudar. `assets/motion.css` contiene los ajustes visuales y de navegación de esta auditoría.
+
+Validación y pendientes comerciales: [AUDIT-2026-10-11.md](AUDIT-2026-10-11.md).

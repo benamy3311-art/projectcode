@@ -1,5 +1,5 @@
 /* ProjectCode - hilos de luz de fondo.
-   Un haz de cientos de hilos violeta y azules que cruza la pantalla, se cierra
+   Un haz de hilos con el espectro azul, violeta y coral de la marca que cruza la pantalla, se cierra
    en un nudo y se vuelve a abrir. Al bajar por la pagina el nudo se desplaza, asi
    que cada seccion tiene el haz en un lugar distinto. Es decorativo: si el
    script falla la pagina queda igual, solo que sin luz. */
@@ -24,8 +24,8 @@
         k: k,
         off: (Math.random() - 0.5) * 2,       // donde queda el hilo dentro del haz
         ph: Math.random() * Math.PI * 2,      // fase propia: los hilos no van en bloque
-        hue: 262 - Math.pow(Math.random(), 1.4) * 52, // de violeta a azul, con mas violeta
-        a: 0.06 + Math.random() * 0.1,
+        hue: [230, 249, 272, 318, 338, 28][Math.floor(Math.random() * 6)], // espectro de la marca
+        a: 0.035 + Math.random() * 0.055,
         bright: Math.random() < 0.06
       });
     }
@@ -88,8 +88,8 @@
 
     // brillo del nudo
     var gx = W * knot, g = ctx.createRadialGradient(gx, cy, 0, gx, cy, spread * 0.9);
-    g.addColorStop(0, 'rgba(139,92,255,0.14)');
-    g.addColorStop(1, 'rgba(139,92,255,0)');
+    g.addColorStop(0, 'rgba(178,114,202,0.10)');
+    g.addColorStop(1, 'rgba(178,114,202,0)');
     ctx.fillStyle = g;
     ctx.fillRect(gx - spread, cy - spread, spread * 2, spread * 2);
     ctx.globalCompositeOperation = 'source-over';

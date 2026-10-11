@@ -1,9 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <defs>
-    <linearGradient id="g" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#b9a0ff"/><stop offset=".5" stop-color="#8b5cff"/><stop offset="1" stop-color="#4f7bff"/>
-    </linearGradient>
-  </defs>
-  <path d="M16 3.6 29 27.6H3z" fill="none" stroke="url(#g)" stroke-width="2.6" stroke-linejoin="round"/>
-  <path d="M16 13.4 22.2 25H9.8z" fill="url(#g)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 84" role="img" aria-labelledby="title"><title id="title">ProjectCode</title><defs><linearGradient id="pc-spectrum" x1="14" y1="70" x2="61" y2="10" gradientUnits="userSpaceOnUse"><stop stop-color="#1657ff"/><stop offset=".32" stop-color="#6555ff"/><stop offset=".59" stop-color="#f16abb"/><stop offset=".79" stop-color="#ffb37b"/><stop offset="1" stop-color="#f6f58b"/></linearGradient>
+<radialGradient id="pc-blue" cx=".04" cy=".72" r=".7"><stop stop-color="#145bff"/><stop offset="1" stop-color="#145bff" stop-opacity="0"/></radialGradient>
+<clipPath id="pc-shape"><path fill-rule="evenodd" d="M27 6H45C62 6 74 17 74 33S62 60 45 60H32V63C32 72 27 77 19 77S6 72 6 64V28C6 14 14 6 27 6Z M42 22C39 22 37 24 36 27L32 39C31 43 33 46 37 46H41C44 46 46 44 47 41L51 29C52 25 50 22 46 22Z"/></clipPath></defs><path fill="url(#pc-spectrum)" fill-rule="evenodd" d="M27 6H45C62 6 74 17 74 33S62 60 45 60H32V63C32 72 27 77 19 77S6 72 6 64V28C6 14 14 6 27 6Z M42 22C39 22 37 24 36 27L32 39C31 43 33 46 37 46H41C44 46 46 44 47 41L51 29C52 25 50 22 46 22Z"/><path fill="url(#pc-blue)" fill-rule="evenodd" d="M27 6H45C62 6 74 17 74 33S62 60 45 60H32V63C32 72 27 77 19 77S6 72 6 64V28C6 14 14 6 27 6Z M42 22C39 22 37 24 36 27L32 39C31 43 33 46 37 46H41C44 46 46 44 47 41L51 29C52 25 50 22 46 22Z"/></svg>
