@@ -16,8 +16,9 @@ y sin build.
 ```
 index.html                la página completa
 assets/site.css           estilos
-assets/site.js            barra superior, pestañas y aparición al hacer scroll
-assets/constelacion.js    la constelación de partículas (imagen de marca)
+assets/site.js            barra, pestañas, aparición y las maquetas animadas
+assets/hilos.js           los hilos de luz de fondo (imagen de marca)
+assets/img/               cotizaciones de ejemplo generadas por la aplicación
 assets/fonts/             tipografía Inter, con su licencia (SIL OFL 1.1)
 favicon.svg               ícono de la pestaña
 apple-touch-icon.png      ícono al agregar la página a la pantalla de inicio
@@ -26,20 +27,29 @@ og.jpg                    imagen que se ve al compartir el enlace por WhatsApp
 
 ## Diseño
 
-- Fondo negro puro, un único acento violeta (`#8052ff`) reservado para el botón
-  principal, ámbar (`#ffb829`) para las etiquetas y verde para lo que baja. Sin
-  tarjetas, bordes ni sombras: todo flota sobre el negro.
-- Titulares livianos (peso 400) a tamaños enormes; el cuerpo, en peso 200.
-- La imagen de marca es una nube de miles de triángulos que hace de fondo de toda
-  la página y **cambia de forma según la sección** que se está leyendo (un chip,
-  una lista de precios, tres sedes conectadas, un candado...). Cada forma es una
-  función en `SCENES`, dentro de `assets/constelacion.js`.
+- Fondo casi negro y un único acento violeta (`#8b5cff`), con azul en los hilos de
+  fondo. Paneles de vidrio translúcido sobre el fondo.
+- Titulares sans (Inter, peso 500) con una palabra en cursiva serif; etiquetas,
+  cifras y tiempos en monoespaciada. Las dos tipografías extra son del sistema,
+  no se descargan.
+- La imagen de marca es un haz de hilos de luz (`assets/hilos.js`) que cruza la
+  pantalla, se cierra en un nudo y se desplaza a medida que se baja por la página.
+- El producto se muestra con **maquetas animadas** hechas en HTML, que imitan la
+  aplicación (Total cotización, Catálogo, Copiar imagen, PDF). Las cotizaciones de
+  `assets/img/` (la imagen para WhatsApp y la hoja A4) las genera la aplicación
+  real, cargada con una tienda y productos ficticios ("Su Tienda S.A.S.", NIT
+  900.000.000-0). Ninguna cifra ni producto sale de la lista de precios de un
+  cliente.
+- La sección «Cómo ahorra tiempo» corre, paso por paso, lo que hace el sistema
+  cuando llega una lista nueva. Los tiempos son de ejemplo.
 - **No hace ninguna petición a terceros**: sin analítica, sin cookies y sin
-  tipografías externas. Toda la página pesa unos 175 KB.
-- No hay capturas del producto. Las cifras y los productos de las ilustraciones
-  son de ejemplo; ninguno sale de la lista de precios de un cliente.
-- Respeta `prefers-reduced-motion`: la constelación queda quieta y todo el texto
-  aparece de una vez.
+  tipografías externas.
+- Respeta `prefers-reduced-motion`: los hilos quedan quietos, las maquetas se
+  muestran ya terminadas y todo el texto aparece de una vez. El pie tiene además
+  un botón para pausar todas las animaciones.
+- Contraste AA en todo el texto: el gris más tenue (`--dim`) da 4,8:1 sobre los
+  paneles, y los botones violeta usan un tono más oscuro (`--acc-btn`) para que
+  el blanco encima pase 4,5:1.
 
 ## Cómo verlo local
 
@@ -47,9 +57,7 @@ og.jpg                    imagen que se ve al compartir el enlace por WhatsApp
 python3 -m http.server 8000
 ```
 
-y abrir http://localhost:8000. Para depurar la constelación, la página acepta
-parámetros en la dirección: `?estatica=1` (sin animación), `?escena=lock&lado=left`
-(fuerza una forma) y `?escala=1.4` (la agranda).
+y abrir http://localhost:8000.
 
 ## Cómo se publica
 

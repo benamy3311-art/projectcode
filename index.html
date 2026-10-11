@@ -6,7 +6,7 @@
 <title>ProjectCode | Suite empresarial para tiendas de tecnología</title>
 <meta name="description" content="ProjectCode: suite empresarial para tiendas de tecnología. Convierte la lista de precios del proveedor en catálogo, muestra qué cambió y deja al asesor cotizando en segundos.">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#07060b">
 <meta name="color-scheme" content="dark">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_CO">
@@ -30,11 +30,11 @@
 <body>
 <a class="skip" href="#main">Saltar al contenido</a>
 
-<!-- Marca: un fragmento triangular, violeta que se apaga hacia el verde -->
+<!-- Marca: un fragmento triangular violeta sobre un cuadro oscuro -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <linearGradient id="gm" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#8052ff"/><stop offset=".55" stop-color="#8052ff"/><stop offset="1" stop-color="#15846e"/>
+      <stop offset="0" stop-color="#b9a0ff"/><stop offset=".5" stop-color="#8b5cff"/><stop offset="1" stop-color="#4f7bff"/>
     </linearGradient>
     <symbol id="marca" viewBox="0 0 32 32">
       <path d="M16 3.6 29 27.6H3z" fill="none" stroke="url(#gm)" stroke-width="2.4" stroke-linejoin="round"/>
@@ -43,8 +43,9 @@
   </defs>
 </svg>
 
-<!-- Constelacion: imagen de marca, decorativa. Cambia de forma con cada seccion. -->
-<canvas id="constelacion" aria-hidden="true"></canvas>
+<!-- Hilos de luz: decorativos -->
+<canvas id="hilos" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
 
 <header class="nav" id="nav">
   <div class="wrap nav-in">
@@ -54,132 +55,333 @@
     </a>
     <nav class="nav-links" aria-label="Secciones">
       <a href="#producto">Producto</a>
+      <a href="#tiempo">Cómo ahorra tiempo</a>
       <a href="#sedes">Entre sedes</a>
-      <a href="#labs">Labs</a>
       <a href="#trayectoria">Trayectoria</a>
       <a href="#datos">Datos</a>
     </nav>
-    <a class="pill pill-sm" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Ver una demo</a>
+    <div class="nav-right">
+      <span class="status">demo de 30 min</span>
+      <a class="btn btn-acc btn-sm" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Ver una demo</a>
+    </div>
   </div>
+  <span class="progress" id="progress" aria-hidden="true"></span>
 </header>
 
 <main id="main">
 
 <!-- ─── Hero ─── -->
-<section class="sc hero" id="top" data-scene="chip" data-side="right" aria-labelledby="h-hero">
-  <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Suite empresarial para tiendas de tecnología</span>
-      <h1 id="h-hero" class="t-display rv" style="--d:.08s">La lista <br>de precios <br>cambió <br>otra vez.</h1>
-      <p class="lead rv" style="--d:.2s;margin-top:34px">Su proveedor mueve los precios cada semana. Se mueve la lista entera y nadie alcanza a revisarla a tiempo. ProjectCode la convierte en catálogo, le dice exactamente qué cambió y deja a su equipo cotizando en segundos.</p>
-      <div class="actions rv" style="--d:.3s">
-        <a class="pill" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Escribir por WhatsApp</a>
-        <a class="ghost" href="#producto"><span class="tri" aria-hidden="true"></span>Ver el producto</a>
+<section class="sc hero" id="top" aria-labelledby="h-hero">
+  <div class="wrap hero-in">
+    <div>
+      <span class="tag mono rv">suite para tiendas de tecnología</span>
+      <h1 id="h-hero" class="h1 rv" style="--d:.06s;margin-top:22px">La lista de precios cambió <span class="it">otra vez.</span></h1>
+      <p class="lead rv" style="--d:.14s">Su proveedor mueve los precios cada semana y nadie alcanza a revisar la lista entera a tiempo. ProjectCode la convierte en catálogo, le dice exactamente qué cambió y deja a su equipo cotizando en segundos.</p>
+      <div class="actions rv" style="--d:.22s">
+        <a class="btn btn-acc" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        <a class="btn btn-ghost" href="#producto"><span class="play" aria-hidden="true"></span>Ver el producto</a>
       </div>
+      <p class="mono fine rv" style="--d:.3s">media hora &nbsp;/&nbsp; sin instalar nada &nbsp;/&nbsp; con su propia lista</p>
+    </div>
+
+    <!-- Pantallazo animado de la aplicacion, con datos ficticios: el cliente
+         pregunta por WhatsApp, el asesor cotiza y le responde con la imagen -->
+    <div class="hero-vis rv" style="--d:.2s">
+    <div class="bubble ask" id="w-ask" aria-hidden="true">
+      <span class="who">Cliente · WhatsApp</span>
+      ¿Cuánto me sale un SSD de 1 TB, 32 GB de RAM DDR5 y una tarjeta de video de 12 GB?
+      <time>10:41</time>
+    </div>
+    <figure class="glass win" aria-label="Ejemplo de la pantalla de cotización de ProjectCode">
+      <div class="win-bar">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="wb">Historial <em id="w-hist">3</em></span>
+        <span class="wb-sp"></span>
+        <span class="wb pri" id="w-copy">Copiar imagen</span>
+        <span class="wb">PDF</span>
+      </div>
+      <div class="win-body">
+        <aside class="win-side">
+          <span class="mono">TOTAL COTIZACIÓN</span>
+          <b class="w-total tnum" id="w-total">$ 0</b>
+          <small class="mono" id="w-refs">0 ref. · 0 u.</small>
+          <span class="w-disc">−2 % Descuento</span>
+          <span class="mono w-lbl">Formato</span>
+          <span class="w-fmt on">Normal<small>Borrador para el día a día</small></span>
+          <span class="w-fmt">Empresas<small>Hoja A4 corporativa</small></span>
+        </aside>
+        <div class="win-main">
+          <div class="w-tabs" aria-hidden="true"><span>Cotización</span><span class="on">Catálogo · 524</span><span>Calculadora IVA</span><span>Cambios</span></div>
+          <div class="mock-q"><span id="w-q"></span><span class="cur"></span></div>
+          <ul class="w-res" id="w-res">
+            <li><span>Disco SSD NVMe 1 TB<small>SKU 2210</small></span><span class="p">$ 259.000</span><span class="mini-add">+</span></li>
+            <li><span>Memoria DDR5 32 GB (2 × 16)<small>SKU 3318</small></span><span class="p">$ 449.000</span><span class="mini-add">+</span></li>
+            <li><span>Tarjeta de video 12 GB<small>SKU 1042</small></span><span class="p">$ 2.349.000</span><span class="mini-add">+</span></li>
+          </ul>
+          <div class="w-toast" id="w-toast">Imagen copiada · lista para pegar en WhatsApp</div>
+        </div>
+      </div>
+      <div class="w-foot">
+        <ol class="w-steps" aria-hidden="true"><li id="w-s1">1 · Busca</li><li id="w-s2">2 · Agrega</li><li id="w-s3">3 · Copia y responde</li></ol>
+        <figcaption class="mono">Datos de ejemplo</figcaption>
+      </div>
+    </figure>
+    <div class="bubble reply" id="w-reply" aria-hidden="true">
+      <img class="qimg zoomable" src="assets/img/cotizacion-chat.webp" width="640" height="526" alt="" decoding="async">
+      <time>10:42 ✓✓</time>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── Lo que entra y lo que sale ─── -->
+<section class="strip" aria-labelledby="h-pipe">
+  <div class="wrap">
+    <h2 id="h-pipe" class="mono pipe-t rv">lo que entra, lo que sale</h2>
+    <div class="pipe rv">
+      <ul class="pipe-in" aria-label="Lo que entra">
+        <li><i>PDF</i>Lista del proveedor</li>
+        <li><i>XLS</i>Excel</li>
+        <li><i>WEB</i>Portal del proveedor</li>
+        <li><i>IMG</i>Foto del cliente</li>
+      </ul>
+      <div class="pipe-l" aria-hidden="true"><svg></svg></div>
+      <div class="pipe-core">
+        <svg class="mark" aria-hidden="true"><use href="#marca"/></svg>
+        <b>ProjectCode</b>
+        <span class="mono">lee · compara · avisa</span>
+      </div>
+      <div class="pipe-l out" aria-hidden="true"><svg></svg></div>
+      <ul class="pipe-out" aria-label="Lo que sale">
+        <li><i>WA</i>Cotización para WhatsApp</li>
+        <li><i>A4</i>Hoja A4 con NIT</li>
+        <li><i>3×</i>Aviso a las otras sedes</li>
+        <li><i>$</i>Cierre de caja</li>
+      </ul>
     </div>
   </div>
 </section>
 
 <!-- ─── El problema ─── -->
-<section class="sc" id="problema" data-scene="changes" data-side="left" aria-labelledby="h-problema">
+<section class="sc" id="problema" aria-labelledby="h-problema">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Por qué existe</span>
-      <h2 id="h-problema" class="t-xl rv">Hay tres días entre el proveedor y el mostrador.</h2>
-      <p class="lead rv" style="margin-top:30px">La lista llega con el formato que al proveedor se le ocurrió esta vez, y mientras no esté en la pantalla del mostrador se sigue cotizando con la de antes. Cuando el precio subió, la tienda pierde el margen; cuando bajó, pierde una venta que pudo cerrar.</p>
-
-      <figure class="changes rv" style="margin-top:56px">
-        <div class="changes-hd"><h3>Cambios de la lista</h3><span>de 512 a 524 productos</span></div>
-        <dl class="stats">
-          <div class="up"><dt>subieron</dt><dd>18</dd></div>
-          <div class="down"><dt>bajaron</dt><dd>12</dd></div>
-          <div><dt>nuevos</dt><dd>14</dd></div>
-          <div><dt>agotados</dt><dd>2</dd></div>
-        </dl>
-        <ul class="rows">
-          <li class="row up"><span class="nm">Tarjeta de video 12 GB<small>SKU 1042</small></span><span class="pr"><s>$ 2.150.000</s><b>$ 2.349.000</b><i class="dl"><span class="tri tri-up" aria-hidden="true"></span>9 %</i></span></li>
-          <li class="row dn"><span class="nm">Disco SSD NVMe 1 TB<small>SKU 2210</small></span><span class="pr"><s>$ 289.000</s><b>$ 259.000</b><i class="dl"><span class="tri tri-dn" aria-hidden="true"></span>10 %</i></span></li>
-          <li class="row up"><span class="nm">Memoria DDR5 32 GB (2 × 16)<small>SKU 3318</small></span><span class="pr"><s>$ 415.000</s><b>$ 449.000</b><i class="dl"><span class="tri tri-up" aria-hidden="true"></span>8 %</i></span></li>
-        </ul>
-        <figcaption class="cap figcap">Ejemplo con datos ficticios: así presenta la aplicación cada cierre de lista.</figcaption>
-      </figure>
+    <div class="head">
+      <div>
+        <span class="tag rv">por qué existe</span>
+        <h2 id="h-problema" class="h2 rv">Hay tres días entre el proveedor y <span class="it">el mostrador.</span></h2>
+      </div>
+      <p class="lead rv">La lista llega con el formato que al proveedor se le ocurrió esta vez, y mientras no esté en la pantalla del mostrador se sigue cotizando con la de antes. Cuando el precio subió, la tienda pierde el margen; cuando bajó, pierde una venta que pudo cerrar.</p>
     </div>
+
+    <figure class="glass changes rv">
+      <div class="changes-hd"><h3>Cambios de la lista</h3><span class="mono">de 512 a 524 productos</span></div>
+      <dl class="stats">
+        <div class="up"><dt>subieron</dt><dd class="tnum" data-count="18">18</dd></div>
+        <div class="down"><dt>bajaron</dt><dd class="tnum" data-count="12">12</dd></div>
+        <div><dt>nuevos</dt><dd class="tnum" data-count="14">14</dd></div>
+        <div><dt>agotados</dt><dd class="tnum" data-count="2">2</dd></div>
+      </dl>
+      <ul class="rows">
+        <li class="up"><span class="nm">Tarjeta de video 12 GB<small>SKU 1042</small></span><span class="pr"><s>$ 2.150.000</s><b class="tick" data-from="2150000" data-to="2349000">$ 2.349.000</b><i class="delta">▲ $ 199.000 · 9 %</i></span></li>
+        <li class="dn"><span class="nm">Disco SSD NVMe 1 TB<small>SKU 2210</small></span><span class="pr"><s>$ 289.000</s><b class="tick" data-from="289000" data-to="259000">$ 259.000</b><i class="delta">▼ $ 30.000 · 10 %</i></span></li>
+        <li class="up"><span class="nm">Memoria DDR5 32 GB (2 × 16)<small>SKU 3318</small></span><span class="pr"><s>$ 415.000</s><b class="tick" data-from="415000" data-to="449000">$ 449.000</b><i class="delta">▲ $ 34.000 · 8 %</i></span></li>
+      </ul>
+      <p class="alert"><span class="alert-i" aria-hidden="true">!</span><span>Si hoy alguien cotiza la tarjeta de video con la lista de la semana pasada, <b>cada una sale $ 199.000 más barata de lo que debería, y eso sale del margen.</b> En el SSD pasa al revés: cotizado $ 30.000 más caro, la venta se va para la competencia.</span></p>
+      <figcaption class="figcap">Ejemplo con datos ficticios: así presenta la aplicación cada cierre de lista.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ─── Como ahorra tiempo ─── -->
+<section class="sc" id="tiempo" aria-labelledby="h-tiempo">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <span class="tag rv">cómo ahorra tiempo</span>
+        <h2 id="h-tiempo" class="h2 rv">Casi todo el trabajo es <span class="it">pasar datos.</span></h2>
+      </div>
+      <p class="lead rv">Abrir el PDF, buscar la referencia, copiarla al Excel, comparar con la lista de la semana pasada, avisarle al equipo. Nadie lo decide: es pegamento. ProjectCode hace el pegamento y le deja a usted las decisiones.</p>
+    </div>
+
+    <div class="time rv">
+      <div class="glass run" id="run">
+        <div class="cardhd"><span class="mono">llegó la lista nueva del proveedor</span><span class="next" id="run-state">en cola</span></div>
+        <ol class="steps-run">
+          <li data-ms="2400"><span class="ck" aria-hidden="true"></span><b>Leer el PDF</b><span class="what">524 líneas</span><span class="ms tnum">2,4 s</span></li>
+          <li data-ms="800"><span class="ck" aria-hidden="true"></span><b>Armar el catálogo</b><span class="what">con categorías</span><span class="ms tnum">0,8 s</span></li>
+          <li data-ms="300"><span class="ck" aria-hidden="true"></span><b>Comparar con la lista anterior</b><span class="what">512 → 524</span><span class="ms tnum">0,3 s</span></li>
+          <li data-ms="150"><span class="ck" aria-hidden="true"></span><b>Marcar lo que cambió</b><span class="what">18 ▲ · 12 ▼</span><span class="ms tnum">0,1 s</span></li>
+          <li data-ms="50"><span class="ck" aria-hidden="true"></span><b>Avisar al equipo</b><span class="what">3 sedes</span><span class="ms tnum">al instante</span></li>
+        </ol>
+        <div class="run-ft"><span class="mono">listo para cotizar</span><b class="tnum" id="run-total">3,7 s</b></div>
+      </div>
+
+      <div class="vs">
+        <div class="glass card vs-row">
+          <span class="mono">a mano</span>
+          <div class="bar"><i style="--w:100%"></i></div>
+          <b>Hasta tres días</b>
+          <p>Mientras alguien pasa la lista, el mostrador sigue cotizando con los precios viejos.</p>
+        </div>
+        <div class="glass card vs-row acc">
+          <span class="mono">con ProjectCode</span>
+          <div class="bar"><i style="--w:3%"></i></div>
+          <b>Segundos</b>
+          <p>La lista entra, se compara sola y el equipo la ve al abrir la aplicación.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub rv">Y en el resto del día, <span class="it">lo mismo.</span></h3>
+    <ul class="swaps">
+      <li class="glass card rv">
+        <span class="mono">encontrar un precio</span>
+        <s>Abrir el PDF y buscar con Ctrl + F, página por página</s>
+        <b>Escribir el nombre o el SKU</b>
+      </li>
+      <li class="glass card rv" style="--d:.06s">
+        <span class="mono">saber qué cambió</span>
+        <s>Poner dos PDF lado a lado y comparar a ojo</s>
+        <b>La lista de cambios ya viene hecha</b>
+      </li>
+      <li class="glass card rv" style="--d:.12s">
+        <span class="mono">mandar la cotización</span>
+        <s>Pasarla a mano a un Excel o a un mensaje</s>
+        <b>Copiar imagen y pegarla en WhatsApp</b>
+      </li>
+      <li class="glass card rv" style="--d:.18s">
+        <span class="mono">avisar a la otra sede</span>
+        <s>Llamar y esperar a que alguien conteste</s>
+        <b>El aviso le llega solo</b>
+      </li>
+    </ul>
+    <p class="mono rv" style="margin-top:14px">Tiempos de ejemplo con una lista de 524 referencias.</p>
   </div>
 </section>
 
 <!-- ─── Su PDF no se va a ninguna parte ─── -->
-<section class="sc" id="pdf" data-scene="pdf" data-side="right" aria-labelledby="h-pdf">
+<section class="sc" id="pdf" aria-labelledby="h-pdf">
   <div class="wrap">
-    <div class="col">
-      <h2 id="h-pdf" class="t-xl rv">Su PDF no se va a ninguna parte.</h2>
-      <p class="lead rv" style="margin-top:30px">En este negocio casi todo se mueve en PDF, y va a seguir así mientras el proveedor lo mande así. ProjectCode no le pide cambiar eso. Recibe la lista igual que siempre y le pone encima lo que un archivo nunca va a poder darle.</p>
-      <div class="pair rv">
-        <div class="a">
-          <h3>Sigue igual</h3>
-          <ul>
-            <li>Su proveedor le manda la lista como se la manda hoy.</li>
-            <li>Usted sigue mandando la cotización por WhatsApp.</li>
-            <li>El cliente recibe su documento, con su marca.</li>
-            <li>Su forma de calcular precios y descuentos no cambia.</li>
-          </ul>
-        </div>
-        <div class="b">
-          <h3>Ahora, además</h3>
-          <ul>
-            <li>La lista entra sola y le dice qué subió y qué bajó.</li>
-            <li>Se busca en todo el catálogo en segundos.</li>
-            <li>Cada cotización queda guardada, con su seguimiento.</li>
-            <li>Un tablero de administración en vez de una carpeta de archivos.</li>
-          </ul>
-        </div>
+    <div class="head">
+      <h2 id="h-pdf" class="h2 rv">Su PDF no se va a <span class="it">ninguna parte.</span></h2>
+      <p class="lead rv">En este negocio casi todo se mueve en PDF, y va a seguir así mientras el proveedor lo mande así. ProjectCode no le pide cambiar eso. Recibe la lista igual que siempre y le pone encima lo que un archivo nunca va a poder darle.</p>
+    </div>
+    <div class="grid-2">
+      <div class="glass card rv">
+        <span class="mono">sigue igual</span>
+        <ul class="checks dim">
+          <li>Su proveedor le manda la lista como se la manda hoy.</li>
+          <li>Usted sigue mandando la cotización por WhatsApp.</li>
+          <li>El cliente recibe su documento, con su marca.</li>
+          <li>Su forma de calcular precios y descuentos no cambia.</li>
+        </ul>
+      </div>
+      <div class="glass card rv" style="--d:.08s">
+        <span class="mono" style="color:var(--acc-hi)">ahora, además</span>
+        <ul class="checks">
+          <li>La lista entra sola y le dice qué subió y qué bajó.</li>
+          <li>Se busca en todo el catálogo en segundos.</li>
+          <li>Cada cotización queda guardada, con su seguimiento.</li>
+          <li>Un tablero de administración en vez de una carpeta de archivos.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ─── El producto ─── -->
-<section class="sc" id="producto" data-scene="changes" data-side="left" aria-labelledby="h-producto">
+<section class="sc" id="producto" aria-labelledby="h-producto">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">El producto</span>
-      <h2 id="h-producto" class="t-xl rv">Una aplicación abierta todo el día en el mostrador.</h2>
-      <p class="lead rv" style="margin-top:26px">Cinco cosas que hoy viven repartidas en archivos, chats y memoria.</p>
-
-      <div class="tabs rv" role="tablist" aria-label="Funciones del producto">
-        <button class="tab" role="tab" id="t-p1" aria-controls="p-p1" aria-selected="true" data-scene="changes">Catálogo</button>
-        <button class="tab" role="tab" id="t-p2" aria-controls="p-p2" aria-selected="false" data-scene="quote">Cotizar</button>
-        <button class="tab" role="tab" id="t-pc" aria-controls="p-pc" aria-selected="false" data-scene="tower">Armar un PC</button>
-        <button class="tab" role="tab" id="t-p3" aria-controls="p-p3" aria-selected="false" data-scene="viewfinder">Foto a cotización</button>
-        <button class="tab" role="tab" id="t-p4" aria-controls="p-p4" aria-selected="false" data-scene="timeline">Seguimiento</button>
+    <div class="head">
+      <div>
+        <span class="tag rv">el producto</span>
+        <h2 id="h-producto" class="h2 rv">Una aplicación abierta todo el día en <span class="it">el mostrador.</span></h2>
       </div>
+      <p class="lead rv">Cinco cosas que hoy viven repartidas en archivos, chats y memoria.</p>
+    </div>
 
-      <div class="panels" style="min-height:330px">
+    <div class="glass app rv">
+      <div class="tabs" role="tablist" aria-label="Funciones del producto">
+        <button class="tab" role="tab" id="t-p1" aria-controls="p-p1" aria-selected="true">Catálogo</button>
+        <button class="tab" role="tab" id="t-p2" aria-controls="p-p2" aria-selected="false">Cotizar</button>
+        <button class="tab" role="tab" id="t-pc" aria-controls="p-pc" aria-selected="false">Armar un PC</button>
+        <button class="tab" role="tab" id="t-p3" aria-controls="p-p3" aria-selected="false">Foto a cotización</button>
+        <button class="tab" role="tab" id="t-p4" aria-controls="p-p4" aria-selected="false">Seguimiento</button>
+      </div>
+      <div class="panels">
         <div class="panel" role="tabpanel" id="p-p1" aria-labelledby="t-p1">
-          <h3 class="t-md">El mismo PDF de siempre, convertido en catálogo.</h3>
-          <p class="lead" style="margin-top:20px">El sistema lee el archivo que le llegó —PDF, Excel o lo que sea—, arma el catálogo y lo compara contra el anterior. En vez de un archivo nuevo del que nadie se entera, el equipo recibe qué subió, qué bajó, qué entró y qué se agotó, con el precio viejo al lado del nuevo.</p>
-          <div class="points"><div class="bul">El equipo ve el cambio al abrir, no cuando el cliente reclama.</div></div>
-        </div>
-        <div class="panel" role="tabpanel" id="p-p2" aria-labelledby="t-p2">
-          <h3 class="t-md">Buscar en todo el catálogo y armar la cotización en segundos.</h3>
-          <p class="lead" style="margin-top:20px">Búsqueda por nombre o SKU, filtro por categoría y más de una lista de precios activa al tiempo. El vendedor añade con un clic y el total se recalcula mientras habla con el cliente.</p>
-          <div class="points"><div class="bul">Lo que se buscó y no existía queda registrado como demanda.</div></div>
-        </div>
-        <div class="panel" role="tabpanel" id="p-pc" aria-labelledby="t-pc">
-          <h3 class="t-md">“PC gamer de 10 millones.” Con eso basta.</h3>
-          <p class="lead" style="margin-top:20px">El asesor pega el mensaje tal como lo mandó el cliente. El asistente recorre el catálogo de la tienda, arma el equipo completo —procesador, board, memoria, disco, tarjeta de video, fuente, caja y disipador—, revisa que las piezas sean compatibles entre sí y lo ajusta al presupuesto.</p>
-          <div class="points">
-            <div class="bul">Cada pieza trae su porqué, escrito para que el cliente lo entienda.</div>
-            <div class="bul">Los precios salen de su lista, no de la IA: lo que no está en el catálogo no entra.</div>
+          <div>
+            <h3 class="h3">El mismo PDF de siempre, convertido en <span class="it">catálogo.</span></h3>
+            <p class="lead">El sistema lee el archivo que le llegó —PDF, Excel o lo que sea—, arma el catálogo y lo compara contra el anterior. En vez de un archivo nuevo del que nadie se entera, el equipo recibe qué subió, qué bajó, qué entró y qué se agotó, con el precio viejo al lado del nuevo.</p>
+            <ul class="checks"><li>El equipo ve el cambio al abrir, no cuando el cliente reclama.</li></ul>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-row"><span class="mono">lista_proveedor_semana41.pdf</span><span class="chip ok">leída</span></div>
+            <div class="mock-row"><span>Procesadores<span class="why">38 referencias</span></span><span class="p">2 ▲ · 1 ▼</span></div>
+            <div class="mock-row"><span>Almacenamiento<span class="why">61 referencias</span></span><span class="p">4 ▲ · 6 ▼</span></div>
+            <div class="mock-row"><span>Memorias<span class="why">44 referencias</span></span><span class="p">5 ▲</span></div>
+            <div class="mock-row"><span>Tarjetas de video<span class="why">27 referencias</span></span><span class="p">3 ▲ · 2 nuevos</span></div>
           </div>
         </div>
-        <div class="panel" role="tabpanel" id="p-p3" aria-labelledby="t-p3">
-          <h3 class="t-md">La foto que manda el cliente se vuelve cotización.</h3>
-          <p class="lead" style="margin-top:20px">El cliente manda la captura de una lista de la competencia o el papelito de lo que quiere. El asistente lo traduce a productos del catálogo propio: cuáles son exactos, cuáles son equivalentes y por qué, y cuáles no existen en la lista activa.</p>
+        <div class="panel" role="tabpanel" id="p-p2" aria-labelledby="t-p2" hidden>
+          <div>
+            <h3 class="h3">Buscar en todo el catálogo y armar la cotización <span class="it">en segundos.</span></h3>
+            <p class="lead">Búsqueda por nombre o SKU, filtro por categoría y más de una lista de precios activa al tiempo. El vendedor añade con un clic y el total se recalcula mientras habla con el cliente.</p>
+            <ul class="checks"><li>Lo que se buscó y no existía queda registrado como demanda.</li></ul>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-q">monitor 27</div>
+            <div class="mock-row"><span>Monitor 27" QHD 165 Hz<span class="why">SKU 5521</span></span><span class="p">$ 1.189.000</span><span class="mini-add on">✓</span></div>
+            <div class="mock-row"><span>Monitor 27" 4K IPS<span class="why">SKU 5530</span></span><span class="p">$ 1.649.000</span><span class="mini-add">+</span></div>
+            <div class="mock-row"><span>Monitor 27" FHD 100 Hz<span class="why">SKU 5512</span></span><span class="p">$ 689.000</span><span class="mini-add">+</span></div>
+            <div class="mock-tot"><span class="mono">total · 3 ref.</span><b>$ 2.137.000</b></div>
+          </div>
         </div>
-        <div class="panel" role="tabpanel" id="p-p4" aria-labelledby="t-p4">
-          <h3 class="t-md">Ninguna cotización se queda esperando sola.</h3>
-          <p class="lead" style="margin-top:20px">Cada cotización guarda estado, teléfono y notas. Las que llevan días sin respuesta se marcan solas, y el vendedor abre el día sabiendo a quién llamar en vez de revisar el historial de WhatsApp.</p>
-          <div class="points"><div class="bul">El administrador ve las de todo el equipo.</div></div>
+        <div class="panel" role="tabpanel" id="p-pc" aria-labelledby="t-pc" hidden>
+          <div>
+            <h3 class="h3">“PC gamer de 10 millones.” <span class="it">Con eso basta.</span></h3>
+            <p class="lead">El asesor pega el mensaje tal como lo mandó el cliente. El asistente recorre el catálogo de la tienda, arma el equipo completo —procesador, board, memoria, disco, tarjeta de video, fuente, caja y disipador—, revisa que las piezas sean compatibles entre sí y lo ajusta al presupuesto.</p>
+            <ul class="checks">
+              <li>Cada pieza trae su porqué, escrito para que el cliente lo entienda.</li>
+              <li>Los precios salen de su lista, no de la IA: lo que no está en el catálogo no entra.</li>
+            </ul>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-q">pc gamer de 10 millones para jugar en 1440p</div>
+            <div class="mock-row"><span>Procesador 8 núcleos<span class="why">rinde de sobra en 1440p</span></span><span class="chip ok">compatible</span></div>
+            <div class="mock-row"><span>Tarjeta de video 16 GB<span class="why">donde más se nota el presupuesto</span></span><span class="chip ok">compatible</span></div>
+            <div class="mock-row"><span>Memoria DDR5 32 GB<span class="why">la misma generación de la board</span></span><span class="chip ok">compatible</span></div>
+            <div class="mock-row"><span>Fuente 850 W 80+ Gold<span class="why">margen para la tarjeta</span></span><span class="chip ok">compatible</span></div>
+            <div class="mock-tot"><span class="mono">8 piezas · del catálogo</span><b>$ 9.874.000</b></div>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-p3" aria-labelledby="t-p3" hidden>
+          <div>
+            <h3 class="h3">La foto que manda el cliente se vuelve <span class="it">cotización.</span></h3>
+            <p class="lead">El cliente manda la captura de una lista de la competencia o el papelito de lo que quiere. El asistente lo traduce a productos del catálogo propio: cuáles son exactos, cuáles son equivalentes y por qué, y cuáles no existen en la lista activa.</p>
+          </div>
+          <div class="mock photo" aria-hidden="true">
+            <div class="paper">ssd 1tb nvme<br>ram 16gb ddr4<br>mouse inalambrico<br>webcam 4k</div>
+            <div>
+              <div class="mock-row"><span>Disco SSD NVMe 1 TB</span><span class="chip ok">exacto</span></div>
+              <div class="mock-row"><span>Memoria DDR4 16 GB<span class="why">3200 MHz, misma capacidad</span></span><span class="chip eq">equivalente</span></div>
+              <div class="mock-row"><span>Mouse inalámbrico</span><span class="chip ok">exacto</span></div>
+              <div class="mock-row"><span>Webcam 4K</span><span class="chip no">no está</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel" role="tabpanel" id="p-p4" aria-labelledby="t-p4" hidden>
+          <div>
+            <h3 class="h3">Ninguna cotización se queda <span class="it">esperando sola.</span></h3>
+            <p class="lead">Cada cotización guarda estado, teléfono y notas. Las que llevan días sin respuesta se marcan solas, y el vendedor abre el día sabiendo a quién llamar en vez de revisar el historial de WhatsApp.</p>
+            <ul class="checks"><li>El administrador ve las de todo el equipo.</li></ul>
+          </div>
+          <div class="mock" aria-hidden="true">
+            <div class="mock-row"><span>Cot. 1187 · Laura M.<span class="why">portátil para la oficina · $ 3.240.000</span></span><span class="chip late">4 días</span></div>
+            <div class="mock-row"><span>Cot. 1192 · Inversiones R.<span class="why">12 equipos · hoja A4</span></span><span class="chip late">2 días</span></div>
+            <div class="mock-row"><span>Cot. 1201 · Andrés P.<span class="why">PC gamer · $ 9.874.000</span></span><span class="chip">enviada hoy</span></div>
+            <div class="mock-row"><span>Cot. 1176 · Diana C.<span class="why">monitor + teclado</span></span><span class="chip ok">vendida</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -187,103 +389,167 @@
 </section>
 
 <!-- ─── Recogidas entre sedes ─── -->
-<section class="sc" id="sedes" data-scene="network" data-side="right" aria-labelledby="h-sedes">
+<section class="sc" id="sedes" aria-labelledby="h-sedes">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Comunicación entre sedes</span>
-      <h2 id="h-sedes" class="t-xl rv">Vendió en una sede. El cliente recoge en otra.</h2>
-      <p class="lead rv" style="margin-top:30px">Es la venta que más se cae y la que peor se maneja: una llamada, un mensaje suelto, un papel en el mostrador. Cuando el cliente llega a la otra sede, nadie sabía que venía. Aquí se registra en el momento y la sede que recibe se entera al instante, sin que nadie tenga que llamar.</p>
-      <ol class="states rv" aria-label="Estados de una recogida">
-        <li>Pendiente</li><li>Preparado</li><li>Entregado</li>
+    <div class="head">
+      <div>
+        <span class="tag rv">comunicación entre sedes</span>
+        <h2 id="h-sedes" class="h2 rv">Vendió en una sede. El cliente recoge <span class="it">en otra.</span></h2>
+      </div>
+      <p class="lead rv">Es la venta que más se cae y la que peor se maneja: una llamada, un mensaje suelto, un papel en el mostrador. Cuando el cliente llega a la otra sede, nadie sabía que venía. Aquí se registra en el momento y la sede que recibe se entera al instante, sin que nadie tenga que llamar.</p>
+    </div>
+
+    <div class="glass rv relay" id="relay">
+      <div class="route">
+        <div class="site"><span class="mono">vendió</span><b>Sede Norte</b><small>Recogida 0412 · Laura M. · 10:42</small></div>
+        <div class="wire" aria-hidden="true"><i></i></div>
+        <div class="site r"><span class="mono">recoge</span><b>Sede Centro</b><small id="r-last">Esperando aviso</small>
+          <div class="ping" id="r-ping" aria-hidden="true"><b>Nueva recogida</b>Laura M. llega hoy por un portátil 14"</div>
+        </div>
+      </div>
+      <ol class="states" aria-label="Estados de una recogida">
+        <li id="r-s1">Pendiente<time>10:42</time></li>
+        <li id="r-s2">Preparado<time>10:51</time></li>
+        <li id="r-s3">Entregado<time>16:20</time></li>
       </ol>
-      <div class="duo rv">
-        <div>
-          <h3>La otra sede se entera sola</h3>
-          <p>Banner, sonido y un contador en la pestaña. Si el asesor tiene los avisos del navegador activados, le llega aunque esté en otra ventana. Nadie tiene que levantar el teléfono para avisar que va un cliente en camino.</p>
-        </div>
-        <div>
-          <h3>Y queda el registro</h3>
-          <p>Quién la registró, quién la alistó, quién la entregó y a qué hora. Cuando algo no aparece, la conversación deja de ser quién tuvo la culpa y pasa a ser dónde se quedó.</p>
-        </div>
+    </div>
+    <div class="grid-2" style="margin-top:14px">
+      <div class="glass card rv">
+        <h3>La otra sede se entera sola</h3>
+        <p>Banner, sonido y un contador en la pestaña. Si el asesor tiene los avisos del navegador activados, le llega aunque esté en otra ventana. Nadie tiene que levantar el teléfono para avisar que va un cliente en camino.</p>
+      </div>
+      <div class="glass card rv" style="--d:.08s">
+        <h3>Y queda el registro</h3>
+        <p>Quién la registró, quién la alistó, quién la entregó y a qué hora. Cuando algo no aparece, la conversación deja de ser quién tuvo la culpa y pasa a ser dónde se quedó.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── Cierre de caja y ventas por vendedor ─── -->
-<section class="sc" id="caja" data-scene="bars" data-side="left" aria-labelledby="h-caja">
+<!-- ─── Cierre de caja: un martes visto desde ProjectCode ─── -->
+<section class="sc" id="caja" aria-labelledby="h-caja">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Cierre de caja</span>
-      <h2 id="h-caja" class="t-xl rv">El día cierra cuadrado. El mes, también.</h2>
-      <p class="lead rv" style="margin-top:30px">Cada venta queda registrada con su número de factura y su forma de pago, y cada cierre con el nombre de quien lo hizo, sin pasar nada a un Excel. El día termina con lo que debe haber en la caja; el mes, con el total, el promedio y el detalle de cada jornada. Y si algún día algo no cuadra, se busca por fecha, asesor o número de factura, y ahí está.</p>
-
-      <div class="tabs rv" role="tablist" aria-label="Resumen del mes, historial y cierre de caja">
-        <button class="tab" role="tab" id="t-c0" aria-controls="p-c0" aria-selected="true" data-scene="bars">Resumen del mes</button>
-        <button class="tab" role="tab" id="t-ch" aria-controls="p-ch" aria-selected="false" data-scene="calendar">Historial</button>
-        <button class="tab" role="tab" id="t-c1" aria-controls="p-c1" aria-selected="false" data-scene="balance">Cuadre del día</button>
-        <button class="tab" role="tab" id="t-c2" aria-controls="p-c2" aria-selected="false" data-scene="ranking">Por asesor</button>
+    <div class="head">
+      <div>
+        <span class="tag rv">cierre de caja</span>
+        <h2 id="h-caja" class="h2 rv">Un <span class="it">martes,</span> visto desde ProjectCode.</h2>
       </div>
-      <div class="panels" style="min-height:96px">
-        <div class="panel" role="tabpanel" id="p-c0" aria-labelledby="t-c0"><p class="lead">El mes sale solo de los cierres diarios: total, promedio por día, mejor día y facturas.</p></div>
-        <div class="panel" role="tabpanel" id="p-ch" aria-labelledby="t-ch"><p class="lead">Cada día cerrado queda guardado y se encuentra por fecha, asesor, número de factura o remisión.</p></div>
-        <div class="panel" role="tabpanel" id="p-c1" aria-labelledby="t-c1"><p class="lead">Cada venta con su forma de pago, y el total a entregar en caja calculado solo.</p></div>
-        <div class="panel" role="tabpanel" id="p-c2" aria-labelledby="t-c2"><p class="lead">Cotizaciones por asesor —a quién reconocer y a quién darle una mano—, productos más cotizados y búsquedas sin resultados: demanda que se está yendo por la puerta.</p></div>
-      </div>
-
-      <div class="duo rv" style="margin-top:64px">
-        <div>
-          <h3>El que entra nuevo rinde el primer día</h3>
-          <p>Hoy un asesor nuevo se demora semanas aprendiéndose el catálogo y a quién preguntarle por un precio. Con el catálogo buscable y los precios al día, cotiza bien desde el primer turno.</p>
-        </div>
-        <div>
-          <h3>Nadie se vuelve indispensable</h3>
-          <p>Cuando el que sabe sale a vacaciones, hoy se lleva las cotizaciones y los seguimientos en su WhatsApp. Acá se quedan en la tienda: quien lo reemplace abre el historial y sigue donde el otro dejó.</p>
-        </div>
-      </div>
-      <p class="closing rv">Nada de esto aparece en el estado de resultados. Aparece en cuántas cotizaciones alcanza a sacar la misma persona en el mismo día, y en cuántos puntos puede abrir antes de tener que crecer el equipo.</p>
+      <p class="lead rv">Cada venta queda registrada con su número de factura y su forma de pago, y cada cierre con el nombre de quien lo hizo, sin pasar nada a un Excel. El día termina con lo que debe haber en la caja; el mes, con el total, el promedio y el detalle de cada jornada.</p>
     </div>
+
+    <div class="bento rv">
+      <div class="glass card">
+        <div class="cardhd"><span class="mono">cotizaciones por hora, últimos seis días</span><span class="next">cierre en 2 h</span></div>
+        <div class="week" aria-hidden="true">
+          <span class="h">9 am</span><i class="slot f1"></i><i class="slot f2"></i><i class="slot f1"></i><i class="slot f2"></i><i class="slot f1"></i><i class="slot f2"></i>
+          <span class="h">11 am</span><i class="slot f2"></i><i class="slot f2"></i><i class="slot f3"></i><i class="slot f3"></i><i class="slot f2"></i><i class="slot f3"></i>
+          <span class="h">1 pm</span><i class="slot f1"></i><i class="slot f1"></i><i class="slot f2"></i><i class="slot f3"></i><i class="slot f1"></i><i class="slot f2"></i>
+          <span class="h">3 pm</span><i class="slot f2"></i><i class="slot f1"></i><i class="slot f2"></i><i class="slot f2"></i><i class="slot f1"></i><i class="slot now"></i>
+          <span></span><span class="d">mié</span><span class="d">jue</span><span class="d">vie</span><span class="d">sáb</span><span class="d">lun</span><span class="d today">hoy</span>
+        </div>
+        <div class="legend" aria-hidden="true"><span class="mono">menos</span><i class="slot f1"></i><i class="slot f2"></i><i class="slot f3"></i><span class="mono">más</span><span class="mono now-l"><i class="slot now"></i>en curso</span></div>
+      </div>
+      <div class="glass card">
+        <span class="mono">cuadre de ayer</span>
+        <div class="ring" aria-hidden="true">
+          <svg viewBox="0 0 140 140"><circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle class="ring-v" cx="70" cy="70" r="60" fill="none" stroke="var(--acc)" stroke-width="9" stroke-linecap="round" stroke-dasharray="377" stroke-dashoffset="377" style="--to:0"/></svg>
+          <b>$ 0</b>
+        </div>
+        <p class="ring-cap">de diferencia entre lo vendido y lo contado en caja. <span style="color:var(--acc-hi)">Cuadrada.</span></p>
+      </div>
+    </div>
+    <div class="bento-3 rv">
+      <div class="glass card">
+        <span class="mono">esperando respuesta</span>
+        <div class="avatars" aria-hidden="true"><span>LM</span><span>IR</span><span>AP</span></div>
+        <b class="big tnum">7</b>
+        <p>cotizaciones sin respuesta hace más de dos días</p>
+      </div>
+      <div class="glass card">
+        <span class="mono">formas de pago, hoy</span>
+        <div class="pay">
+          <div>Transferencia<b>$ 6.920.000</b></div>
+          <div>Tarjeta<b>$ 3.410.000</b></div>
+          <div>Efectivo<b>$ 4.180.000</b></div>
+          <div class="tot">Total vendido<b>$ 14.510.000</b></div>
+          <div class="cash">Efectivo a entregar en caja<b>$ 4.180.000</b></div>
+        </div>
+      </div>
+      <div class="glass card">
+        <span class="mono">resumen del mes</span>
+        <div class="spark" aria-hidden="true"><i style="--h:40%"></i><i style="--h:55%"></i><i style="--h:48%"></i><i style="--h:70%"></i><i style="--h:62%"></i><i style="--h:85%"></i><i class="on" style="--h:100%"><em>mejor día</em></i><i style="--h:58%"></i><i style="--h:66%"></i><i style="--h:74%"></i></div>
+        <p>Total, promedio por día, mejor día y facturas, armado solo desde los cierres diarios.</p>
+      </div>
+    </div>
+    <p class="mono rv" style="color:var(--dim);margin-top:14px">Cifras de ejemplo.</p>
+
+    <div class="glass app rv" style="margin-top:40px">
+      <div class="tabs" role="tablist" aria-label="Resumen del mes, historial y cierre de caja">
+        <button class="tab" role="tab" id="t-c0" aria-controls="p-c0" aria-selected="true">Resumen del mes</button>
+        <button class="tab" role="tab" id="t-ch" aria-controls="p-ch" aria-selected="false">Historial</button>
+        <button class="tab" role="tab" id="t-c1" aria-controls="p-c1" aria-selected="false">Cuadre del día</button>
+        <button class="tab" role="tab" id="t-c2" aria-controls="p-c2" aria-selected="false">Por asesor</button>
+      </div>
+      <div class="panels short">
+        <div class="panel" role="tabpanel" id="p-c0" aria-labelledby="t-c0"><p class="lead">El mes sale solo de los cierres diarios: total, promedio por día, mejor día y facturas.</p></div>
+        <div class="panel" role="tabpanel" id="p-ch" aria-labelledby="t-ch" hidden><p class="lead">Cada día cerrado queda guardado y se encuentra por fecha, asesor, número de factura o remisión.</p></div>
+        <div class="panel" role="tabpanel" id="p-c1" aria-labelledby="t-c1" hidden><p class="lead">Cada venta con su forma de pago, y el total a entregar en caja calculado solo.</p></div>
+        <div class="panel" role="tabpanel" id="p-c2" aria-labelledby="t-c2" hidden><p class="lead">Cotizaciones por asesor —a quién reconocer y a quién darle una mano—, productos más cotizados y búsquedas sin resultados: demanda que se está yendo por la puerta.</p></div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top:14px">
+      <div class="glass card rv">
+        <h3>El que entra nuevo rinde el primer día</h3>
+        <p>Hoy un asesor nuevo se demora semanas aprendiéndose el catálogo y a quién preguntarle por un precio. Con el catálogo buscable y los precios al día, cotiza bien desde el primer turno.</p>
+      </div>
+      <div class="glass card rv" style="--d:.08s">
+        <h3>Nadie se vuelve indispensable</h3>
+        <p>Cuando el que sabe sale a vacaciones, hoy se lleva las cotizaciones y los seguimientos en su WhatsApp. Acá se quedan en la tienda: quien lo reemplace abre el historial y sigue donde el otro dejó.</p>
+      </div>
+    </div>
+    <p class="closing rv">Nada de esto aparece en el estado de resultados. Aparece en cuántas cotizaciones alcanza a sacar la misma persona en el mismo día, y en cuántos puntos puede abrir antes de tener que crecer el equipo.</p>
   </div>
 </section>
 
 <!-- ─── ProjectCode Labs ─── -->
-<section class="sc" id="labs" data-scene="spike" data-side="right" aria-labelledby="h-labs">
+<section class="sc" id="labs" aria-labelledby="h-labs">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">ProjectCode Labs</span>
-      <h2 id="h-labs" class="t-lg rv">Un cero de menos le puede costar el margen del mes.</h2>
-      <p class="lead rv" style="margin-top:28px">Esa lista la digita o la interpreta alguien, y alguien se equivoca. Labs es la consola del administrador: cuántas unidades quedan de cada referencia, en qué sede están, cuánto margen deja cada venta — y qué hay que revisar antes de que un precio malo salga al mostrador.</p>
-      <span class="tag rv">En desarrollo &middot; primera versión con los clientes que entren este año</span>
-
-      <div class="kv kv-1 rv" style="margin-top:44px">
-        <div class="a">
-          <h4>Ya lo hace hoy</h4>
-          <ul>
-            <li class="bul grn">Separa las referencias que entraron incompletas —sin precio o sin categoría— antes de que lleguen al catálogo. Una sin precio no se puede cotizar; una sin categoría no aparece cuando la buscan.</li>
-            <li class="bul grn">Detecta las líneas que salieron revueltas al leer el archivo, cuando el texto de un producto se pega al del que tiene al lado y termina con el precio equivocado.</li>
-            <li class="bul grn">Si más del 15&nbsp;% de la lista llega con problemas, el aviso no le sale solo al administrador: lo ve todo el que abra la aplicación, antes de cotizar.</li>
-          </ul>
-        </div>
-        <div class="c">
-          <h4>Lo que viene con Labs</h4>
-          <ul>
-            <li class="bul">Un precio que cae de un millón a cien mil no es una oferta, es un cero de menos. Se detiene y pide confirmación.</li>
-            <li class="bul">Venta por debajo del costo: si la lista nueva subió y el precio de venta quedó abajo, no pasa callado.</li>
-            <li class="bul">Cotizar algo agotado: avisa en el momento, no cuando el cliente ya dijo que sí.</li>
-          </ul>
-        </div>
+    <div class="head">
+      <div>
+        <span class="tag dev rv">ProjectCode Labs · en desarrollo</span>
+        <h2 id="h-labs" class="h2 rv">Un cero de menos le puede costar <span class="it">el margen del mes.</span></h2>
+      </div>
+      <p class="lead rv">Esa lista la digita o la interpreta alguien, y alguien se equivoca. Labs es la consola del administrador: cuántas unidades quedan de cada referencia, en qué sede están, cuánto margen deja cada venta — y qué hay que revisar antes de que un precio malo salga al mostrador.</p>
+    </div>
+    <div class="grid-2">
+      <div class="glass card rv">
+        <span class="mono" style="color:var(--acc-hi)">ya lo hace hoy</span>
+        <ul class="checks">
+          <li>Separa las referencias que entraron incompletas —sin precio o sin categoría— antes de que lleguen al catálogo. Una sin precio no se puede cotizar; una sin categoría no aparece cuando la buscan.</li>
+          <li>Detecta las líneas que salieron revueltas al leer el archivo, cuando el texto de un producto se pega al del que tiene al lado y termina con el precio equivocado.</li>
+          <li>Si más del 15&nbsp;% de la lista llega con problemas, el aviso no le sale solo al administrador: lo ve todo el que abra la aplicación, antes de cotizar.</li>
+        </ul>
+      </div>
+      <div class="glass card rv" style="--d:.08s">
+        <span class="mono">lo que viene con Labs · primera versión con los clientes que entren este año</span>
+        <ul class="checks dot">
+          <li>Un precio que cae de un millón a cien mil no es una oferta, es un cero de menos. Se detiene y pide confirmación.</li>
+          <li>Venta por debajo del costo: si la lista nueva subió y el precio de venta quedó abajo, no pasa callado.</li>
+          <li>Cotizar algo agotado: avisa en el momento, no cuando el cliente ya dijo que sí.</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ─── El documento ─── -->
-<section class="sc" id="documento" data-scene="a4" data-side="left" aria-labelledby="h-doc">
-  <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">El documento</span>
-      <h2 id="h-doc" class="t-xl rv">Cuando el cliente es un área de compras, el papel importa.</h2>
-      <p class="lead rv" style="margin-top:30px">El mismo carrito sale en dos formatos. Para WhatsApp, un documento corto. Para una licitación o una orden de compra, una hoja A4 con emisor y destinatario con NIT, líneas numeradas, IVA desglosado, total en letras y numeración de páginas.</p>
+<section class="sc" id="documento" aria-labelledby="h-doc">
+  <div class="wrap doc-wrap">
+    <div>
+      <span class="tag rv">el documento</span>
+      <h2 id="h-doc" class="h2 rv" style="margin-top:20px">Cuando el cliente es un área de compras, <span class="it">el papel importa.</span></h2>
+      <p class="lead rv" style="margin-top:22px">El mismo carrito sale en dos formatos. Para WhatsApp, un documento corto. Para una licitación o una orden de compra, una hoja A4 con emisor y destinatario con NIT, líneas numeradas, IVA desglosado, total en letras y numeración de páginas.</p>
       <ol class="idx rv">
         <li><span>01</span>Emisor y destinatario con NIT</li>
         <li><span>02</span>Líneas numeradas</li>
@@ -291,107 +557,130 @@
         <li><span>04</span>Total en letras</li>
         <li><span>05</span>Numeración de páginas</li>
       </ol>
-      <p class="small rv" style="margin-top:22px">Los datos del emisor y las condiciones comerciales se configuran una vez.</p>
+      <p class="mono rv" style="margin-top:18px">Los datos del emisor y las condiciones comerciales se configuran una vez. Documentos generados por la aplicación con datos de ejemplo.</p>
+    </div>
+    <div class="docs-stage rv" id="fmt">
+    <div class="seg" role="group" aria-label="Formato del documento">
+      <button type="button" aria-pressed="false" data-fmt="wa">Para WhatsApp</button>
+      <button type="button" aria-pressed="true" data-fmt="a4">Hoja A4</button>
+    </div>
+    <div class="stage">
+    <figure class="wa-doc">
+      <img class="zoomable" src="assets/img/cotizacion-whatsapp.webp" width="900" height="922" loading="lazy" decoding="async"
+           alt="Cotización 1192 en el formato para WhatsApp: cinco portátiles, cinco monitores, cinco combos de teclado y mouse y cinco bases refrigerantes, con condiciones de garantía y total de $ 20.285.000.">
+      <figcaption>10:42 ✓✓</figcaption>
+    </figure>
+    <img class="a4 zoomable" src="assets/img/cotizacion-a4.webp" width="900" height="1274" loading="lazy" decoding="async"
+         alt="La misma cotización 1192 en hoja A4: emisor y destinatario con NIT, líneas numeradas, IVA desglosado, total de $ 20.285.000 y total en letras.">
+    </div>
+    </div>
     </div>
   </div>
 </section>
 
 <!-- ─── Trayectoria ─── -->
-<section class="sc" id="trayectoria" data-scene="spiral" data-side="right" aria-labelledby="h-tray">
+<section class="sc" id="trayectoria" aria-labelledby="h-tray">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Trayectoria</span>
-      <h2 id="h-tray" class="t-xl rv">Seis meses en un mostrador de verdad.</h2>
-      <p class="lead rv" style="margin-top:30px">ProjectCode nació dentro de una tienda de tecnología en Bogotá con tres puntos de venta, y ahí estuvo seis meses con varios asesores cotizando sobre él todos los días. Cada función existe porque alguien la necesitó en una venta, no porque se veía bien en una demo.</p>
-      <div class="metrics rv">
-        <div class="metric"><b>6</b><span>meses en operación diaria</span></div>
-        <div class="metric"><b>52</b><span>versiones publicadas</span></div>
-        <div class="metric"><b>90</b><span>cierres de lista de precios</span></div>
-        <div class="metric"><b>807</b><span>referencias en la lista activa</span></div>
-        <div class="metric"><b>3</b><span>puntos de venta conectados</span></div>
+    <div class="head">
+      <div>
+        <span class="tag rv">trayectoria</span>
+        <h2 id="h-tray" class="h2 rv">Seis meses en un mostrador <span class="it">de verdad.</span></h2>
       </div>
+      <p class="lead rv">ProjectCode nació dentro de una tienda de tecnología en Bogotá con tres puntos de venta, y ahí estuvo seis meses con varios asesores cotizando sobre él todos los días. Cada función existe porque alguien la necesitó en una venta, no porque se veía bien en una demo.</p>
+    </div>
+    <div class="metrics rv">
+      <div class="glass metric"><b class="tnum" data-count="6">6</b><span>meses en operación diaria</span></div>
+      <div class="glass metric"><b class="tnum" data-count="52">52</b><span>versiones publicadas</span></div>
+      <div class="glass metric"><b class="tnum" data-count="90">90</b><span>cierres de lista de precios</span></div>
+      <div class="glass metric"><b class="tnum" data-count="807">807</b><span>referencias en la lista activa</span></div>
+      <div class="glass metric"><b class="tnum" data-count="3">3</b><span>puntos de venta conectados</span></div>
     </div>
   </div>
 </section>
 
 <!-- ─── Como arranca ─── -->
-<section class="sc" id="arranca" data-scene="trio" data-side="left" aria-labelledby="h-arranca">
+<section class="sc" id="arranca" aria-labelledby="h-arranca">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Cómo arranca</span>
-      <h2 id="h-arranca" class="t-xl rv">Con su lista, su marca y su NIT.</h2>
-      <div class="steps">
-        <div class="step rv">
-          <small>Su lista</small>
-          <h3>El formato en que le llegan los precios</h3>
-          <p>PDF, Excel o el portal del proveedor. Se conecta una vez, al principio, y de ahí en adelante la lista entra sola.</p>
-        </div>
-        <div class="step rv">
-          <small>Su marca</small>
-          <h3>Nombre, logo y datos de la empresa</h3>
-          <p>Las cotizaciones salen a nombre de su tienda. ProjectCode no aparece por ningún lado.</p>
-        </div>
-        <div class="step rv">
-          <small>Su equipo</small>
-          <h3>Una cuenta y un consecutivo por asesor</h3>
-          <p>Usted decide quién ve el catálogo completo, quién factura y quién administra.</p>
-        </div>
+    <div class="head">
+      <div>
+        <span class="tag rv">cómo arranca</span>
+        <h2 id="h-arranca" class="h2 rv">Con su lista, su marca <span class="it">y su NIT.</span></h2>
       </div>
-      <p class="closing rv">Y si su negocio funciona distinto —otro consecutivo, otras formas de pago, otro software de facturación— el sistema se cambia. Quien lo escribió es quien hace el cambio, y el alcance se acuerda con usted antes de empezar.</p>
     </div>
+    <div class="grid-3">
+      <div class="glass card step rv">
+        <span class="num">01 · su lista</span>
+        <h3>El formato en que le llegan los precios</h3>
+        <p>PDF, Excel o el portal del proveedor. Se conecta una vez, al principio, y de ahí en adelante la lista entra sola.</p>
+      </div>
+      <div class="glass card step rv" style="--d:.06s">
+        <span class="num">02 · su marca</span>
+        <h3>Nombre, logo y datos de la empresa</h3>
+        <p>Las cotizaciones salen a nombre de su tienda. ProjectCode no aparece por ningún lado.</p>
+      </div>
+      <div class="glass card step rv" style="--d:.12s">
+        <span class="num">03 · su equipo</span>
+        <h3>Una cuenta y un consecutivo por asesor</h3>
+        <p>Usted decide quién ve el catálogo completo, quién factura y quién administra.</p>
+      </div>
+    </div>
+    <p class="closing rv">Y si su negocio funciona distinto —otro consecutivo, otras formas de pago, otro software de facturación— el sistema se cambia. Quien lo escribió es quien hace el cambio, y el alcance se acuerda con usted antes de empezar.</p>
   </div>
 </section>
 
 <!-- ─── Datos y condiciones ─── -->
-<section class="sc" id="datos" data-scene="lock" data-side="right" aria-labelledby="h-datos">
+<section class="sc" id="datos" aria-labelledby="h-datos">
   <div class="wrap">
-    <div class="col">
-      <span class="kicker rv">Transparencia</span>
-      <h2 id="h-datos" class="t-xl rv">Sus datos son suyos.</h2>
-      <p class="lead rv" style="margin-top:30px">El catálogo, las cotizaciones y los clientes que su tienda carga en ProjectCode son de su empresa. Esto es exactamente qué se guarda, dónde vive, quién lo ve y qué recibe la inteligencia artificial. El detalle completo está en los documentos de abajo.</p>
+    <div class="head">
+      <div>
+        <span class="tag rv">transparencia</span>
+        <h2 id="h-datos" class="h2 rv">Sus datos son <span class="it">suyos.</span></h2>
+      </div>
+      <p class="lead rv">El catálogo, las cotizaciones y los clientes que su tienda carga en ProjectCode son de su empresa. Esto es exactamente qué se guarda, dónde vive, quién lo ve y qué recibe la inteligencia artificial. El detalle completo está en los documentos de abajo.</p>
+    </div>
 
-      <div class="duo duo-1 rv" style="margin-top:52px">
+    <div class="grid-3">
+      <div class="glass card rv">
+        <h3>Qué se guarda</h3>
+        <p>Cada cotización con el nombre del cliente, su teléfono, las notas de seguimiento y los productos. En modo Empresas, además la razón social y el NIT del comprador. Su catálogo de precios. Y una cuenta por asesor con su correo, su sede y su consecutivo.</p>
+      </div>
+      <div class="glass card rv" style="--d:.06s">
+        <h3>Dónde vive y quién lo ve</h3>
+        <p>En Google Firebase, sobre infraestructura de Google Cloud. Los asesores aprobados de su tienda pueden consultar las cotizaciones del equipo, para retomar la de un compañero; solo quien la creó puede editarla o borrarla. El soporte de ProjectCode tiene acceso de lectura para atender fallas. El navegador guarda además una copia de las últimas ochenta, para cotizar sin conexión.</p>
+      </div>
+      <div class="glass card rv" style="--d:.12s">
+        <h3>Qué recibe la inteligencia artificial</h3>
+        <p>Lo que el asesor le manda a cada función: la imagen de una lista, la pregunta de un cliente, el pedido para armar un PC o el contexto que escriba, junto con el catálogo. Nunca la base de clientes. Si el asesor escribe datos de un cliente en esos campos, esos datos sí viajan al proveedor.</p>
+      </div>
+    </div>
+
+    <div class="glass crypt rv">
+      <span class="tag dev">próxima versión · se activa desde Configuración</span>
+      <h3 class="h3">Cifrado en el navegador: ni ProjectCode ni Google pueden <span class="it">leer lo guardado.</span></h3>
+      <p class="lead">Los datos de sus clientes se cifran en el computador del asesor antes de salir hacia la base de datos, con una llave que el sistema genera para su empresa. La activa el administrador de su tienda, se muestra una sola vez y queda solo en los equipos donde se ingresa. A la base llega texto ilegible.</p>
+      <div class="grid-2">
         <div>
-          <h3>Qué se guarda</h3>
-          <p>Cada cotización con el nombre del cliente, su teléfono, las notas de seguimiento y los productos. En modo Empresas, además la razón social y el NIT del comprador. Su catálogo de precios. Y una cuenta por asesor con su correo, su sede y su consecutivo.</p>
+          <h4>se cifra</h4>
+          <ul class="checks">
+            <li>Nombre, teléfono y notas de seguimiento de cada cliente.</li>
+            <li>En cotizaciones a empresas: razón social, NIT, contacto, correo y ciudad.</li>
+            <li>En las recogidas entre sedes: cliente, teléfono, productos, notas y la foto.</li>
+          </ul>
         </div>
         <div>
-          <h3>Dónde vive y quién lo ve</h3>
-          <p>En Google Firebase, sobre infraestructura de Google Cloud. Los asesores aprobados de su tienda pueden consultar las cotizaciones del equipo, para retomar la de un compañero; solo quien la creó puede editarla o borrarla. El soporte de ProjectCode tiene acceso de lectura para atender fallas. El navegador guarda además una copia de las últimas ochenta, para cotizar sin conexión.</p>
-        </div>
-        <div>
-          <h3>Qué recibe la inteligencia artificial</h3>
-          <p>Lo que el asesor le manda a cada función: la imagen de una lista, la pregunta de un cliente, el pedido para armar un PC o el contexto que escriba, junto con el catálogo. Nunca la base de clientes. Si el asesor escribe datos de un cliente en esos campos, esos datos sí viajan al proveedor.</p>
+          <h4>queda legible, y por qué</h4>
+          <ul class="checks dim">
+            <li>Productos, totales, estado y fechas de las cotizaciones: con eso se calculan el cierre de caja y las métricas.</li>
+            <li>El correo del asesor: con eso se sabe quién hizo cada cotización.</li>
+            <li>El catálogo de precios: no tiene datos de personas.</li>
+          </ul>
         </div>
       </div>
+      <p class="note">Si su empresa pierde la llave y la copia que guardó, nadie puede recuperar esos datos, tampoco nosotros: esa es la garantía. El cifrado protege lo que queda en la base de datos; un computador con la sesión abierta sigue dependiendo de la seguridad de su tienda.</p>
+    </div>
 
-      <div class="rv" style="margin-top:64px">
-        <span class="tag" style="margin-top:0">Próxima versión &middot; se activa desde Configuración</span>
-        <h3 class="t-md" style="margin-top:22px">Cifrado en el navegador: ni ProjectCode ni Google pueden leer lo guardado.</h3>
-        <p class="lead" style="margin-top:20px">Los datos de sus clientes se cifran en el computador del asesor antes de salir hacia la base de datos, con una llave que el sistema genera para su empresa. La activa el administrador de su tienda, se muestra una sola vez y queda solo en los equipos donde se ingresa. A la base llega texto ilegible.</p>
-        <div class="kv">
-          <div class="a">
-            <h4>Se cifra</h4>
-            <ul>
-              <li class="bul grn">Nombre, teléfono y notas de seguimiento de cada cliente.</li>
-              <li class="bul grn">En cotizaciones a empresas: razón social, NIT, contacto, correo y ciudad.</li>
-              <li class="bul grn">En las recogidas entre sedes: cliente, teléfono, productos, notas y la foto.</li>
-            </ul>
-          </div>
-          <div class="b">
-            <h4>Queda legible, y por qué</h4>
-            <ul>
-              <li class="bul hol">Productos, totales, estado y fechas de las cotizaciones: con eso se calculan el cierre de caja y las métricas.</li>
-              <li class="bul hol">El correo del asesor: con eso se sabe quién hizo cada cotización.</li>
-              <li class="bul hol">El catálogo de precios: no tiene datos de personas.</li>
-            </ul>
-          </div>
-        </div>
-        <p class="note">Si su empresa pierde la llave y la copia que guardó, nadie puede recuperar esos datos, tampoco nosotros: esa es la garantía. El cifrado protege lo que queda en la base de datos; un computador con la sesión abierta sigue dependiendo de la seguridad de su tienda.</p>
-      </div>
-
-<div class="docs">
-      <details class="doc">
+    <div class="docs">
+      <details class="glass doc">
         <summary>Términos de uso</summary>
         <div class="doc-body">
           <div>
@@ -425,7 +714,7 @@
         </div>
       </details>
 
-      <details class="doc">
+      <details class="glass doc">
         <summary>Tratamiento de datos personales</summary>
         <div class="doc-body">
           <div>
@@ -462,19 +751,18 @@
         </div>
       </details>
     </div>
-    </div>
   </div>
 </section>
 
 <!-- ─── Contacto ─── -->
-<section class="sc" id="contacto" data-scene="chip" data-side="left" data-scale=".86" aria-labelledby="h-contacto">
+<section class="sc" id="contacto" aria-labelledby="h-contacto">
   <div class="wrap">
-    <div class="col">
-      <h2 id="h-contacto" class="t-xl rv">Traiga su lista de precios a la demo.</h2>
-      <p class="lead rv" style="margin-top:30px">La forma más rápida de saber si le sirve es verlo con su propio catálogo. Media hora, sin instalar nada, y sale sabiendo exactamente qué haría el sistema con los precios que maneja hoy.</p>
-      <div class="actions rv">
-        <a class="pill" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Escribir por WhatsApp</a>
-        <a class="ghost" href="https://wa.me/573046217300" target="_blank" rel="noopener">WhatsApp <span class="tnum">304 621 7300</span></a>
+    <div class="cta rv">
+      <h2 id="h-contacto" class="h2">Traiga su lista de precios <span class="it">a la demo.</span></h2>
+      <p>La forma más rápida de saber si le sirve es verlo con su propio catálogo. Media hora, sin instalar nada, y sale sabiendo exactamente qué haría el sistema con los precios que maneja hoy.</p>
+      <div class="actions">
+        <a class="btn btn-dark" href="https://wa.me/573046217300?text=Hola%2C%20vi%20la%20p%C3%A1gina%20de%20ProjectCode%20y%20quiero%20ver%20una%20demo%20con%20mi%20lista%20de%20precios." target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        <a class="btn btn-line" href="https://wa.me/573046217300" target="_blank" rel="noopener">WhatsApp <span class="tnum">304 621 7300</span></a>
       </div>
     </div>
   </div>
@@ -483,7 +771,7 @@
 </main>
 
 <footer>
-  <div class="wrap foot">
+  <div class="wrap">
     <div class="foot-top">
       <a class="brand" href="#top" aria-label="ProjectCode, volver arriba">
         <svg class="mark" aria-hidden="true"><use href="#marca"/></svg>
@@ -491,11 +779,11 @@
       </a>
       <nav class="foot-links" aria-label="Pie de página">
         <a href="#producto">Producto</a>
+        <a href="#tiempo">Cómo ahorra tiempo</a>
         <a href="#trayectoria">Trayectoria</a>
         <a href="#labs">Labs</a>
         <a href="#arranca">Cómo arranca</a>
-        <a href="#datos">Términos de uso</a>
-        <a href="#datos">Tratamiento de datos</a>
+        <a href="#datos">Términos y datos</a>
         <a href="https://wa.me/573046217300" target="_blank" rel="noopener">Contacto</a>
       </nav>
     </div>
@@ -503,10 +791,16 @@
       <span>Copyright &copy; 2026 ProjectCode. Todos los derechos reservados.<br>Suite empresarial para tiendas de tecnolog&iacute;a &middot; Bogot&aacute;, Colombia.</span>
       <span>Las cifras y productos de las ilustraciones son de ejemplo.<br>Marcas y productos citados pertenecen a sus respectivos due&ntilde;os.</span>
     </div>
+    <button class="pause" id="pause" type="button" aria-pressed="false">Pausar animaciones</button>
   </div>
 </footer>
 
-<script src="assets/constelacion.js" defer></script>
+<dialog class="zoom" id="zoom" aria-label="Documento ampliado">
+  <button class="zoom-x" type="button" aria-label="Cerrar">×</button>
+  <img alt="">
+</dialog>
+
+<script src="assets/hilos.js" defer></script>
 <script src="assets/site.js" defer></script>
 </body>
 </html>
