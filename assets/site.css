@@ -105,14 +105,14 @@ button { font: inherit; color: inherit; }
 .nav-in { display: flex; align-items: center; gap: 24px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; letter-spacing: -.02em; }
 .mark { width: 26px; height: 26px; flex: none; }
-.nav-links { display: flex; gap: 28px; margin: 0 auto; font-size: 13.5px; color: var(--mut); }
+.nav-links { display: flex; gap: 26px; margin: 0 auto; font-size: 13.5px; color: var(--mut); white-space: nowrap; }
 .nav-links a { transition: color .2s; }
 .nav-links a:hover, .nav-links a[aria-current="true"] { color: var(--text); }
 .nav-right { display: flex; align-items: center; gap: 10px; }
-.status { font-family: var(--mono); font-size: 12px; color: var(--soft); padding: 7px 12px; border: 1px solid var(--line-2); border-radius: 99px; display: inline-flex; align-items: center; gap: 8px; }
+.status { white-space: nowrap; font-family: var(--mono); font-size: 12px; color: var(--soft); padding: 7px 12px; border: 1px solid var(--line-2); border-radius: 99px; display: inline-flex; align-items: center; gap: 8px; }
 .status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 8px var(--acc); animation: blink 2.4s ease-in-out infinite; }
 @keyframes blink { 50% { opacity: .35; } }
-@media (max-width: 960px) { .nav-links { display: none; } .nav-right { margin-left: auto; } }
+@media (max-width: 1080px) { .nav-links { display: none; } .nav-right { margin-left: auto; } }
 @media (max-width: 520px) { .status { display: none; } }
 
 /* ─── Secciones ─── */
