@@ -141,7 +141,7 @@
 .cot-item-cant .tenue { font-size: 12px; color: var(--tinta-3); }
 .cot-item[data-nuevo] { animation: relevo-entra 350ms var(--salida); }
 @keyframes relevo-entra { from { opacity: 0; translate: 0 var(--paso-micro); filter: blur(var(--borron)); } }
-.cot-vacio { display: grid; place-items: center; gap: var(--e2); padding: var(--e6) var(--e3); text-align: center; font-size: 13px; line-height: 20px; color: var(--tinta-2); border: 1.5px dashed var(--pista); border-radius: var(--r-control); }
+.cot-vacio { display: block; padding: var(--e6) var(--e3); text-align: center; font-size: 13px; line-height: 20px; color: var(--tinta-2); border: 1.5px dashed var(--pista); border-radius: var(--r-control); }
 
 .totales { display: grid; gap: var(--e1); padding-top: var(--e3); border-top: 1px solid var(--linea); }
 .totales > div { display: flex; justify-content: space-between; font-size: 13px; color: var(--tinta-2); }
