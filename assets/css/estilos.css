@@ -1,0 +1,234 @@
+/* ProjectCode — tokens y piezas base. Registro: sereno con golpe.
+   Lienzo gris claro, tinta casi negra, pasteles solo cuando significan algo.
+   El espectro de la marca (azul, violeta, rosa, durazno, amarillo) vive en el logo
+   y en las dos piezas de arte; nunca en el texto ni en los botones.
+   La respuesta al tocar (muelles, pulsado, cifras, segmentado) viene de tacto.css. */
+
+@font-face {
+  font-family: "Geist";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/Geist-Variable.woff2") format("woff2-variations"), url("../fonts/Geist-Variable.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Geist Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/GeistMono-Medium.woff2") format("woff2");
+}
+
+:root {
+  /* Superficies, de atrás hacia delante (gris frío con un punto de lavanda) */
+  --lienzo: #ECEDF2;
+  --panel: #E0E2EA;
+  --tarjeta: #FFFFFF;
+  --hundido: #F2F3F6;
+
+  /* Tinta */
+  --tinta: #141519;
+  --tinta-2: #50535E;     /* 7,3:1 sobre blanco */
+  --tinta-3: #6B6E79;     /* 4,9:1 sobre blanco: solo etiquetas */
+  --linea: rgba(20, 21, 25, .08);
+
+  /* Marca */
+  --azul: #1657FF;
+  --violeta: #6555FF;
+  --rosa-marca: #F16ABB;
+  --durazno-marca: #FFB37B;
+  --amarillo: #F6F58B;
+  --noche: #0B1033;
+
+  /* Pasteles con significado */
+  --cielo: #DCE5FF;   --cielo-t: #1B3A86;    /* lo que prepara ProjectCode */
+  --menta: #CFEEDD;   --menta-t: #1F5A3C;    /* vendida, cuadra, listo */
+  --durazno: #FCE3CC; --durazno-t: #6E4516;  /* para retomar, falta */
+  --lavanda: #E4DEFC; --lavanda-t: #3F3470;  /* negociando */
+  --rosa: #F9D7E4;    --rosa-t: #6F2A47;     /* perdida, avatar de cliente */
+  --lima: #E8F0B0;    --lima-t: #47540F;
+
+  --ok: #2FA86A;
+
+  /* Radios */
+  --r-chip: 8px; --r-control: 12px; --r-tarjeta: 20px; --r-panel: 28px; --r-pildora: 999px;
+
+  /* Sombras: frías y casi invisibles */
+  --sombra-1: 0 1px 2px rgba(20, 24, 50, .04), 0 4px 12px rgba(20, 24, 50, .05);
+  --sombra-2: 0 2px 4px rgba(20, 24, 50, .05), 0 12px 32px rgba(20, 24, 50, .10);
+
+  /* Espaciado: base 4 */
+  --e1: 4px; --e2: 8px; --e3: 12px; --e4: 16px; --e5: 20px; --e6: 24px; --e8: 32px;
+  --e12: 48px; --e16: 64px; --e24: 96px; --e32: 128px;
+
+  /* Movimiento */
+  --t-micro: 120ms; --t-corto: 200ms; --t-medio: 280ms; --t-largo: 600ms;
+  --salida: cubic-bezier(.22, 1, .36, 1);
+  --entrada: cubic-bezier(.55, 0, .8, .2);
+  --vaiven: cubic-bezier(.65, 0, .35, 1);
+
+  /* Página */
+  --margen: var(--e4);
+  --ancho: 1200px;
+  --alto-control: 44px;
+  --alto-barra: 48px;
+  --fuente: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+}
+
+@media (min-width: 900px) {
+  :root { --margen: var(--e8); }
+}
+
+/* La pista de tacto.css, teñida con el lienzo (va después de tacto.css en el orden de carga) */
+:root { --pista: #D3D6E0; }
+
+/* ── Base ─────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--lienzo);
+  color: var(--tinta);
+  font: 400 16px/1.6 var(--fuente);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+  overflow-x: clip;
+  /* deja libre el sitio de la barra del pulgar al final de la página */
+  padding-bottom: calc(var(--alto-barra) + var(--e8) + env(safe-area-inset-bottom));
+}
+@media (min-width: 900px) { body { padding-bottom: 0; } }
+
+h1, h2, h3, h4, p, ol, ul, dl, dd, figure { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+img, svg, canvas { display: block; }
+a { color: inherit; }
+b, strong { font-weight: 600; }
+small { font-size: inherit; }
+[id] { scroll-margin-top: var(--e8); }
+[hidden] { display: none !important; }
+
+.saltar {
+  position: absolute; left: var(--margen); top: -100px; z-index: 50;
+  display: inline-flex; align-items: center; min-height: var(--alto-control);
+  padding: 0 var(--e4); border-radius: var(--r-pildora);
+  background: var(--tinta); color: #fff; text-decoration: none;
+}
+.saltar:not(:focus) { inline-size: 1px; block-size: 1px; min-height: 0; padding: 0; overflow: hidden; clip-path: inset(50%); }
+.saltar:focus { top: var(--e3); }
+
+.solo-movil { display: block; }
+.solo-escritorio { display: none; }
+@media (min-width: 900px) {
+  .solo-movil { display: none; }
+  .solo-escritorio { display: inline; }
+}
+
+/* ── Tipografía ───────────────────────────────────────────────────────── */
+
+.etiqueta {
+  font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: .01em;
+  color: var(--tinta-2);
+}
+.etiqueta-mono { font: 500 12px/16px var(--mono); letter-spacing: .02em; color: var(--tinta-2); }
+.titular {
+  font-weight: 600; letter-spacing: -.035em; line-height: 1.02;
+  text-wrap: balance;
+}
+.titulo-seccion {
+  font-size: clamp(32px, 7.4vw, 56px); line-height: 1.06;
+  font-weight: 600; letter-spacing: -.03em; text-wrap: balance;
+  max-width: 18ch;
+}
+.tono-2 { color: var(--tinta-3); }
+.cuerpo { font-size: 17px; line-height: 26px; color: var(--tinta-2); max-width: 38ch; }
+@media (min-width: 900px) { .cuerpo { max-width: 52ch; } }
+
+/* ── Controles ────────────────────────────────────────────────────────── */
+
+.boton {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--e2);
+  min-height: var(--alto-control); padding: 0 var(--e5);
+  border: 0; border-radius: var(--r-pildora);
+  font: 500 15px/1 var(--fuente); white-space: nowrap; text-decoration: none;
+}
+.boton-principal { background: var(--tinta); color: #fff; box-shadow: var(--sombra-toque); }
+.boton-secundario { background: var(--tarjeta); color: var(--tinta); }
+.boton-hundido { background: var(--hundido); color: var(--tinta); }
+@media (hover: hover) {
+  .boton-principal:hover { background: #2A2C33; }
+  .boton-secundario:hover { background: var(--hundido); }
+  .boton-hundido:hover { background: #E7E9EE; }
+}
+.boton:disabled { opacity: .45; cursor: default; }
+.enlace {
+  font-size: 15px; color: var(--tinta);
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px;
+  text-decoration-color: rgba(20, 21, 25, .35);
+  display: inline-flex; align-items: center; min-height: var(--alto-control);
+  transition: text-decoration-color var(--t-hover-sale) ease-out;
+}
+@media (hover: hover) { .enlace:hover { text-decoration-color: var(--tinta); transition-duration: var(--t-hover-entra); } }
+
+.chip {
+  display: inline-flex; align-items: center; gap: var(--e1); height: 24px; padding: 0 var(--e2);
+  border-radius: var(--r-pildora); font-size: 12px; font-weight: 500; white-space: nowrap;
+  background: var(--hundido); color: var(--tinta-2);
+}
+.chip-cielo   { background: var(--cielo);   color: var(--cielo-t); }
+.chip-menta   { background: var(--menta);   color: var(--menta-t); }
+.chip-durazno { background: var(--durazno); color: var(--durazno-t); }
+.chip-lavanda { background: var(--lavanda); color: var(--lavanda-t); }
+.chip-rosa    { background: var(--rosa);    color: var(--rosa-t); }
+.chip-lima    { background: var(--lima);    color: var(--lima-t); }
+
+.avatar {
+  flex: none; display: grid; place-items: center;
+  inline-size: 32px; block-size: 32px; border-radius: 50%;
+  font-size: 11px; font-weight: 600; letter-spacing: .02em;
+  background: var(--hundido); color: var(--tinta-2);
+}
+.avatar-rosa { background: var(--rosa); color: var(--rosa-t); }
+.avatar-cielo { background: var(--cielo); color: var(--cielo-t); }
+.avatar-menta { background: var(--menta); color: var(--menta-t); }
+.avatar-lavanda { background: var(--lavanda); color: var(--lavanda-t); }
+.avatar-durazno { background: var(--durazno); color: var(--durazno-t); }
+.avatar-lima { background: var(--lima); color: var(--lima-t); }
+
+.punto { inline-size: 6px; block-size: 6px; border-radius: 50%; flex: none; background: var(--tinta-3); }
+.punto-ok { background: var(--ok); }
+
+.tarjeta { background: var(--tarjeta); border-radius: var(--r-tarjeta); }
+.panel { background: var(--panel); border-radius: var(--r-panel); }
+
+.icono-redondo {
+  display: inline-grid; place-items: center; flex: none;
+  inline-size: 32px; block-size: 32px; border: 0; border-radius: 50%;
+  background: var(--hundido); color: var(--tinta-2);
+}
+button.icono-redondo { cursor: pointer; }
+@media (hover: hover) { button.icono-redondo:hover { background: #E7E9EE; color: var(--tinta); } }
+
+/* El grano de las piezas de arte: ruido fractal en SVG, sin archivos */
+.grano {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* ── Entrada al aparecer: una vez, 12 px, 3 px de desenfoque, 40 ms entre piezas ── */
+
+/* Solo se esconde si hay JavaScript para enseñarlo (la clase la pone el <head>). */
+.js .revela {
+  opacity: 0; translate: 0 12px; filter: blur(3px);
+  transition: opacity 500ms var(--salida), translate 500ms var(--salida), filter 500ms var(--salida);
+  transition-delay: calc(var(--orden, 0) * 40ms);
+}
+.js .revela[data-visto] { opacity: 1; translate: none; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .revela { translate: none; filter: none; transition: opacity 120ms ease-out; }
+}

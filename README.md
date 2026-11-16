@@ -12,47 +12,37 @@ condiciones se conservan en desplegables.
 ## Qué hay acá
 
 Solo el sitio de presentación: HTML, CSS y JavaScript estáticos, sin dependencias
-y sin build.
+y sin build. No hace peticiones a terceros (tipografía incluida en el repo).
 
 ```
 index.html                la página completa
-assets/site.css           estilos
-assets/site.js            barra, pestañas, aparición y las maquetas animadas
-assets/hilos.js           los hilos de luz de fondo (imagen de marca)
-assets/img/               cotizaciones de ejemplo generadas por la aplicación
-assets/brand/             símbolo original, variantes y logotipo de ProjectCode
-assets/fonts/             tipografía Inter, con su licencia (SIL OFL 1.1)
-favicon.svg               ícono de la pestaña
-apple-touch-icon.png      ícono al agregar la página a la pantalla de inicio
-og.jpg                    imagen que se ve al compartir el enlace por WhatsApp
+assets/css/estilos.css    tokens (colores, radios, sombras, movimiento) y piezas base
+assets/css/tacto.css      capa de respuesta al tocar (muelles, pulsado, cifras, segmentado)
+assets/css/secciones.css  composición de cada sección
+assets/css/prueba.css     la app para probar y la hoja imprimible
+assets/js/tacto.js        sonido, háptica, muelles y cifras que ruedan
+assets/js/app.js          titular, apariciones, pedido animado, calculadora, funciones, demo
+assets/js/prueba.js       la app para probar: catálogo, cotización, asesor IA, seguimiento,
+                          caja, y cotización / orden de compra / recibo para imprimir o WhatsApp
+assets/fonts/             Geist y Geist Mono, con su licencia (SIL OFL 1.1)
+assets/brand/             símbolo y logotipo de ProjectCode
 ```
 
 ## Diseño
 
-- Fondo carbón (`#18181b`) y símbolo original: una P de contorno suave con un
-  corte diagonal que alude al código. El degradado va de azul y violeta a coral
-  y amarillo. Versión vectorial y monocroma en `assets/brand/`.
-- Wordmark en minúsculas y titulares Inter de peso 660; los énfasis usan tonos
-  suaves del degradado. Los botones principales son amarillo pálido con texto
-  oscuro. Los colores de estado conservan su función informativa.
-- Hilos de luz animados con la paleta de la marca; paneles translúcidos y radios
-  suaves. No se agregan secciones al recorrido comercial.
-- El producto se muestra con **maquetas animadas** hechas en HTML, que imitan la
-  aplicación (Total cotización, Catálogo, Copiar imagen, PDF). Las cotizaciones de
-  `assets/img/` (la imagen para WhatsApp y la hoja A4) las genera la aplicación
-  real, cargada con una tienda y productos ficticios ("Su Tienda S.A.S.", NIT
-  900.000.000-0). Ninguna cifra ni producto sale de la lista de precios de un
-  cliente.
-- La pestaña «Catálogo» conserva la importación animada, con tiempos de ejemplo.
-  La sección de seguimiento destaca estados y notas ficticios: no simula envíos
-  automáticos ni acredita contactos que la aplicación no registra.
-- **No hace ninguna petición a terceros**: sin analítica, sin cookies y sin
-  tipografías externas.
-- Respeta `prefers-reduced-motion`: los hilos quedan quietos, las maquetas se
-  muestran ya terminadas y todo el texto aparece de una vez. El pie tiene además
-  un botón para pausar todas las animaciones.
-- El texto secundario es gris claro sobre carbón. Los botones amarillos usan
-  texto oscuro; los controles internos de las maquetas conservan el violeta.
+Registro sereno con golpe, tomado de la carpeta «gusto» (la misma línea de DentiCode):
+lienzo gris claro, tinta casi negra, botones en tinta, pasteles solo cuando significan
+algo (cielo lo que prepara la app, menta vendido, durazno para retomar, lavanda negociando).
+El espectro de la marca vive en el logo y en dos piezas de arte con grano: la portada,
+con la P de vidrio, y la cápsula de la caja. Tipografía Geist; etiquetas en Geist Mono.
+
+La sección «Pruébala» es la app en pequeño, con catálogo y clientes de ejemplo. Todo pasa
+en el navegador. Lo que se hace en una vista se nota en las otras: la propuesta del asesor
+IA pasa a la cotización, la cotización guardada aparece en Seguimiento y, al venderse, en
+la Caja. Desde la cotización se genera también la orden de compra (abono, saldo, entrega)
+y el recibo (forma de pago, garantía por producto), en hoja imprimible o texto para WhatsApp.
+
+Respeta `prefers-reduced-motion`.
 
 ## Cómo verlo local
 

@@ -1,0 +1,425 @@
+/* tacto.css — la capa de respuesta de mi-gusto. Reglas y porqués en TACTO.md.
+   Se carga después de los tokens del proyecto: usa --tinta, --tinta-2, --tarjeta, --salida y --entrada.
+   Los selectores base van en :where() para que cualquier componente los pise sin pelear especificidad. */
+
+:root {
+  /* ── Muelles ──────────────────────────────────────────────────────────────
+     Física real con los dos parámetros de Apple (duración percibida y rebote); el número es el rebote. */
+  --muelle-0:  linear(0, 0.004 1%, 0.019 2.3%, 0.042 3.5%, 0.079 5%, 0.161 7.8%, 0.362 13.8%, 0.465 17%, 0.558 20.3%, 0.638 23.5%, 0.706 26.8%, 0.768 30.3%, 0.818 33.8%, 0.86 37.5%, 0.899 42%, 0.929 46.8%, 0.953 52.3%, 0.971 58.5%, 0.983 65.5%, 0.991 73.8%, 1);                                                            /* sobrepaso 0 %   */
+  --muelle-15: linear(0, 0.006 1.3%, 0.025 2.8%, 0.056 4.3%, 0.095 5.8%, 0.14 7.2%, 0.19 8.8%, 0.411 15%, 0.511 18%, 0.61 21.3%, 0.695 24.5%, 0.762 27.5%, 0.823 30.8%, 0.871 34%, 0.912 37.5%, 0.944 41.3%, 0.97 45.5%, 0.988 50.2%, 1 55.8%, 1.005 61.3%, 1.006 68%, 1);                                                             /* sobrepaso 0,6 % */
+  --muelle-20: linear(0, 0.005 1.3%, 0.024 2.8%, 0.053 4.3%, 0.098 6%, 0.143 7.5%, 0.201 9.3%, 0.432 15.8%, 0.533 18.8%, 0.632 22%, 0.718 25.3%, 0.786 28.2%, 0.846 31.5%, 0.894 34.8%, 0.932 38%, 0.964 41.8%, 0.987 45.8%, 1.003 50.2%, 1.012 55.3%, 1.015 64.8%, 1); /* sobrepaso 1,5 % */
+  --muelle-25: linear(0, 0.007 1.5%, 0.026 3%, 0.06 4.8%, 0.104 6.5%, 0.155 8.3%, 0.212 10%, 0.447 16.8%, 0.555 20%, 0.652 23.3%, 0.738 26.5%, 0.805 29.5%, 0.866 32.8%, 0.914 36%, 0.952 39.3%, 0.982 42.8%, 1.005 46.8%, 1.02 51%, 1.027 55.8%, 1.027 63.7%, 1.009 84.3%, 1); /* sobrepaso 2,8 % */
+  --muelle-40: linear(0, 0.008 1.3%, 0.029 2.5%, 0.07 4%, 0.123 5.5%, 0.175 6.8%, 0.244 8.3%, 0.532 14%, 0.65 16.5%, 0.756 19%, 0.849 21.5%, 0.918 23.8%, 0.98 26.3%, 1.027 28.7%, 1.062 31.5%, 1.077 33.3%, 1.088 35.3%, 1.094 37.5%, 1.094 39.8%, 1.081 44.8%, 1.019 58.8%, 1.007 62.7%, 0.998 67%, 0.993 72%, 0.991 78%, 1);       /* sobrepaso 9,5 % */
+
+  /* El sobrepaso se mide en píxeles, no en porcentaje: entre 1 y 3. Por eso el muelle se elige por la
+     distancia que recorre la pieza: lo que viaja poco necesita más rebote para que se llegue a ver. */
+  --muelle-respuesta: var(--muelle-0);   /* pulsar, soltar, hover: nunca rebota */
+  --muelle-corto: var(--muelle-40);      /* menos de 40 px: pulgar del interruptor, iconos */
+  --muelle-medio: var(--muelle-20);      /* 40–200 px: píldora de pestañas, avisos */
+  --muelle-largo: var(--muelle-15);      /* más de 200 px: hojas y paneles */
+  --t-muelle-corto: 450ms;
+  --t-muelle-medio: 480ms;               /* llega al 95 % en 190 ms y se asienta en 400 */
+  --t-muelle-largo: 560ms;
+
+  /* ── Respuesta ── */
+  --t-bajar: 80ms;        /* hundirse: tiene que verse dentro de los 100 ms */
+  --t-volver: 360ms;
+  --t-hover-entra: 80ms;  /* el hover llega rápido… */
+  --t-hover-sale: 240ms;  /* …y se va despacio */
+  --hundir: .96;          /* botones y controles */
+  --hundir-menudo: .88;   /* piezas de menos de 32 px */
+  --hundir-grande: .985;  /* tarjetas y filas */
+
+  /* ── Carriles: lo que entra, sale o se releva mueve varias propiedades a la vez ── */
+  --t-relevo: 150ms;      /* texto o icono que se cambia en el sitio; cerrar */
+  --t-abrir: 250ms;       /* menús, diálogos */
+  --t-aviso: 350ms;
+  --t-clave: 500ms;       /* el momento de énfasis: la marca de éxito */
+  --paso-micro: 4px;      /* relevo de texto */
+  --paso: 8px;
+  --paso-largo: 16px;     /* avisos */
+  --borron: 2px;          /* relevos y entradas */
+  --borron-clave: 8px;    /* la marca de éxito */
+  --encoge: .97;          /* de dónde nace un flotante */
+
+  /* ── Cuerpo: lo que se toca se despega un poco de lo que lo rodea ── */
+  --pista: #D3D2DE;                 /* el carril donde corre una píldora o un pulgar */
+  --borde-control: #8E8E99;         /* 3,2:1 sobre blanco: contorno mínimo de un control */
+  --sombra-toque: 0 1px 2px rgba(20, 20, 40, .10), 0 3px 8px -2px rgba(20, 20, 40, .16);
+  --sombra-contacto: 0 12px 28px -12px rgba(17, 17, 20, .45); /* bajo un objeto que flota: cae hacia abajo, no hace halo */
+}
+
+:root[data-registro="expresivo"] {
+  --muelle-respuesta: var(--muelle-15);
+  --muelle-medio: var(--muelle-25);
+  --muelle-largo: var(--muelle-20);
+  --hundir: .95;
+}
+
+.solo-lector { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ── Pulsar ─────────────────────────────────────────────────────────────── */
+
+:where(button, [data-pulsable]) {
+  touch-action: manipulation;                /* sin la espera del doble toque */
+  -webkit-tap-highlight-color: transparent;  /* el estado pulsado es el nuestro */
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  transition:
+    scale var(--t-volver) var(--muelle-respuesta),
+    background-color var(--t-hover-sale) ease-out,
+    color var(--t-hover-sale) ease-out,
+    box-shadow var(--t-hover-sale) ease-out;
+}
+@media (hover: hover) {
+  :where(button, [data-pulsable]):hover {
+    transition-duration: var(--t-volver), var(--t-hover-entra), var(--t-hover-entra), var(--t-hover-entra);
+  }
+}
+/* [data-pulsado] lo pone tacto.js desde que el dedo toca y lo mantiene 90 ms como mínimo. */
+:where(button, [data-pulsable]):where(:active, [data-pulsado]):where(:not(:disabled)) {
+  scale: var(--hundir);
+  transition-duration: var(--t-bajar);
+  transition-timing-function: ease-out;
+}
+:where([data-pulsable="grande"]):where(:active, [data-pulsado]) { scale: var(--hundir-grande); }
+:where(button:disabled) { cursor: default; }
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--tinta);
+  outline-offset: 2px;
+}
+
+/* ── Interruptor ────────────────────────────────────────────────────────────
+   <input type="checkbox" switch role="switch" class="interruptor" data-sentir="cambio">
+   El atributo switch hace que Safari de iOS dé su propio tic háptico al tocarlo. */
+
+.interruptor {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  flex: none;
+  inline-size: 52px;
+  block-size: var(--alto-control, 44px);
+  margin: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.interruptor::before {
+  content: "";
+  position: absolute;
+  inset-inline: 2px;
+  top: calc(50% - 14px);
+  block-size: 28px;
+  border-radius: 999px;
+  background: var(--borde-control);
+  transition: background-color 200ms ease-out; /* el color va en su propio reloj y nunca rebota */
+}
+.interruptor::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: calc(50% - 11px);
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: var(--sombra-toque);
+  transform-origin: left center;
+  /* 20 px de viaje con el muelle corto: se pasa 2 px y vuelve */
+  transition: translate var(--t-muelle-corto) var(--muelle-corto), scale var(--t-bajar) ease-out;
+}
+.interruptor:checked::before { background: var(--tinta); }
+.interruptor:checked::after  { translate: 20px 0; transform-origin: right center; }
+.interruptor:active::after   { scale: 1.18 1; } /* el pulgar se estira hacia donde va a ir */
+
+/* ── Casilla ─────────────────────────────────────────────────────────────── */
+
+.casilla {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  flex: none;
+  inline-size: var(--alto-control, 44px);
+  block-size: var(--alto-control, 44px);
+  margin: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.casilla::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 22px;
+  block-size: 22px;
+  border-radius: 7px;
+  box-shadow: inset 0 0 0 1.5px var(--borde-control);
+  transition: background-color var(--t-relevo) ease-out, box-shadow var(--t-relevo) ease-out, scale var(--t-muelle-corto) var(--muelle-corto);
+}
+.casilla::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  inline-size: 22px;
+  block-size: 22px;
+  background: #fff;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 11.5l3.4 3.4L16 7.6'/%3E%3C/svg%3E") center / 22px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 11.5l3.4 3.4L16 7.6'/%3E%3C/svg%3E") center / 22px no-repeat;
+  /* Desmarcar es rápido y sin dibujo: se desvanece en 150 ms y después se recoge. */
+  opacity: 0;
+  clip-path: inset(0 100% 0 0);
+  transition: opacity var(--t-relevo) ease-out, clip-path 0s linear var(--t-relevo);
+}
+.casilla:checked::before { background: var(--tinta); box-shadow: inset 0 0 0 1.5px var(--tinta); }
+/* Marcar se gana: la caja se llena y la marca se dibuja en 350 ms, de izquierda a derecha. */
+.casilla:checked::after  { opacity: 1; clip-path: inset(0); transition: clip-path 350ms var(--salida) 40ms, opacity 0s; }
+.casilla:active::before  { scale: var(--hundir-menudo); transition-duration: var(--t-relevo), var(--t-relevo), var(--t-bajar); transition-timing-function: ease-out; }
+
+/* ── Segmentado ──────────────────────────────────────────────────────────────
+   <div class="segmentado" role="radiogroup"> <label><input type="radio" data-sentir="seleccion">Día</label> …
+   tacto.js mide la opción activa y escribe --x y --w: la píldora toma el ancho de cada texto.
+   Sin JavaScript, columnas iguales con --n e --i. */
+
+.segmentado {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--pista);
+}
+.segmentado::before { /* una sola píldora que viaja, no una que aparece en cada opción */
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-block: 4px;
+  left: 4px;
+  inline-size: calc((100% - 8px) / var(--n, 2));
+  border-radius: 999px;
+  background: var(--tarjeta);
+  box-shadow: var(--sombra-toque);
+  translate: calc(var(--i, 0) * 100%) 0;
+}
+.segmentado:has(label:nth-child(2) :checked) { --i: 1; }
+.segmentado:has(label:nth-child(3) :checked) { --i: 2; }
+.segmentado:has(label:nth-child(4) :checked) { --i: 3; }
+.segmentado[data-medido] { display: flex; }
+.segmentado[data-medido] label { flex: 1 0 auto; }
+.segmentado[data-medido]::before { left: 0; inline-size: var(--w); translate: var(--x) 0; }
+.segmentado[data-medido="ya"]::before {
+  /* el ancho de una pieza absoluta de 40 px no mueve nada más: se permite animarlo aquí */
+  transition: translate var(--t-muelle-medio) var(--muelle-medio), inline-size var(--t-muelle-medio) var(--muelle-medio);
+}
+.segmentado label {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-block-size: calc(var(--alto-control, 44px) - 8px);
+  padding-inline: 20px;
+  border-radius: 999px;
+  color: var(--tinta-2);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--t-relevo) ease-out;
+}
+.segmentado label:has(:checked) { color: var(--tinta); }
+.segmentado label:has(:focus-visible) { outline: 2px solid var(--tinta); outline-offset: 2px; }
+.segmentado input { /* la zona de toque ocupa todo el alto de la pista, no solo el de la píldora */
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  inset: -4px 0;
+  inline-size: 100%;
+  block-size: calc(100% + 8px);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ── Deslizador ──────────────────────────────────────────────────────────────
+   <input type="range" class="deslizador" data-sentir="seleccion">; tacto.js mantiene --v. */
+
+.deslizador {
+  -webkit-appearance: none;
+  appearance: none;
+  inline-size: 100%;
+  block-size: var(--alto-control, 44px);
+  margin: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  --v: 50%;
+}
+.deslizador::-webkit-slider-runnable-track {
+  block-size: 6px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--tinta) var(--v), var(--borde-control) var(--v));
+}
+.deslizador::-moz-range-track    { block-size: 6px; border-radius: 999px; background: var(--borde-control); }
+.deslizador::-moz-range-progress { block-size: 6px; border-radius: 999px; background: var(--tinta); }
+.deslizador::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  inline-size: 24px;
+  block-size: 24px;
+  margin-top: -9px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(17, 17, 20, .08), var(--sombra-toque);
+  transition: scale var(--t-muelle-corto) var(--muelle-corto);
+}
+.deslizador::-moz-range-thumb {
+  inline-size: 24px;
+  block-size: 24px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(17, 17, 20, .08), var(--sombra-toque);
+  transition: scale var(--t-muelle-corto) var(--muelle-corto);
+}
+/* el pulgar crece al agarrarlo: el dedo lo tapa y hay que seguir viéndolo */
+.deslizador:active::-webkit-slider-thumb { scale: 1.18; transition-duration: var(--t-bajar); transition-timing-function: ease-out; }
+.deslizador:active::-moz-range-thumb     { scale: 1.18; transition-duration: var(--t-bajar); transition-timing-function: ease-out; }
+
+/* ── Caras: un texto que releva a otro sin que el control cambie de ancho ──────
+   <span class="caras"><span data-activa>Copiar</span><span>Copiado</span></span>
+   La que se va sube 4 px y se desenfoca; la que llega viene de abajo. tacto.cara(el, índice). */
+
+.caras { display: inline-grid; }
+.caras > * {
+  grid-area: 1 / 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  opacity: 0;
+  translate: 0 calc(var(--paso-micro) * -1);
+  filter: blur(var(--borron));
+  transition: opacity var(--t-relevo) ease-in-out, translate var(--t-relevo) ease-in-out, filter var(--t-relevo) ease-in-out;
+}
+.caras > [data-activa] ~ * { translate: 0 var(--paso-micro); }
+.caras > [data-activa] { opacity: 1; translate: 0 0; filter: none; transition-delay: 60ms; }
+
+/* ── Marca de éxito: llega girando y enfocándose, y después se dibuja ───────── */
+
+.marca { display: inline-grid; }
+.marca path { stroke-dasharray: 1; stroke-dashoffset: 1; } /* el path lleva pathLength="1" */
+[data-activa] > .marca, .marca[data-entra] {
+  animation: marca-aclara var(--t-clave) var(--salida) both, marca-gira var(--t-clave) var(--muelle-corto) both;
+}
+[data-activa] > .marca path, .marca[data-entra] path { animation: marca-traza var(--t-clave) var(--salida) 80ms both; }
+@keyframes marca-aclara { from { opacity: 0; filter: blur(var(--borron-clave)); } }
+@keyframes marca-gira   { from { rotate: 80deg; scale: .5; } }
+@keyframes marca-traza  { to { stroke-dashoffset: 0; } }
+
+/* Trazo simple (campo válido): solo se dibuja. */
+.trazo path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset var(--t-relevo) ease-out; }
+[data-dibujado] .trazo path { stroke-dashoffset: 0; transition: stroke-dashoffset 350ms var(--salida) 60ms; }
+
+/* ── Cifras: solo se mueven los dígitos que cambian ───────────────────────────
+   tacto.cifra(el, valor) construye los huecos. Suben si el número sube y bajan si baja. */
+
+.cifra-hueco { position: relative; display: inline-block; }
+.cifra-digito { display: inline-block; }
+.cifra-digito[data-entra] {
+  animation: cifra-entra 420ms var(--salida) both;
+  animation-delay: calc(var(--i, 0) * 40ms + 50ms);
+}
+.cifra-digito[data-entra="fuerte"] { /* para la cifra que hay que notar: llega desde más lejos y se pasa */
+  animation: cifra-mueve 600ms var(--muelle-corto) both, cifra-aclara 240ms ease-out both;
+  animation-delay: calc(var(--i, 0) * 40ms + 50ms);
+}
+.cifra-sale {
+  position: absolute;
+  inset: 0;
+  text-align: center;
+  animation: cifra-sale var(--t-relevo) var(--entrada) both;
+  animation-delay: calc(var(--i, 0) * 40ms);
+}
+@keyframes cifra-entra  { from { opacity: 0; translate: 0 calc(var(--dir, 1) * .3em); filter: blur(var(--borron)); } }
+@keyframes cifra-mueve  { from { translate: 0 calc(var(--dir, 1) * .55em); scale: .7; } }
+@keyframes cifra-aclara { from { opacity: 0; filter: blur(var(--borron)); } }
+@keyframes cifra-sale   { to   { opacity: 0; translate: 0 calc(var(--dir, 1) * -.3em); filter: blur(var(--borron)); } }
+
+/* ── Aviso: sube, crece y se enfoca; se va más rápido y más corto ────────────── */
+
+.aviso {
+  opacity: 0;
+  transform: translateY(var(--paso-largo)) scale(var(--encoge));
+  filter: blur(var(--borron));
+  transition: opacity var(--t-abrir) var(--salida), transform var(--t-abrir) var(--salida), filter var(--t-abrir) var(--salida), visibility 0s linear var(--t-abrir);
+  visibility: hidden;
+}
+.aviso[data-abierto] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  visibility: visible;
+  transition: opacity var(--t-aviso) var(--salida), transform var(--t-muelle-medio) var(--muelle-medio), filter var(--t-aviso) var(--salida), visibility 0s;
+}
+
+/* ── Error: una sacudida de cuatro tramos que se apaga (280 ms) ───────────────── */
+
+@keyframes sacudida {
+  0%    { translate: 0 0;    animation-timing-function: var(--salida); }
+  28.6% { translate: -6px 0; animation-timing-function: var(--salida); }
+  57.1% { translate: 4px 0;  animation-timing-function: var(--salida); }
+  78.6% { translate: -2px 0; animation-timing-function: var(--salida); }
+  100%  { translate: 0 0; }
+}
+[data-sacude] { animation: sacudida 280ms; }
+
+/* ── Movimiento reducido: la respuesta se conserva, el desplazamiento no ──── */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --muelle-respuesta: ease-out;
+    --muelle-corto: ease-out;
+    --muelle-medio: ease-out;
+    --muelle-largo: ease-out;
+    --t-volver: 120ms;
+    --t-muelle-corto: 120ms;
+    --t-muelle-medio: 120ms;
+    --t-muelle-largo: 120ms;
+    --hundir: 1;
+    --hundir-menudo: 1;
+    --hundir-grande: 1;
+    --paso-micro: 0px;
+    --paso: 0px;
+    --paso-largo: 0px;
+    --borron: 0px;
+    --borron-clave: 0px;
+    --encoge: 1;
+  }
+  :where(button, [data-pulsable]):where(:active, [data-pulsado]) { opacity: .75; }
+  .interruptor:active::after { scale: none; }
+  [data-sacude], .cifra-digito[data-entra], [data-activa] > .marca, .marca[data-entra] { animation: none; }
+  [data-activa] > .marca path, .marca[data-entra] path { animation: none; stroke-dashoffset: 0; }
+  .cifra-sale { display: none; }
+  .casilla:checked::after, [data-dibujado] .trazo path { transition-duration: 1ms; transition-delay: 0s; }
+}
+
+/* ── Prueba de la ausencia: data-tacto="no" en <html> lo apaga todo para comparar ── */
+
+:root[data-tacto="no"] *,
+:root[data-tacto="no"] *::before,
+:root[data-tacto="no"] *::after { transition: none !important; animation: none !important; }
+:root[data-tacto="no"] :where(button, [data-pulsable]):where(:active, [data-pulsado]) { scale: none; }
+:root[data-tacto="no"] .interruptor:active::after,
+:root[data-tacto="no"] .casilla:active::before { scale: none; }
+:root[data-tacto="no"] .marca path { stroke-dashoffset: 0; }
+:root[data-tacto="no"] .cifra-sale { display: none; }
