@@ -61,3 +61,12 @@
     revisar();
   }
 })();
+
+/* Demo: escala la app de escritorio al ancho del marco. */
+(function () {
+  var caja = document.querySelector('.demo-escala');
+  if (!caja) return;
+  var ajustar = function () { caja.style.setProperty('--demo-k', Math.min(1, caja.clientWidth / 1440).toFixed(4)); };
+  ajustar();
+  if ('ResizeObserver' in window) new ResizeObserver(ajustar).observe(caja); else window.addEventListener('resize', ajustar);
+})();

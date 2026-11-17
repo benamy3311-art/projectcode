@@ -100,6 +100,7 @@
 
   // ── Aviso discreto: es una demo ──
   document.addEventListener('DOMContentLoaded', function () {
+    if (/cuadre\.html$/.test(location.pathname)) return; // va dentro de la app: el aviso ya está fuera
     var a = document.createElement('div');
     a.className = 'aviso-demo';
     a.textContent = 'Demo con datos de ejemplo · nada sale de tu navegador';

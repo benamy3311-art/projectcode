@@ -306,3 +306,10 @@ img.llego { opacity: 1; transition: opacity 200ms ease-out; }
 .orbe { cursor: grab; touch-action: pan-y; }
 .orbe.orbe-agarrado { cursor: grabbing; }
 .orbe-escena { pointer-events: auto; }
+
+/* La demo se dibuja a tamaño de escritorio (1440 × 900) y se escala al marco: cabe completa. */
+.demo-escala { position: relative; overflow: hidden; }
+@media (min-width: 700px) {
+  .demo-escala { block-size: calc(900px * var(--demo-k, .8)); }
+  .demo-escala .demo-app { position: absolute; left: 0; top: 0; inline-size: 1440px; block-size: 900px; transform: scale(var(--demo-k, .8)); transform-origin: 0 0; }
+}
