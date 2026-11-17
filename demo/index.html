@@ -17,9 +17,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Cotizador Web">
   <meta name="format-detection" content="telephone=no">
-  <link rel="manifest" href="manifest.webmanifest?v=1.17.1">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1.17.1">
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/app-icon-192.png?v=1.17.1">
+  <link rel="manifest" href="manifest.webmanifest?v=1.18.0">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1.18.0">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/app-icon-192.png?v=1.18.0">
 
   <!-- Firebase Auth (login con Google + allowlist).
        integrity (SRI): si el CDN llegara a servir un archivo distinto, el
@@ -28,9 +28,9 @@
        curl -s URL | openssl dgst -sha384 -binary | openssl base64 -A -->
   <script src="demo-sesion.js"></script>
   <!-- Firebase Auth: init + login/logout + maintenance flow -->
-  <script src="infrastructure/firebase-auth.js?v=1.17.1"></script>
+  <script src="infrastructure/firebase-auth.js?v=1.18.0"></script>
   <!-- Traducción ES/FR de la interfaz (uso personal, práctica de francés). La cotización nunca se traduce. -->
-  <script src="infrastructure/i18n.js?v=1.17.1"></script>
+  <script src="infrastructure/i18n.js?v=1.18.0"></script>
   <script>window.gtag = function () {}; window._trackAsesor = function () {};</script>
 
   <!-- Google Fonts vía <link crossorigin> (no @import): así el CSSOM del
@@ -41,29 +41,30 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" crossorigin="anonymous" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800;9..40,900&family=DM+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="styles.css?v=1.17.1">
+  <link rel="stylesheet" href="styles.css?v=1.18.0">
   <!-- Capa móvil nativa (barra liquid-glass, hoja "Más", cabecera). Todo
        su estilo vive dentro de @media (max-width:768px): el escritorio no
        se ve afectado. Carga después de styles.css a propósito. -->
-  <link rel="stylesheet" href="styles/mobile-app.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/mobile-app.css?v=1.18.0">
   <!-- Hoja A4 del modo Empresas (ui/empresas.js). Va aparte de styles.css
        porque es un documento con geometría propia, en mm/pt. -->
-  <link rel="stylesheet" href="styles/print-a4.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/print-a4.css?v=1.18.0">
   <!-- Pantalla de aceptación de términos y lector de documentos legales
        (ui/legal.js). Aparte porque se muestra por encima de todo, incluso
        antes de que la app sea usable. -->
-  <link rel="stylesheet" href="styles/legal.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/legal.css?v=1.18.0">
   <!-- Cifrado de datos de clientes (ui/cifrado.js). Sus ventanas reusan las
        clases lg-* de legal.css, por eso carga despues. -->
-  <link rel="stylesheet" href="styles/cifrado.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/cifrado.css?v=1.18.0">
   <!-- Asesor IA: el chat con herramientas (ui/asesor-ia.js) -->
-  <link rel="stylesheet" href="styles/asesor-ia.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/asesor-ia.css?v=1.18.0">
   <!-- Tema «gusto»: la piel nueva (REDISENO.md). Va último para pisar a los
        demás sin editarlos; quitar esta línea devuelve el aspecto anterior. -->
-  <link rel="stylesheet" href="styles/tema-gusto.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/tema-gusto.css?v=1.18.0">
   <!-- Vender, Inventario y el documento de venta (TIENDA_DATOS.md) -->
-  <link rel="stylesheet" href="styles/tienda.css?v=1.17.1">
-  <link rel="stylesheet" href="styles/tema-cristal.css?v=1.17.1">
+  <link rel="stylesheet" href="styles/tienda.css?v=1.18.0">
+  <link rel="stylesheet" href="styles/tema-cristal.css?v=1.18.0">
+  <link rel="stylesheet" href="styles/tacto.css?v=1.18.0">
   <style>.aviso-demo{position:fixed;z-index:99999;right:12px;bottom:12px;padding:6px 12px;border-radius:999px;background:rgba(20,21,25,.78);color:#fff;font:500 11.5px/1.2 system-ui,sans-serif;pointer-events:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}@media (max-width:768px){.aviso-demo{bottom:auto;top:calc(60px + env(safe-area-inset-top));right:8px;font-size:10.5px}}</style>
 </head>
 
@@ -307,7 +308,7 @@
         <div class="sec sec-productos">
           <div class="sec-lbl">Productos <span id="itemCount"
               style="color:var(--accent2);font-weight:700;margin-left:4px"></span>
-            <button type="button" class="sec-accion" onclick="clearAll()" title="Quitar todos los productos de la cotización">Limpiar</button></div>
+            <button type="button" class="sec-accion" onclick="window.TactoApp?TactoApp.limpiar():clearAll()" title="Quitar todos los productos de la cotización">Limpiar</button></div>
           <div class="items-wrap" id="itemsList">
             <div class="items-empty empty-state">A&ntilde;ade del cat&aacute;logo o pega tu lista arriba</div>
           </div>
@@ -487,7 +488,7 @@
                   <line x1="9" y1="13" x2="15" y2="13" />
                   <line x1="9" y1="17" x2="15" y2="17" />
                 </svg></span> Mostrar IVA en cotización</div>
-            <label class="switch"><input type="checkbox" id="toggleShowIva" checked onchange="toggleShowIva()"><span
+            <label class="switch"><input type="checkbox" switch id="toggleShowIva" checked onchange="toggleShowIva()"><span
                 class="slider"></span></label>
           </div>
           <button class="sb-ver-cot" type="button" onclick="_mobGo('q')">Ver cotizaci&oacute;n</button>
@@ -516,7 +517,7 @@
              este número en cada update (y de paso package.json). Sirve también
              para verificar que el navegador cargó la última versión y no una
              copia cacheada. -->
-        <div class="sb-version" id="sbVersion" title="Versión instalada">v1.17.1</div>
+        <div class="sb-version" id="sbVersion" title="Versión instalada">v1.18.0</div>
       </div>
     </aside>
     <main class="pv">
@@ -1298,6 +1299,9 @@
             <button class="bclose" onclick="closeSettings()">&#215;</button>
           </div>
           <div class="settings-body">
+            <div class="settings-section">Respuesta al tocar</div>
+            <div class="tacto-ajuste"><span>Sonidos suaves al tocar<small>Apagados por defecto</small></span><label class="switch"><input type="checkbox" switch id="tactoSonido" onchange="TactoApp.ajustar('sonido', this.checked)"><span class="slider"></span></label></div>
+            <div class="tacto-ajuste"><span>Vibración<small>En celulares Android y en los interruptores del iPhone</small></span><label class="switch"><input type="checkbox" switch id="tactoHaptica" onchange="TactoApp.ajustar('haptica', this.checked)"><span class="slider"></span></label></div>
             <div id="secApiKey">
             <div class="settings-section">API de Inteligencia Artificial</div>
             <div class="field">
@@ -1755,31 +1759,31 @@
            Si se vuelve a necesitar, usar 0.20.2 o superior. -->
 
       <!-- Hexagonal Architecture (load order = dependency order) -->
-      <script src="domain/domain.js?v=1.17.1"></script>
-      <script src="domain/agent-tools.js?v=1.17.1"></script>
-      <script src="domain/tienda.js?v=1.17.1"></script>
+      <script src="domain/domain.js?v=1.18.0"></script>
+      <script src="domain/agent-tools.js?v=1.18.0"></script>
+      <script src="domain/tienda.js?v=1.18.0"></script>
       <!-- QR de cotización: generar (imprimir) y leer (Escanear cotización) -->
-      <script src="infrastructure/vendor/qrcode-generator.js?v=1.17.1"></script>
-      <script src="infrastructure/vendor/jsqr.js?v=1.17.1"></script>
-      <script src="infrastructure/quote-qr.js?v=1.17.1"></script>
-      <script src="infrastructure/storage.js?v=1.17.1"></script>
-      <script src="infrastructure/ai-provider.js?v=1.17.1"></script>
-      <script src="application/state.js?v=1.17.1"></script>
-      <script src="application/templates.js?v=1.17.1"></script>
-      <script src="application/services.js?v=1.17.1"></script>
-      <script src="ui/ui.js?v=1.17.1"></script>
+      <script src="infrastructure/vendor/qrcode-generator.js?v=1.18.0"></script>
+      <script src="infrastructure/vendor/jsqr.js?v=1.18.0"></script>
+      <script src="infrastructure/quote-qr.js?v=1.18.0"></script>
+      <script src="infrastructure/storage.js?v=1.18.0"></script>
+      <script src="infrastructure/ai-provider.js?v=1.18.0"></script>
+      <script src="application/state.js?v=1.18.0"></script>
+      <script src="application/templates.js?v=1.18.0"></script>
+      <script src="application/services.js?v=1.18.0"></script>
+      <script src="ui/ui.js?v=1.18.0"></script>
       <!-- Actualizar cotización: buscar por número y reabrir con precios de hoy -->
-      <script src="ui/quote-update.js?v=1.17.1"></script>
+      <script src="ui/quote-update.js?v=1.18.0"></script>
       <!-- Navegación móvil nativa (barra liquid-glass + hoja "Más"). Debe
            cargar tras ui.js para poder envolver switchTab(). -->
-      <script src="ui/mobile-nav.js?v=1.17.1"></script>
-      <script src="ui/tour.js?v=1.17.1"></script>
+      <script src="ui/mobile-nav.js?v=1.18.0"></script>
+      <script src="ui/tour.js?v=1.18.0"></script>
       <script>/* Tour.autoStart() se llama desde firebase-auth.js después del login aprobado */</script>
       <!-- BETA: Catalog JSON Importer -->
       <link rel="stylesheet" href="styles/catalog-importer.css">
-      <script src="application/catalog-importer.js?v=1.17.1"></script>
-      <script src="infrastructure/github-upload.js?v=1.17.1"></script>
-      <script src="ui/catalog-importer-ui.js?v=1.17.1"></script>
+      <script src="application/catalog-importer.js?v=1.18.0"></script>
+      <script src="infrastructure/github-upload.js?v=1.18.0"></script>
+      <script src="ui/catalog-importer-ui.js?v=1.18.0"></script>
 
       <!-- Modal de bienvenida — pide el nombre del asesor una sola vez -->
       <!-- Modal tutorial API Key Gemini — solo visible para premium -->
@@ -2833,50 +2837,52 @@
       </script>
 
       <!-- Admin Panel: aprobación de usuarios + modo mantenimiento -->
-      <script src="ui/admin-panel.js?v=1.17.1"></script>
-      <script src="ui/remisiones.js?v=1.17.1"></script>
+      <script src="ui/admin-panel.js?v=1.18.0"></script>
+      <script src="ui/remisiones.js?v=1.18.0"></script>
       <!-- Métricas: telemetría de cotizaciones -->
-      <script src="ui/metrics-panel.js?v=1.17.1"></script>
+      <script src="ui/metrics-panel.js?v=1.18.0"></script>
       <!-- Historial en la nube + CRM de seguimiento -->
       <!-- Cifrado de datos de clientes en el navegador. Antes de quotes-sync y
            remisiones, que cifran y descifran con el. Apagado por defecto. -->
-      <script src="infrastructure/pii-crypto.js?v=1.17.1"></script>
-      <script src="infrastructure/quotes-sync.js?v=1.17.1"></script>
+      <script src="infrastructure/pii-crypto.js?v=1.18.0"></script>
+      <script src="infrastructure/quotes-sync.js?v=1.18.0"></script>
       <!-- Stats personales del vendedor -->
-      <script src="ui/vendor-stats.js?v=1.17.1"></script>
+      <script src="ui/vendor-stats.js?v=1.18.0"></script>
       <!-- Brief diario de apertura -->
-      <script src="ui/daily-brief.js?v=1.17.1"></script>
+      <script src="ui/daily-brief.js?v=1.18.0"></script>
       <!-- Notas del parche: diff de la última lista publicada -->
-      <script src="ui/patch-notes.js?v=1.17.1"></script>
+      <script src="ui/patch-notes.js?v=1.18.0"></script>
       <!-- Calculadora IVA: extractor bulk + calculadora rápida (panel-i) -->
-      <script src="ui/iva-tools.js?v=1.17.1"></script>
+      <script src="ui/iva-tools.js?v=1.18.0"></script>
       <!-- Sprite de la mascota (arte compartido) -->
-      <script src="ui/pixel-pal.js?v=1.17.1"></script>
+      <script src="ui/pixel-pal.js?v=1.18.0"></script>
       <!-- Anillo de progreso para las esperas largas de IA -->
-      <script src="ui/ai-progress.js?v=1.17.1"></script>
+      <script src="ui/ai-progress.js?v=1.18.0"></script>
       <!-- La mascota posada en las líneas del panel izquierdo -->
-      <script src="ui/companion.js?v=1.17.1"></script>
-      <script src="ui/empresas.js?v=1.17.1"></script>
+      <script src="ui/companion.js?v=1.18.0"></script>
+      <script src="ui/empresas.js?v=1.18.0"></script>
       <!-- Checklist de componentes de PC -->
-      <script src="ui/pc-checklist.js?v=1.17.1"></script>
+      <script src="ui/pc-checklist.js?v=1.18.0"></script>
       <!-- Búsqueda Rápida de Productos (+) -->
-      <script src="ui/quick-add.js?v=1.17.1"></script>
-      <script src="ui/asesor-ia.js?v=1.17.1"></script>
+      <script src="ui/quick-add.js?v=1.18.0"></script>
+      <script src="ui/asesor-ia.js?v=1.18.0"></script>
       <!-- Términos, tratamiento de datos y consentimiento de analítica.
            Lo llama firebase-auth.js al resolver el login: sin aceptación
            vigente, la app queda bloqueada tras la pantalla de términos. -->
-      <script src="ui/legal.js?v=1.17.1"></script>
+      <script src="ui/legal.js?v=1.18.0"></script>
       <!-- Interfaz del cifrado: seccion en Configuracion, activacion y llave. -->
-      <script src="ui/cifrado.js?v=1.17.1"></script>
+      <script src="ui/cifrado.js?v=1.18.0"></script>
       <!-- Atajos del buscador del catálogo (rediseño, paso 3) -->
-      <script src="ui/catalogo-ux.js?v=1.17.1"></script>
+      <script src="ui/catalogo-ux.js?v=1.18.0"></script>
       <!-- Tienda: base local atómica, cola para el servidor futuro, Vender e Inventario -->
-      <script src="infrastructure/tienda-db.js?v=1.17.1"></script>
-      <script src="infrastructure/tienda-sync.js?v=1.17.1"></script>
-      <script src="ui/tienda-app.js?v=1.17.1"></script>
-      <script src="ui/vender.js?v=1.17.1"></script>
-      <script src="ui/inventario.js?v=1.17.1"></script>
-    <script src="ui/esferas.js?v=1.17.1"></script>
+      <script src="infrastructure/tienda-db.js?v=1.18.0"></script>
+      <script src="infrastructure/tienda-sync.js?v=1.18.0"></script>
+      <script src="ui/tienda-app.js?v=1.18.0"></script>
+      <script src="ui/vender.js?v=1.18.0"></script>
+      <script src="ui/inventario.js?v=1.18.0"></script>
+    <script src="ui/esferas.js?v=1.18.0"></script>
+    <script src="ui/tacto.js?v=1.18.0"></script>
+    <script src="ui/tacto-app.js?v=1.18.0"></script>
 
       <!-- MODAL AGREGAR PRODUCTO (+) (Misma UI que Reemplazar producto) -->
       <div class="swap-ov" id="quickAddOv" onclick="if(event.target===this)closeQuickAddModal()">

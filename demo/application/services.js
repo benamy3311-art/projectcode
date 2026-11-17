@@ -2401,6 +2401,7 @@ async function copyImg() {
         try {
           await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
           showToast('\u2705 \u00a1Imagen copiada!', 'success');
+          if (window.tacto) tacto.sentir('toque');
         } catch (x) {
           // Fallback: abrir en ventana nueva
           var url2 = canvas.toDataURL('image/png'), w = window.open();

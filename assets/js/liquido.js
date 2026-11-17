@@ -42,3 +42,22 @@
     });
   }, { passive: true });
 })();
+
+/* Tacto: imágenes que llegan con un fundido y fila de teléfonos que avisa si hay más. */
+(function () {
+  'use strict';
+  document.querySelectorAll('img[loading="lazy"]').forEach(function (img) {
+    if (img.complete && img.naturalWidth) return;
+    img.classList.add('llega');
+    var listo = function () { (img.decode ? img.decode() : Promise.resolve()).catch(function () {}).then(function () { img.classList.add('llego'); img.classList.remove('llega'); }); };
+    img.addEventListener('load', listo, { once: true });
+    img.addEventListener('error', function () { img.classList.remove('llega'); }, { once: true });
+  });
+  var fila = document.querySelector('.moviles-fila');
+  if (fila) {
+    var revisar = function () { fila.toggleAttribute('data-final', fila.scrollLeft + fila.clientWidth >= fila.scrollWidth - 4); };
+    fila.addEventListener('scroll', revisar, { passive: true });
+    window.addEventListener('resize', revisar);
+    revisar();
+  }
+})();

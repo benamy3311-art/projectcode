@@ -248,7 +248,7 @@
     var cant = Number(String(document.getElementById('invCant').value).replace(/\D/g, ''));
     var nota = document.getElementById('invNota').value;
     var campo = document.getElementById('invCant');
-    if (document.getElementById('invCant').value.trim() === '' || !Number.isInteger(cant) || (modo === 'entrada' && cant <= 0)) { campo.focus(); campo.closest('.tv-f').setAttribute('data-error', ''); return; }
+    if (document.getElementById('invCant').value.trim() === '' || !Number.isInteger(cant) || (modo === 'entrada' && cant <= 0)) { campo.focus(); campo.closest('.tv-f').setAttribute('data-error', ''); if (window.TactoApp) TactoApp.fallo(campo.closest('.tv-f')); return; }
     var sku = abierto.sku;
     var p = modo === 'entrada'
       ? db.registrarMovimientos([{ sku: sku, delta: cant, motivo: 'entrada', nota: nota }], { usuario: A.usuario() })

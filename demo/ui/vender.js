@@ -189,6 +189,7 @@
     if (!r.ok) {
       var primero = r.errores.documento ? 'venCliDoc' : r.errores.nombre ? 'venCliNombre' : r.errores.telefono ? 'venCliTel' : r.errores.correo ? 'venCliCorreo' : 'venCliDir';
       document.getElementById(primero).focus();
+      if (window.TactoApp) TactoApp.fallo(document.getElementById(primero).closest('.tv-f'));
       return;
     }
     // Si ese documento ya está en el directorio, se usa ese registro (y se
@@ -369,7 +370,7 @@
   function registrar() {
     if (guardando) return;
     var err = document.getElementById('venError');
-    if (v.clienteModo !== 'listo' || !v.cliente) { if (err) err.textContent = 'Primero el nombre y el documento del cliente.'; return; }
+    if (v.clienteModo !== 'listo' || !v.cliente) { if (err) err.textContent = 'Primero el nombre y el documento del cliente.'; if (window.TactoApp) TactoApp.fallo(err); return; }
     var borrador = {
       id: v.id, tipo: v.tipo, cliente: v.cliente,
       items: v.items, pagos: v.pagos, descuentoPct: v.descuentoPct,
@@ -377,7 +378,7 @@
       notas: v.notas, mostrarIva: !!v.mostrarIva, guardarCliente: true
     };
     var previa = T.validarVenta(borrador, { stock: db.stock(), permitirSinExistencias: db.config().permitirSinExistencias, noInventariables: v.items.reduce(function (o, i) { if (i.noInventariable) o[i.sku] = true; return o; }, {}) });
-    if (!previa.ok) { if (err) err.textContent = previa.errores[0]; return; }
+    if (!previa.ok) { if (err) err.textContent = previa.errores[0]; if (window.TactoApp) TactoApp.fallo(err); return; }
     guardando = true; pintarResumen();
     db.registrarVenta(borrador, { usuario: A.usuario() }).then(function (r) {
       guardando = false;
@@ -386,6 +387,7 @@
       try { sessionStorage.removeItem(CLAVE_BORRADOR); } catch (_) {}
       pintarVista();
       mostrarDocumento(venta, true);
+      if (window.tacto) tacto.sentir('exito');
       if (r.avisos && r.avisos.length) toast('Vendido sin existencias registradas: revisa el inventario', 'warn');
     }, function (e) {
       guardando = false;
@@ -400,7 +402,7 @@
     var m = document.getElementById('venModal');
     var tel = String((venta.cliente || {}).telefono || '').replace(/\D/g, '');
     m.innerHTML = '<div class="tv-modal-caja" role="dialog" aria-modal="true" aria-label="' + esc((T.TIPOS_VENTA[venta.tipo] || {}).nombre) + ' ' + esc(venta.numero) + '">' +
-      '<header class="tv-modal-cab">' + (recien ? '<span class="tv-ok"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Venta guardada</span>' : '<b>' + esc(venta.numero) + '</b>') +
+      '<header class="tv-modal-cab">' + (recien ? '<span class="tv-ok"><svg class="tacto-marca" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path pathLength="1" d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Venta guardada</span>' : '<b>' + esc(venta.numero) + '</b>') +
         '<button type="button" class="tv-x" data-acc="cerrar-modal" aria-label="Cerrar">×</button></header>' +
       '<div class="tv-modal-doc">' + A.documentoHTML(venta) + '</div>' +
       '<footer class="tv-modal-pie">' +
