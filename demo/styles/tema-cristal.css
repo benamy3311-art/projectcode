@@ -110,3 +110,7 @@ html.con-esfera .esfera-viva {
 button[onclick*="geminiTutorialModal"] { color: #6E4516 !important; }
 .swap-hdr-ico { background: var(--grad-lavanda) !important; color: #3F3470 !important; }
 th span[style*="#3b82f6"] { color: #50535E !important; }
+
+/* La esfera de bienvenida se arrastra; con el dedo, el gesto vertical sigue desplazando */
+html.con-esfera .esfera-viva { cursor: grab; touch-action: pan-y; }
+html.con-esfera .esfera-viva.agarrada { cursor: grabbing; }

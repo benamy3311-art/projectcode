@@ -101,8 +101,8 @@ function renderUI() {
   if (btnRete) {
     btnRete.classList.toggle('on', S.reteOn);
     btnRete.innerHTML = S.reteOn
-      ? icon('check', 'ico-sm') + ' Retefuente 2.5% aplicada'
-      : '<span class="ico ico-sm"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span> Aplicar Retefuente 2.5%';
+      ? icon('check', 'ico-sm') + ' Retefuente 2.5%'
+      : '<span class="ico ico-sm"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="2"/><circle cx="15" cy="15" r="2"/><line x1="18" y1="6" x2="6" y2="18"/></svg></span> Retefuente 2.5%';
   }
   var retS = document.getElementById('reteSummary');
   if (retS) retS.style.display = S.reteOn ? 'block' : 'none';

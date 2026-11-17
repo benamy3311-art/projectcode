@@ -31,13 +31,13 @@
   var VERT = 'attribute vec2 p; varying vec2 v; void main(){ v = p; gl_Position = vec4(p, 0.0, 1.0); }';
   var FRAG = [
     'precision highp float;',
-    'varying vec2 v; uniform sampler2D tex; uniform float t; uniform float px;',
+    'varying vec2 v; uniform sampler2D tex; uniform float t; uniform float px; uniform vec2 d;',
     'vec2 girar(vec2 q, float a){ float c=cos(a), s=sin(a); return vec2(c*q.x-s*q.y, s*q.x+c*q.y); }',
     'vec2 muestra(vec2 q, vec3 n, float ior, float r){',
     '  vec3 rd = refract(vec3(0.0,0.0,-1.0), n, 1.0/ior);',
     '  vec2 uv = q*0.50 + rd.xy*0.30 + q*pow(r, 7.0)*0.75;',
     '  uv = girar(uv, sin(t*0.07)*0.35 + t*0.025);',
-    '  uv += vec2(sin(t*0.11), cos(t*0.09))*0.05;',
+    '  uv += vec2(sin(t*0.11), cos(t*0.09))*0.05 - d;',
     '  uv *= 0.58;',
     '  return vec2(uv.x + 0.5, 0.5 - uv.y);',
     '}',
@@ -72,7 +72,7 @@
       gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
       gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
       var loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      return { gl: gl, uT: gl.getUniformLocation(prog, 't'), uPx: gl.getUniformLocation(prog, 'px'), tex: gl.createTexture() };
+      return { gl: gl, uD: gl.getUniformLocation(prog, 'd'), uT: gl.getUniformLocation(prog, 't'), uPx: gl.getUniformLocation(prog, 'px'), tex: gl.createTexture() };
     } catch (e) { return null; }
   }
   function subirTextura(g, img) {
@@ -86,8 +86,9 @@
     var an = gl.getExtension('EXT_texture_filter_anisotropic') || gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
     if (an) gl.texParameterf(gl.TEXTURE_2D, an.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(an.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
   }
-  function pintar(g, w, h, t) {
+  function pintar(g, w, h, t, dd) {
     var gl = g.gl;
+    gl.uniform2f(g.uD, dd ? dd.x : 0, dd ? dd.y : 0);
     gl.viewport(0, 0, w, h); gl.uniform1f(g.uPx, 2 / w); gl.uniform1f(g.uT, t);
     gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
   }
@@ -176,10 +177,36 @@
         var d = Math.min(window.devicePixelRatio || 1, 3);
         var w = Math.max(1, Math.round(c.clientWidth * d));
         if (c.width !== w) { c.width = w; c.height = w; }
-        pintar(vivo, w, w, quieto ? 6 : (ahora - vivo.inicio) / 1000);
-        if (!quieto) vivo.raf = requestAnimationFrame(bucle);
+        if (!vivo.agarre) { vivo.arr.x += vivo.vel.x / 60; vivo.arr.y += vivo.vel.y / 60; vivo.vel.x *= .95; vivo.vel.y *= .95; }
+        pintar(vivo, w, w, quieto ? 6 : (ahora - vivo.inicio) / 1000, vivo.arr);
+        var mueve = Math.abs(vivo.vel.x) + Math.abs(vivo.vel.y) > .002;
+        if (!quieto || vivo.agarre || mueve) vivo.raf = requestAnimationFrame(bucle);
       };
       vivo.seguir = function () { if (!vivo.raf) vivo.raf = requestAnimationFrame(bucle); };
+      // Arrastre: el contenido sigue al gesto y al soltar conserva su impulso.
+      vivo.arr = { x: 0, y: 0 }; vivo.vel = { x: 0, y: 0 }; vivo.agarre = null;
+      c.addEventListener('pointerdown', function (e) {
+        if (e.button > 0) return;
+        c.setPointerCapture(e.pointerId);
+        vivo.agarre = { x: e.clientX, y: e.clientY, t: performance.now(), id: e.pointerId };
+        vivo.vel.x = vivo.vel.y = 0; c.classList.add('agarrada');
+        if (window.tacto) tacto.sentir('toque');
+        vivo.seguir();
+      });
+      c.addEventListener('pointermove', function (e) {
+        var a = vivo.agarre; if (!a || e.pointerId !== a.id) return;
+        var k = 1.2 / c.clientWidth, ahora = performance.now(), dt = Math.max(8, ahora - a.t) / 1000;
+        var dx = (e.clientX - a.x) * k, dy = -(e.clientY - a.y) * k;
+        vivo.arr.x -= dx; vivo.arr.y -= dy; vivo.vel.x = -dx / dt; vivo.vel.y = -dy / dt;
+        a.x = e.clientX; a.y = e.clientY; a.t = ahora; vivo.seguir();
+      });
+      var soltar = function (e) {
+        var a = vivo.agarre; if (!a || e.pointerId !== a.id) return;
+        if (performance.now() - a.t > 80) vivo.vel.x = vivo.vel.y = 0;
+        vivo.vel.x = Math.max(-3, Math.min(3, vivo.vel.x)); vivo.vel.y = Math.max(-3, Math.min(3, vivo.vel.y));
+        vivo.agarre = null; c.classList.remove('agarrada'); vivo.seguir();
+      };
+      c.addEventListener('pointerup', soltar); c.addEventListener('pointercancel', soltar);
       if ('IntersectionObserver' in window) new IntersectionObserver(function (e) { vivo.visible = e[0].isIntersecting; if (vivo.visible) vivo.seguir(); }).observe(c);
       document.addEventListener('visibilitychange', function () { vivo.seguir(); });
     }
