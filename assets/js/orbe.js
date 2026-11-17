@@ -27,7 +27,7 @@
     '  vec2 uv = q*0.50 + rd.xy*0.30 + q*pow(r, 7.0)*0.75;',
     '  uv = girar(uv, sin(t*0.07)*0.35 + t*0.025 + m.x*0.25);',
     '  uv += vec2(sin(t*0.11), cos(t*0.09))*0.05 - m*0.06;',
-    '  uv *= 0.42;',
+    '  uv *= 0.58;',
     '  return vec2(uv.x + 0.5, 0.5 - uv.y);',
     '}',
     'void main(){',
@@ -82,7 +82,7 @@
     var meta = { x: 0, y: 0 }, mano = { x: 0, y: 0 };
 
     function medir() {
-      var d = Math.min(window.devicePixelRatio || 1, 2);
+      var d = Math.min(window.devicePixelRatio || 1, 3);
       var w = Math.max(1, Math.round(canvas.clientWidth * d)), h = Math.max(1, Math.round(canvas.clientHeight * d));
       if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; }
       gl.viewport(0, 0, w, h); gl.uniform1f(uPx, 2 / w);
@@ -109,6 +109,9 @@
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       gl.generateMipmap(gl.TEXTURE_2D);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      var an = gl.getExtension('EXT_texture_filter_anisotropic') || gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+      if (an) gl.texParameterf(gl.TEXTURE_2D, an.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(8, gl.getParameter(an.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.MIRRORED_REPEAT);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
       lista = true; canvas.classList.add('orbe-listo');
