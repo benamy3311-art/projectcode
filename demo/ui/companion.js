@@ -18,7 +18,7 @@
 //
 // Solo Samuel la ve: index.html marca <body class="admin-user"> vía
 // window._applyAdminState() cuando el email autenticado está en
-// window.ADMIN_EMAILS (hoy solo samuelsan6646@gmail.com). El resto de
+// window.ADMIN_EMAILS (hoy solo admin@ejemplo.co). El resto de
 // vendedores nunca tiene esa clase, así que para ellos este archivo no
 // construye nada. Se observa la clase por MutationObserver en vez de
 // leerla una sola vez, porque el login con Firebase resuelve async —

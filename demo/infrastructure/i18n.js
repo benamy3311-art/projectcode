@@ -410,7 +410,7 @@
 
     // ── Métricas ──
     "Cotizaciones registradas por vendedor y producto.": "Devis enregistrés par vendeur et produit.",
-    "Excluir benamy3311@gmail.com": "Exclure benamy3311@gmail.com",
+    "Excluir admin@ejemplo.co": "Exclure admin@ejemplo.co",
     "Recarga la app en todas las sesiones activas": "Recharge l'appli sur toutes les sessions actives",
     "Forzar F5 a todos": "Forcer F5 pour tous",
     "Hoy": "Aujourd'hui",

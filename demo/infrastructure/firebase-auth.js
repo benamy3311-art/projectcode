@@ -25,7 +25,7 @@
   try { if (localStorage.getItem('sl_was_lite') === '1') window._slUserIsLite = true; } catch(e){}
 
   var firebaseConfig = {
-    apiKey: "AIzaSyA6NPjAFFmNztjTa2d0i9-rJ_Pq72iogXw",
+    apiKey: "demo-sin-clave",
     authDomain: "speedlogic-cotizador.firebaseapp.com",
     projectId: "speedlogic-cotizador",
     storageBucket: "speedlogic-cotizador.firebasestorage.app",
@@ -239,7 +239,7 @@
   });
 
   // Admin tiene acceso garantizado aunque la BD esté vacía
-  window.SUPER_ADMINS = ['samuelsan6646@gmail.com'];
+  window.SUPER_ADMINS = ['admin@ejemplo.co'];
 
   // ─── Aprobación de usuarios ──────────────────────────────────
   window._isApproved = async function(email){

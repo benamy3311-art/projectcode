@@ -261,7 +261,7 @@
     var filteredQuotes = _allQuotes;
     if (_excludeAdmin) {
       filteredQuotes = _allQuotes.filter(function(q) {
-        return (q.email || '').toLowerCase().trim() !== 'benamy3311@gmail.com';
+        return (q.email || '').toLowerCase().trim() !== 'admin@ejemplo.co';
       });
     }
     _render(filteredQuotes);
@@ -270,7 +270,7 @@
     var filteredFailed = _allFailedSearches;
     if (_excludeAdmin) {
       filteredFailed = _allFailedSearches.filter(function(fs) {
-        return (fs.email || '').toLowerCase().trim() !== 'benamy3311@gmail.com';
+        return (fs.email || '').toLowerCase().trim() !== 'admin@ejemplo.co';
       });
     }
     _renderFailedSearches(filteredFailed);

@@ -1164,7 +1164,7 @@ loadDay(fechaEl.value);
 // ══════════════════════════════════════
 const SUPER_ADMINS = (function(){
   try { if (window.parent && window.parent.SUPER_ADMINS) return window.parent.SUPER_ADMINS; } catch(e){}
-  return ['samuelsan6646@gmail.com'];
+  return ['admin@ejemplo.co'];
 })();
 
 function _subscribeDays() {
@@ -1226,7 +1226,7 @@ function _mostrarSinAcceso() {
   try {
     if (!firebase.apps || !firebase.apps.length) {
       firebase.initializeApp({
-        apiKey: "AIzaSyA6NPjAFFmNztjTa2d0i9-rJ_Pq72iogXw",
+        apiKey: "demo-sin-clave",
         authDomain: "speedlogic-cotizador.firebaseapp.com",
         projectId: "speedlogic-cotizador",
         storageBucket: "speedlogic-cotizador.firebasestorage.app",
