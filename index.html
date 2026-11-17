@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>ProjectCode · Cotizador para tiendas de tecnología</title>
   <meta name="description" content="Cotiza en un minuto con la lista de tu proveedor, con tu marca y lista para WhatsApp. Asesor con IA, seguimiento de cada cliente, recogidas entre sedes y cierre de caja. Pruébala en la página, sin cuenta.">
-  <meta name="theme-color" content="#ECEDF2">
+  <meta name="theme-color" content="#0A0A0C">
   <meta property="og:type" content="website">
   <meta property="og:title" content="ProjectCode · Cotiza en un minuto. Vende el resto del día.">
   <meta property="og:description" content="Cotizador y gestión comercial para tiendas de tecnología. Pruébala en la página, sin cuenta.">
@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="assets/css/estilos.css">
   <link rel="stylesheet" href="assets/css/secciones.css">
   <link rel="stylesheet" href="assets/css/prueba.css">
+  <link rel="stylesheet" href="assets/css/liquido.css">
 </head>
 <body>
   <a class="saltar" href="#principal">Saltar al contenido</a>
@@ -44,6 +45,7 @@
     </a>
     <nav class="nav" aria-label="Secciones">
       <a href="#prueba">Pruébala</a>
+      <a href="#vender">Vender</a>
       <a href="#tiempo">Tiempo</a>
       <a href="#dinero">Dinero</a>
       <a href="#funciones">Funciones</a>
@@ -55,26 +57,13 @@
   <main id="principal">
 
     <!-- ── Héroe: el texto en calma a un lado, la pieza de arte al otro ── -->
+    <div class="escenario">
     <section class="heroe" aria-labelledby="titulo-heroe">
       <div class="heroe-arte" id="arte">
-        <div class="arte-luz" aria-hidden="true"></div>
-        <div class="pe-marco" aria-hidden="true">
-        <svg class="pe-vidrio" id="pe-vidrio" viewBox="0 0 80 84" aria-hidden="true">
-          <defs>
-            <linearGradient id="vidrio-relleno" x1="10" y1="6" x2="70" y2="78" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#fff" stop-opacity=".72"/>
-              <stop offset=".45" stop-color="#fff" stop-opacity=".22"/>
-              <stop offset="1" stop-color="#fff" stop-opacity=".08"/>
-            </linearGradient>
-            <linearGradient id="vidrio-borde" x1="6" y1="6" x2="74" y2="78" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
-              <stop offset=".6" stop-color="#fff" stop-opacity=".25"/>
-              <stop offset="1" stop-color="#fff" stop-opacity=".7"/>
-            </linearGradient>
-          </defs>
-          <path fill="url(#vidrio-relleno)" stroke="url(#vidrio-borde)" stroke-width=".7" fill-rule="evenodd" d="M27 6H45C62 6 74 17 74 33S62 60 45 60H32V63C32 72 27 77 19 77S6 72 6 64V28C6 14 14 6 27 6Z M42 22C39 22 37 24 36 27L32 39C31 43 33 46 37 46H41C44 46 46 44 47 41L51 29C52 25 50 22 46 22Z"/>
-          <path d="M11 30C11 18 17 11 28 11H40" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
+        <div class="orbe-escena" aria-hidden="true">
+          <div class="orbe-halo"></div>
+          <canvas class="orbe" data-textura="assets/img/orbe-textura.webp" width="600" height="600"></canvas>
+          <div class="orbe-suelo"></div>
         </div>
         <figure class="burbuja" aria-label="Ejemplo: un cliente pide un PC por WhatsApp y recibe la cotización">
           <div class="burbuja-cabeza">
@@ -114,6 +103,8 @@
         </dl>
       </div>
     </section>
+
+    </div>
 
     <!-- ── La prueba: la app de verdad, con un catálogo de ejemplo ── -->
     <section class="seccion prueba" id="prueba" aria-labelledby="titulo-prueba">
@@ -243,6 +234,35 @@
     </section>
 
     <!-- ── Tiempo: un pedido cualquiera, contado en segundos ── -->
+    <!-- ── Vender: cliente, inventario y recibo, con capturas de la app ── -->
+    <section class="seccion vender" id="vender" aria-labelledby="titulo-vender">
+      <div class="vender-cabeza">
+        <p class="etiqueta revela">Nuevo · Ventas e inventario</p>
+        <h2 id="titulo-vender" class="titulo-seccion revela">Vende en el mostrador. <span class="tono-2">Entrega con recibo.</span></h2>
+        <p class="cuerpo revela">Primero el cliente: nombre y cédula, y si ya compró aparece solo. Luego el inventario de tu tienda con precios y existencias. Registras la venta y sale el recibo de compra o la remisión, con la orden de compra y la garantía de cada producto, para imprimir o mandar por WhatsApp.</p>
+      </div>
+      <div class="vender-galeria">
+        <figure class="vidrio-marco vender-principal revela">
+          <picture>
+            <source media="(max-width: 699px)" srcset="assets/img/app-vender-movil.webp" width="390" height="844">
+            <img src="assets/img/app-vender.webp" width="1078" height="836" loading="lazy" decoding="async" alt="Pantalla Vender: el cliente Laura Méndez, tres productos con su garantía y el pago con recibo de compra por 1.120.000 pesos">
+          </picture>
+        </figure>
+        <figure class="vidrio-marco vender-recibo revela">
+          <img src="assets/img/app-recibo.webp" width="820" height="840" loading="lazy" decoding="async" alt="Recibo de compra RC-C1-000001 con datos del cliente, orden de compra, productos, garantía, total en letras y firmas">
+        </figure>
+      </div>
+      <ul class="vender-puntos">
+        <li class="vidrio revela"><b>El cliente primero</b><span>Nombre y cédula obligatorios; teléfono, correo y dirección si los da. Con su autorización queda guardado para la próxima compra.</span></li>
+        <li class="vidrio revela"><b>Inventario por tienda</b><span>Entradas, conteos e historial de cada producto. Cada venta descuenta sola; una venta anulada devuelve las unidades.</span></li>
+        <li class="vidrio revela"><b>Recibo o remisión</b><span>Con orden de compra, varios medios de pago, abonos y saldo, total en letras y firmas. Numeración propia por caja.</span></li>
+        <li class="vidrio revela"><b>No se pierde nada</b><span>Cada venta se guarda completa o no se guarda, aunque se vaya el internet. Copia de seguridad en un clic.</span></li>
+      </ul>
+      <figure class="vidrio-marco vender-inventario revela">
+        <img src="assets/img/app-inventario.webp" width="1078" height="836" loading="lazy" decoding="async" alt="Pantalla Inventario: existencias por producto, entradas, conteos e historial">
+      </figure>
+    </section>
+
     <section class="seccion pedido" id="tiempo" aria-labelledby="titulo-pedido">
       <div class="panel pedido-panel">
         <div class="pedido-texto">
@@ -634,6 +654,7 @@
     <!-- ── Demo ── -->
     <section class="seccion piloto" id="demo-seccion" aria-labelledby="titulo-piloto">
       <div class="panel piloto-panel">
+        <div class="piloto-orbe" aria-hidden="true"><canvas class="orbe" data-textura="assets/img/orbe-textura.webp" width="300" height="300"></canvas></div>
         <div class="piloto-texto">
           <p class="etiqueta revela">Demo con tu catálogo · 30 minutos</p>
           <h2 id="titulo-piloto" class="titulo-seccion revela">Míralo con la lista de tu proveedor.</h2>
@@ -763,5 +784,7 @@
   <script src="assets/js/tacto.js"></script>
   <script src="assets/js/app.js" defer></script>
   <script src="assets/js/prueba.js" defer></script>
+  <script src="assets/js/orbe.js" defer></script>
+  <script src="assets/js/liquido.js" defer></script>
 </body>
 </html>

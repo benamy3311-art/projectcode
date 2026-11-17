@@ -32,7 +32,7 @@
   } else addEventListener('resize', reajustar);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(reajustar);
 
-  // ── El arte del héroe: la luz sigue al cursor y la P se deja atraer ──
+  // ── El arte del héroe: la luz sigue al cursor y el orbe se deja atraer ──
   const arte = $('#arte');
   if (arte && window.tacto) {
     arte.addEventListener('pointermove', e => {
@@ -41,7 +41,8 @@
       arte.style.setProperty('--lx', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
       arte.style.setProperty('--ly', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
     });
-    tacto.iman($('#pe-vidrio'), { fuerza: .08, zona: arte });
+    const orbe = $('.orbe-escena');
+    if (orbe) tacto.iman(orbe, { fuerza: .05, zona: arte });
   }
 
   // ── Entrada al aparecer: una vez, de arriba abajo, 40 ms entre piezas ──

@@ -1,0 +1,242 @@
+/* ═══════════════════════════════════════════════════
+   LÍQUIDO — el rediseño de la página: orbe negro y vidrio líquido
+   ═══════════════════════════════════════════════════
+   Capa sobre estilos.css, secciones.css y prueba.css: se carga al final y
+   quitar su <link> devuelve la página anterior.
+
+   - Escenario de noche arriba: el orbe negro (WebGL, assets/js/orbe.js) con
+     su destello naranja; el resto de la página en lienzo claro.
+   - Vidrio líquido: superficies translúcidas que desenfocan lo de atrás, un
+     borde de luz que recorre el contorno y un brillo que sigue al cursor
+     (--mx, --my desde assets/js/liquido.js).
+   - Paleta del orbe: tinta, grafito, naranja fundido, ámbar y un azul frío
+     solo en los reflejos.
+═══════════════════════════════════════════════════ */
+
+@property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+:root {
+  --noche-0: #070708; --noche-1: #0E0E11; --noche-2: #17171C;
+  --fundido: #F07A2A; --ambar: #F9C34A; --frio: #8FC1F5;
+  --grad-luz: conic-gradient(from var(--ang), rgba(255,255,255,0) 0deg, rgba(240,122,42,.9) 50deg, rgba(249,195,74,.85) 80deg, rgba(143,193,245,.7) 110deg, rgba(255,255,255,0) 150deg, rgba(255,255,255,0) 360deg);
+  --vidrio-claro: linear-gradient(140deg, rgba(255,255,255,.78), rgba(255,255,255,.46));
+  --vidrio-oscuro: linear-gradient(140deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
+  --brillo-int: inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(255,255,255,.3);
+  --brillo-int-oscuro: inset 0 1px 0 rgba(255,255,255,.22), inset 0 -1px 0 rgba(255,255,255,.05);
+  --sombra-vidrio: 0 1px 2px rgba(20,16,40,.06), 0 18px 44px -18px rgba(20,16,40,.28);
+}
+
+/* El espacio reservado a la barra de desplazamiento cortaba el escenario de noche */
+html { scrollbar-gutter: auto; }
+
+/* ── Lienzo: luz ambiente fija para que el vidrio tenga algo que doblar ── */
+body {
+  background:
+    radial-gradient(46% 36% at 100% 30%, rgba(214,224,255,.55), transparent 70%),
+    radial-gradient(40% 32% at 0% 60%, rgba(196,184,245,.35), transparent 70%),
+    radial-gradient(36% 30% at 90% 85%, rgba(240,122,42,.10), transparent 70%),
+    var(--lienzo);
+  background-attachment: fixed;
+}
+
+/* ── Cabecera: píldora de vidrio flotante; se oscurece sobre el escenario ── */
+.cabecera {
+  position: fixed; z-index: 50; top: max(10px, env(safe-area-inset-top));
+  left: 50%; transform: translateX(-50%);
+  inline-size: min(calc(var(--ancho) + 48px), calc(100% - 20px)); max-width: none; margin: 0;
+  min-height: 56px; padding: 6px 8px 6px 18px; border-radius: 999px;
+  background: rgba(255,255,255,.62); border: 1px solid rgba(255,255,255,.8);
+  -webkit-backdrop-filter: blur(22px) saturate(1.7); backdrop-filter: blur(22px) saturate(1.7);
+  box-shadow: var(--brillo-int), 0 10px 30px -14px rgba(20,16,40,.3);
+  transition: background-color .4s, border-color .4s, color .4s, box-shadow .4s;
+}
+.cabecera[data-tono="noche"] {
+  background: rgba(22,22,26,.42); border-color: rgba(255,255,255,.12); color: #fff;
+  box-shadow: var(--brillo-int-oscuro), 0 10px 30px -14px rgba(0,0,0,.6);
+}
+.cabecera[data-tono="noche"] .marca-pc { color: #fff; }
+@media (min-width: 900px) {
+  .cabecera { min-height: 60px; }
+  .nav { background: rgba(20,21,25,.05); }
+  .cabecera[data-tono="noche"] .nav { background: rgba(255,255,255,.06); }
+  .cabecera[data-tono="noche"] .nav a { color: rgba(255,255,255,.7); }
+  .cabecera[data-tono="noche"] .nav a:hover, .cabecera[data-tono="noche"] .nav a[aria-current] { background: rgba(255,255,255,.12); color: #fff; }
+  .cabecera[data-tono="noche"] .cabecera-accion { background: #fff; color: var(--noche-0); }
+}
+
+/* ── Escenario de noche ───────────────────────────────────────────────── */
+.escenario {
+  position: relative; isolation: isolate; color: #fff;
+  padding-top: calc(88px + env(safe-area-inset-top));
+  padding-bottom: var(--e12, 48px);
+  background:
+    var(--ruido),
+    radial-gradient(38% 46% at 78% 46%, rgba(240,122,42,.20), transparent 70%),
+    radial-gradient(30% 34% at 92% 18%, rgba(143,193,245,.12), transparent 70%),
+    radial-gradient(60% 60% at 10% 100%, rgba(80,70,140,.22), transparent 70%),
+    linear-gradient(180deg, var(--noche-0), var(--noche-1) 70%, var(--noche-2));
+  border-radius: 0 0 clamp(28px, 4vw, 48px) clamp(28px, 4vw, 48px);
+  overflow: hidden;
+}
+/* Una línea de luz en el borde inferior, como el canto de un vidrio */
+.escenario::after {
+  content: ""; position: absolute; left: 8%; right: 8%; bottom: 0; height: 1px; z-index: 1;
+  background: linear-gradient(90deg, transparent, rgba(240,122,42,.7), rgba(249,195,74,.8), rgba(143,193,245,.6), transparent);
+  filter: blur(.3px);
+}
+.escenario .heroe { color: #fff; }
+.escenario .etiqueta {
+  align-self: flex-start; padding: 6px 12px; border-radius: 999px; color: rgba(255,255,255,.82);
+  background: var(--vidrio-oscuro); border: 1px solid rgba(255,255,255,.12);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+}
+.escenario .titular { color: #fff; }
+.escenario .tono-2 {
+  background: linear-gradient(100deg, #fff 0%, #F9D9B8 30%, var(--fundido) 55%, var(--ambar) 70%, #CFE2F8 90%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: liquido-texto 9s ease-in-out infinite alternate;
+}
+@keyframes liquido-texto { to { background-position: 100% 0; } }
+.escenario .heroe-apoyo { color: rgba(255,255,255,.66); }
+.escenario .hechos { border-top-color: rgba(255,255,255,.12); }
+.escenario .hechos dt { color: rgba(255,255,255,.92); }
+.escenario .hechos dd { color: rgba(255,255,255,.58); }
+.escenario .enlace, .escenario .enlace-boton { color: rgba(255,255,255,.82); }
+.escenario .boton-principal { background: #fff; color: var(--noche-0); }
+
+/* ── El orbe ──────────────────────────────────────────────────────────── */
+.escenario .heroe-arte {
+  background: none; overflow: visible; border-radius: 0;
+  display: grid; place-items: center; block-size: clamp(360px, 92vw, 460px);
+}
+.orbe-escena { position: relative; display: grid; place-items: center; inline-size: min(78vw, 400px); aspect-ratio: 1; }
+.orbe { position: relative; z-index: 2; display: block; inline-size: 100%; block-size: 100%; border-radius: 50%; }
+/* Sin WebGL (o mientras carga la imagen): una esfera estática con el mismo destello */
+.orbe:not(.orbe-listo) {
+  background:
+    radial-gradient(10% 6% at 34% 20%, rgba(255,255,255,.85), transparent),
+    linear-gradient(130deg, transparent 40%, rgba(240,122,42,.75) 50%, rgba(249,195,74,.6) 55%, rgba(143,193,245,.35) 60%, transparent 68%),
+    radial-gradient(90% 90% at 35% 70%, #0D0D0F, #23232A 70%, #3A3A42);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.orbe-halo {
+  position: absolute; inset: -18%; z-index: 0; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(240,122,42,.32), rgba(249,195,74,.10) 45%, rgba(143,193,245,.06) 60%, transparent 72%);
+  filter: blur(18px); animation: liquido-halo 7s ease-in-out infinite alternate;
+}
+@keyframes liquido-halo { from { opacity: .7; transform: scale(.96); } to { opacity: 1; transform: scale(1.04); } }
+.orbe-suelo {
+  position: absolute; left: 50%; bottom: -12%; z-index: 1; inline-size: 74%; block-size: 12%;
+  transform: translateX(-50%); border-radius: 50%; filter: blur(14px);
+  background: radial-gradient(closest-side, rgba(0,0,0,.75), rgba(240,122,42,.22) 60%, transparent);
+}
+
+/* La burbuja de WhatsApp: vidrio oscuro flotando delante del orbe */
+.escenario .burbuja {
+  z-index: 3; color: #fff;
+  background: var(--vidrio-oscuro); border: 1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6);
+  box-shadow: var(--brillo-int-oscuro), 0 24px 60px -24px rgba(0,0,0,.8);
+}
+.escenario .burbuja small, .escenario .burbuja-cabeza small { color: rgba(255,255,255,.6); }
+.escenario .burbuja-pide { background: rgba(255,255,255,.08); color: rgba(255,255,255,.9); }
+.escenario .burbuja-cot { background: rgba(255,255,255,.92); color: var(--noche-0); }
+.escenario .burbuja-cot small { color: rgba(14,14,17,.6); }
+
+@media (max-width: 899px) {
+  .escenario .heroe-arte { block-size: auto; display: flex; flex-direction: column; align-items: center; gap: 30px; padding-top: 8px; }
+  .orbe-escena { inline-size: min(70vw, 300px); }
+  .escenario .burbuja { position: relative; inset: auto; inline-size: min(100%, 360px); }
+  .escenario .burbuja-cot-cabeza b { white-space: nowrap; }
+}
+@media (min-width: 900px) {
+  .escenario { padding-top: 104px; padding-bottom: var(--e16, 64px); }
+  .escenario .heroe { min-block-size: calc(100svh - 104px - var(--e16, 64px)); }
+  .escenario .heroe-arte { block-size: auto; min-block-size: 620px; }
+  .orbe-escena { inline-size: min(36vw, 500px); margin-top: -40px; }
+  .escenario .burbuja { inset-inline: auto var(--e2, 8px); bottom: var(--e6, 24px); inline-size: min(360px, 80%); }
+}
+
+/* ── Vidrio líquido en las secciones claras ───────────────────────────── */
+.vidrio, .vidrio-marco, .tarjeta, .panel, .calculadora {
+  position: relative; isolation: isolate;
+  background: var(--vidrio-claro) !important;
+  border: 1px solid rgba(255,255,255,.85);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6); backdrop-filter: blur(22px) saturate(1.6);
+  box-shadow: var(--brillo-int), var(--sombra-vidrio);
+}
+/* Brillo que sigue al cursor */
+.vidrio::after, .vidrio-marco::after, .tarjeta::after, .calculadora::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2;
+  background: radial-gradient(260px circle at var(--mx, -400px) var(--my, -400px), rgba(255,255,255,.55), transparent 60%);
+  mix-blend-mode: soft-light; opacity: 0; transition: opacity .35s;
+}
+.vidrio:hover::after, .vidrio-marco:hover::after, .tarjeta:hover::after, .calculadora:hover::after { opacity: 1; }
+/* Borde de luz que recorre el contorno */
+.vidrio-marco::before, .vidrio:hover::before, .planes .destacado::before, .plan-destacado::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 3;
+  background: var(--grad-luz);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: liquido-giro 6s linear infinite;
+}
+@keyframes liquido-giro { to { --ang: 360deg; } }
+
+/* ── Sección Vender ───────────────────────────────────────────────────── */
+.vender { display: grid; gap: var(--e8, 32px); }
+.vender-cabeza { display: grid; gap: var(--e4, 16px); max-width: 760px; }
+.vidrio-marco { margin: 0; padding: 8px; border-radius: 28px; }
+.vidrio-marco img { display: block; inline-size: 100%; block-size: auto; border-radius: 20px; }
+.vender-galeria { display: grid; gap: var(--e5, 20px); align-items: end; }
+.vender-puntos { display: grid; gap: var(--e3, 12px); margin: 0; padding: 0; list-style: none; }
+.vender-puntos li { display: grid; gap: 6px; padding: 18px 20px; border-radius: 22px; }
+.vender-puntos b { font-size: 15px; letter-spacing: -.01em; }
+.vender-puntos span { font-size: 14px; line-height: 21px; color: var(--tinta-2); }
+.vender-inventario { max-inline-size: 980px; margin-inline: auto; }
+@media (max-width: 699px) { .vender-principal { max-inline-size: 320px; margin-inline: auto; } }
+@media (min-width: 700px) { .vender-puntos { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) {
+  .vender-galeria { grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); }
+  .vender-recibo { margin-left: -64px; margin-bottom: -28px; z-index: 2; transform: rotate(1.2deg); }
+  .vender-puntos { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ── Demo final: panel de noche con el orbe ───────────────────────────── */
+.piloto-panel {
+  overflow: hidden; color: #fff;
+  background: var(--ruido), radial-gradient(50% 70% at 90% 30%, rgba(240,122,42,.18), transparent 70%), linear-gradient(160deg, var(--noche-1), var(--noche-0)) !important;
+  border-color: rgba(255,255,255,.1) !important; box-shadow: var(--brillo-int-oscuro), 0 30px 70px -30px rgba(0,0,0,.6) !important;
+}
+.piloto-panel .etiqueta, .piloto-panel .cuerpo, .piloto-panel small { color: rgba(255,255,255,.64); }
+.piloto-panel .titulo-seccion, .piloto-panel b { color: #fff; }
+.piloto-panel .boton-principal { background: #fff; color: var(--noche-0); }
+.piloto-panel .lista-numerada li::before { background: rgba(255,255,255,.1); color: #fff; }
+.piloto-orbe { position: absolute; z-index: 0; right: -60px; top: -60px; inline-size: 260px; aspect-ratio: 1; opacity: .9; pointer-events: none; }
+.piloto-orbe .orbe { filter: drop-shadow(0 30px 40px rgba(0,0,0,.6)); }
+.piloto-panel > :not(.piloto-orbe) { position: relative; z-index: 1; }
+@media (max-width: 899px) { .piloto-orbe { inline-size: 180px; right: -50px; top: -50px; opacity: .55; } }
+
+/* ── Botones: vidrio líquido con un destello al pasar ─────────────────── */
+.boton { position: relative; overflow: hidden; isolation: isolate; }
+.boton::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.45) 48%, transparent 66%);
+  transform: translateX(-120%);
+}
+.boton:hover::after { transform: translateX(120%); transition: transform .9s var(--salida, ease-out); }
+.boton-principal { box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 10px 24px -10px rgba(20,16,40,.55); }
+
+/* ── Movimiento reducido ──────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .escenario .tono-2, .orbe-halo, .vidrio-marco::before, .vidrio:hover::before, .planes .destacado::before, .plan-destacado::before { animation: none; }
+  .boton:hover::after { transition: none; }
+}
+@media print { .escenario { background: none; color: inherit; } .orbe-escena, .cabecera { display: none; } }
+
+/* ── Plan destacado: el negro del orbe con su destello ────────────────── */
+.plan-destacado {
+  position: relative; isolation: isolate; overflow: hidden;
+  background: var(--ruido), radial-gradient(70% 50% at 100% 0%, rgba(240,122,42,.28), transparent 70%), radial-gradient(50% 40% at 0% 100%, rgba(143,193,245,.12), transparent 70%), linear-gradient(160deg, var(--noche-2), var(--noche-0)) !important;
+  box-shadow: var(--brillo-int-oscuro), 0 30px 60px -28px rgba(0,0,0,.6) !important;
+}
