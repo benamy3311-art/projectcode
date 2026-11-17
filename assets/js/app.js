@@ -86,15 +86,10 @@
     pasos.forEach((li, n) => li.toggleAttribute('data-hecho', n <= i));
     piezasChat.forEach(p => p.toggleAttribute('data-visible', +p.dataset.paso <= i));
     if (estado) estado.textContent = i === 4 ? 'escribiendo…' : 'en línea';
-    if (i === 5) {
-      const trazo = $('#chat .msg-sistema');
-      setTimeout(() => trazo && trazo.setAttribute('data-dibujado', ''), 120);
-    }
   }
   function reproducir() {
     relojes.forEach(clearTimeout);
     relojes = [];
-    $('#chat .msg-sistema')?.removeAttribute('data-dibujado');
     pintarPaso(-1);
     if (reducido.matches) { pintarPaso(pasos.length - 1); return; }
     tacto.cara(repetir, 1);

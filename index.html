@@ -197,14 +197,14 @@
         <div class="pedido-texto">
           <p class="etiqueta revela">Ahorra tiempo · un pedido cualquiera</p>
           <h2 id="titulo-pedido" class="titulo-seccion revela">10:42. Un cliente pide tres productos por WhatsApp.</h2>
-          <p class="cuerpo revela">Sin abrir el PDF del proveedor ni sacar la calculadora. Esto es lo que pasa en el minuto siguiente.</p>
+          <p class="cuerpo revela">El cliente escribe a tu WhatsApp de siempre. Mientras le respondes, la cotización la arma la app: sin buscar en un PDF ni sacar la calculadora.</p>
           <ol class="pasos" id="pasos">
-            <li><time>10:42:05</time><span><b>Llega el mensaje</b><small>SSD de 1 TB, 32 GB de RAM y una tarjeta de 12 GB</small></span></li>
-            <li><time>10:42:11</time><span><b>El asesor escribe «ssd 1tb»</b><small>Precio de la lista de hoy, al instante</small></span></li>
+            <li><time>10:42:05</time><span><b>Llega el mensaje a tu WhatsApp</b><small>SSD de 1 TB, 32 GB de RAM y una tarjeta de 12 GB</small></span></li>
+            <li><time>10:42:11</time><span><b>En la app, el asesor busca «ssd 1tb»</b><small>El precio de tu catálogo, al instante</small></span></li>
             <li><time>10:42:30</time><span><b>Agrega las tres piezas</b><small>Con garantía, IVA y total sin calculadora</small></span></li>
-            <li><time>10:42:41</time><span><b>Sale la hoja con tu marca</b><small>Se pega en el chat como una foto</small></span></li>
+            <li><time>10:42:41</time><span><b>«Copiar imagen» y la pega en el chat</b><small>La cotización sale con tu marca, como una foto</small></span></li>
             <li><time>10:42:58</time><span><b>El cliente responde</b><small>«Listo, ¿me lo apartas?»</small></span></li>
-            <li><time>10:43:02</time><span><b>Queda en el seguimiento</b><small>Si no contesta, en dos días te lo recuerda</small></span></li>
+            <li><time>10:43:02</time><span><b>Queda guardada en el historial</b><small>Si no contesta en 2 días, aparece en «Para retomar» con un botón para escribirle</small></span></li>
           </ol>
           <button class="boton boton-secundario" type="button" id="repetir">
             <span class="caras"><span data-activa>Repetir el pedido</span><span>Repitiendo…</span></span>
@@ -215,27 +215,15 @@
           <div class="chat-cabeza">
             <span class="avatar avatar-rosa" aria-hidden="true">JR</span>
             <span><b>Julián R.</b><small id="chat-estado">en línea</small></span>
+            <span class="chat-app" aria-hidden="true">WhatsApp</span>
           </div>
           <div class="chat-cuerpo">
             <div class="msg msg-entra" data-paso="0"><p>Hola, ¿me cotizas un SSD de 1 TB, 32 GB de RAM DDR5 y una tarjeta de video de 12 GB?</p><time>10:42</time></div>
-            <p class="msg-nota" data-paso="1">Buscando «ssd 1tb» en 524 referencias de la lista de hoy</p>
             <div class="msg msg-sale msg-doc" data-paso="3">
-              <div class="mini-doc" aria-label="Imagen de la cotización A-1194">
-                <p class="mini-doc-cabeza"><b>Tu Tienda</b><span>A-1194</span></p>
-                <ul>
-                  <li><span>SSD NVMe 1 TB</span><b>$ 259.000</b></li>
-                  <li><span>DDR5 32 GB 6000</span><b>$ 549.000</b></li>
-                  <li><span>RX 7700 XT 12 GB</span><b>$ 2.349.000</b></li>
-                </ul>
-                <p class="mini-doc-total"><span>Total IVA incluido</span><b>$ 3.157.000</b></p>
-              </div>
+<img class="msg-imagen" src="assets/img/cotizacion-real.webp" width="800" height="578" loading="lazy" decoding="async" alt="Imagen de la cotización A-1 que genera la app: memoria DDR5 32 GB, SSD NVMe 1 TB y tarjeta de video RX 7700 XT 12 GB, total 3.157.000 pesos con IVA">
               <time>10:42</time>
             </div>
             <div class="msg msg-entra" data-paso="4"><p>Listo, ¿me lo apartas? Paso a las 4.</p><time>10:42</time></div>
-            <p class="msg-sistema" data-paso="5">
-              <svg class="trazo" viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path pathLength="1" d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              A-1194 guardada · seguimiento activo
-            </p>
           </div>
         </div>
       </div>

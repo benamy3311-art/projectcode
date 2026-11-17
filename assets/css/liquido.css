@@ -285,3 +285,9 @@ body {
   .tel-centro img { inline-size: clamp(166px, 14.4vw, 232px); filter: drop-shadow(0 40px 50px rgba(240,122,42,.28)) drop-shadow(0 30px 30px rgba(0,0,0,.6)); }
 }
 
+
+/* ── Pedido por WhatsApp: el chat del vendedor con la imagen real de la app ── */
+.msg-doc { inline-size: min(300px, 88%); padding: 4px; }
+.msg-imagen { display: block; inline-size: 100%; block-size: auto; border-radius: 12px; }
+.chat-app { margin-left: auto; padding: 4px 10px; border-radius: 999px; background: #DCF5E3; color: #1F5A3C; font-size: 11px; font-weight: 600; }
+.chat-cabeza > span:nth-child(2) { display: grid; line-height: 18px; }
