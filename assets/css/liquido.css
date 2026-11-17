@@ -274,42 +274,14 @@ body {
 }
 .moviles-fila::-webkit-scrollbar { display: none; }
 .tel { flex: 0 0 auto; display: grid; gap: 14px; justify-items: center; margin: 0; scroll-snap-align: center; }
-.tel-pantalla {
-  position: relative; inline-size: clamp(190px, 17vw, 236px); aspect-ratio: 390 / 870;
-  padding: 9px; border-radius: 44px;
-  background: linear-gradient(145deg, #3A3A40, #121214 40%, #26262B);
-  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.18), inset 0 0 0 4px #0A0A0C, 0 40px 60px -30px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.06);
-}
-/* Botones laterales */
-.tel-pantalla::before, .tel-pantalla::after {
-  content: ""; position: absolute; width: 3px; border-radius: 2px; background: linear-gradient(90deg, #2A2A2F, #4A4A52);
-}
-.tel-pantalla::before { left: -3px; top: 22%; height: 9%; box-shadow: 0 -52px 0 0 #3A3A40; }
-.tel-pantalla::after { right: -3px; top: 28%; height: 14%; }
-.tel-pantalla img { display: block; inline-size: 100%; block-size: calc(100% - 26px); object-fit: cover; object-position: top; border-radius: 0 0 36px 36px; }
-/* Barra de estado e isla */
-.tel-estado {
-  position: relative; display: flex; align-items: center; justify-content: space-between; block-size: 26px; padding: 2px 20px 0 26px;
-  border-radius: 36px 36px 0 0; background: #F7F7FA; color: #141519; font: 600 10.5px/1 var(--fuente);
-}
-.tel-estado::before {
-  content: ""; position: absolute; left: 50%; top: 5px; transform: translateX(-50%);
-  inline-size: 28%; block-size: 16px; border-radius: 999px; background: #050506;
-}
-.tel-estado i {
-  inline-size: 38px; block-size: 10px;
-  background:
-    linear-gradient(#141519, #141519) 0 7px / 2.5px 3px no-repeat, linear-gradient(#141519, #141519) 4px 5px / 2.5px 5px no-repeat,
-    linear-gradient(#141519, #141519) 8px 3px / 2.5px 7px no-repeat, linear-gradient(#141519, #141519) 12px 1px / 2.5px 9px no-repeat,
-    linear-gradient(#141519, #141519) 20px 1px / 15px 9px no-repeat;
-  border-radius: 2px;
-}
+.tel img { display: block; inline-size: clamp(200px, 15vw, 226px); block-size: auto; filter: drop-shadow(0 34px 34px rgba(0,0,0,.6)); }
 .tel figcaption { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.7); }
 @media (min-width: 900px) {
-  .moviles-fila { justify-content: center; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .moviles-fila { justify-content: center; overflow: visible; margin-inline: 0; padding-inline: 0; gap: clamp(12px, 1.6vw, 24px); }
   .tel { transform: translateY(var(--sube, 0)); }
-  .tel:nth-child(2), .tel:nth-child(4) { --sube: -26px; }
-  .tel-centro { --sube: -52px; }
-  .tel .tel-pantalla { inline-size: clamp(150px, 13.2vw, 206px); }
-  .tel-centro .tel-pantalla { inline-size: clamp(170px, 15vw, 236px); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.22), inset 0 0 0 4px #0A0A0C, 0 50px 80px -30px rgba(240,122,42,.35), 0 0 0 1px rgba(255,255,255,.08); }
+  .tel:nth-child(2), .tel:nth-child(4) { --sube: -24px; }
+  .tel-centro { --sube: -48px; }
+  .tel img { inline-size: clamp(150px, 13vw, 210px); }
+  .tel-centro img { inline-size: clamp(166px, 14.4vw, 232px); filter: drop-shadow(0 40px 50px rgba(240,122,42,.28)) drop-shadow(0 30px 30px rgba(0,0,0,.6)); }
 }
+
