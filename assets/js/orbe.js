@@ -20,13 +20,13 @@
   var FRAG = [
     'precision highp float;',
     'varying vec2 v;',
-    'uniform sampler2D tex; uniform float t; uniform float px; uniform vec2 m;',
+    'uniform sampler2D tex; uniform float t; uniform float px; uniform vec2 m; uniform vec2 d;',
     'vec2 girar(vec2 q, float a){ float c=cos(a), s=sin(a); return vec2(c*q.x-s*q.y, s*q.x+c*q.y); }',
     'vec2 muestra(vec2 q, vec3 n, float ior, float r){',
     '  vec3 rd = refract(vec3(0.0,0.0,-1.0), n, 1.0/ior);',
     '  vec2 uv = q*0.50 + rd.xy*0.30 + q*pow(r, 7.0)*0.75;',
     '  uv = girar(uv, sin(t*0.07)*0.35 + t*0.025 + m.x*0.25);',
-    '  uv += vec2(sin(t*0.11), cos(t*0.09))*0.05 - m*0.06;',
+    '  uv += vec2(sin(t*0.11), cos(t*0.09))*0.05 - m*0.06 - d;',
     '  uv *= 0.58;',
     '  return vec2(uv.x + 0.5, 0.5 - uv.y);',
     '}',
@@ -76,10 +76,12 @@
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(loc);
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var uT = gl.getUniformLocation(prog, 't'), uPx = gl.getUniformLocation(prog, 'px'), uM = gl.getUniformLocation(prog, 'm');
+    var uD = gl.getUniformLocation(prog, 'd'), uT = gl.getUniformLocation(prog, 't'), uPx = gl.getUniformLocation(prog, 'px'), uM = gl.getUniformLocation(prog, 'm');
 
     var lista = false, visible = true, raf = 0, inicio = performance.now();
     var meta = { x: 0, y: 0 }, mano = { x: 0, y: 0 };
+    // Arrastre: el contenido sigue al dedo 1:1 y al soltar conserva su impulso.
+    var arr = { x: 0, y: 0 }, vel = { x: 0, y: 0 }, agarre = null;
 
     function medir() {
       var d = Math.min(window.devicePixelRatio || 1, 3);
@@ -92,6 +94,8 @@
       mano.x += (meta.x - mano.x) * 0.06; mano.y += (meta.y - mano.y) * 0.06;
       gl.uniform1f(uT, quieto ? 6 : (ahora - inicio) / 1000);
       gl.uniform2f(uM, mano.x, mano.y);
+      if (!agarre) { arr.x += vel.x / 60; arr.y += vel.y / 60; vel.x *= 0.95; vel.y *= 0.95; }
+      gl.uniform2f(uD, arr.x, arr.y);
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
@@ -125,6 +129,34 @@
     }
     document.addEventListener('visibilitychange', seguir);
     window.addEventListener('resize', function () { if (quieto && lista) dibujar(0); });
+
+    canvas.addEventListener('pointerdown', function (e) {
+      if (e.button > 0) return;
+      canvas.setPointerCapture(e.pointerId);
+      agarre = { x: e.clientX, y: e.clientY, t: performance.now(), id: e.pointerId };
+      vel.x = vel.y = 0;
+      canvas.classList.add('orbe-agarrado');
+      if (window.tacto) tacto.sentir('toque');
+      if (quieto) dibujar(0);
+    });
+    canvas.addEventListener('pointermove', function (e) {
+      if (!agarre || e.pointerId !== agarre.id) return;
+      var r = canvas.getBoundingClientRect(), k = 1.2 / r.width, ahora = performance.now();
+      var dx = (e.clientX - agarre.x) * k, dy = -(e.clientY - agarre.y) * k, dt = Math.max(8, ahora - agarre.t) / 1000;
+      arr.x -= dx; arr.y -= dy;
+      vel.x = -dx / dt; vel.y = -dy / dt;
+      agarre.x = e.clientX; agarre.y = e.clientY; agarre.t = ahora;
+      if (quieto) dibujar(0);
+    });
+    var soltar = function (e) {
+      if (!agarre || e.pointerId !== agarre.id) return;
+      if (performance.now() - agarre.t > 80) vel.x = vel.y = 0; // quieto antes de soltar: sin lanzamiento
+      vel.x = Math.max(-3, Math.min(3, vel.x)); vel.y = Math.max(-3, Math.min(3, vel.y));
+      agarre = null;
+      canvas.classList.remove('orbe-agarrado');
+    };
+    canvas.addEventListener('pointerup', soltar);
+    canvas.addEventListener('pointercancel', soltar);
 
     if (!quieto) {
       window.addEventListener('pointermove', function (e) {

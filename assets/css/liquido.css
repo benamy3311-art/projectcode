@@ -301,3 +301,8 @@ img.llego { opacity: 1; transition: opacity 200ms ease-out; }
   .moviles-fila { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 48px), transparent); }
   .moviles-fila[data-final] { -webkit-mask-image: none; mask-image: none; }
 }
+
+/* El orbe se arrastra: con el dedo, el gesto horizontal lo gira y el vertical sigue desplazando la página. */
+.orbe { cursor: grab; touch-action: pan-y; }
+.orbe.orbe-agarrado { cursor: grabbing; }
+.orbe-escena { pointer-events: auto; }
