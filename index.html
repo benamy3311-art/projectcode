@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>ProjectCode · Cotizador para tiendas de tecnología</title>
-  <meta name="description" content="Cotiza en un minuto con la lista de tu proveedor, con tu marca y lista para WhatsApp. Asesor con IA, seguimiento de cada cliente, recogidas entre sedes y cierre de caja. Pruébala en la página, sin cuenta.">
+  <title>ProjectCode · Suite de ventas para tiendas de tecnología</title>
+  <meta name="description" content="La suite de ventas de tu tienda: clientes, ventas, catálogo, cotizaciones, remisiones e inventario en un solo lugar. IA que redacta y asesora, documentos con tu marca para WhatsApp y facturación electrónica por API. Pruébala en la página, sin cuenta.">
   <meta name="theme-color" content="#0A0A0C">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="ProjectCode · Cotiza en un minuto. Vende el resto del día.">
-  <meta property="og:description" content="Cotizador y gestión comercial para tiendas de tecnología. Pruébala en la página, sin cuenta.">
+  <meta property="og:title" content="ProjectCode · Vende mejor. Tu cliente lo nota.">
+  <meta property="og:description" content="Suite de ventas para tiendas de tecnología: clientes, ventas, catálogo, remisiones y facturación en un solo lugar. Pruébala en la página, sin cuenta.">
   <meta property="og:image" content="https://projectcode-zeta.vercel.app/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <script>
@@ -29,11 +29,16 @@
   <!-- El símbolo, una sola vez: lo reusan la cabecera, el riel de la prueba y el pie -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
     <defs>
-      <linearGradient id="pc-espectro" x1="14" y1="70" x2="61" y2="10" gradientUnits="userSpaceOnUse"><stop stop-color="#1657ff"/><stop offset=".32" stop-color="#6555ff"/><stop offset=".59" stop-color="#f16abb"/><stop offset=".79" stop-color="#ffb37b"/><stop offset="1" stop-color="#f6f58b"/></linearGradient>
-      <radialGradient id="pc-azul" cx=".04" cy=".72" r=".7"><stop stop-color="#145bff"/><stop offset="1" stop-color="#145bff" stop-opacity="0"/></radialGradient>
+      <radialGradient id="pc-orbe" cx=".36" cy=".72" r=".95"><stop stop-color="#0B0B0D"/><stop offset=".6" stop-color="#1D1D23"/><stop offset="1" stop-color="#3E3E47"/></radialGradient>
+      <linearGradient id="pc-destello" x1="10" y1="70" x2="70" y2="16" gradientUnits="userSpaceOnUse"><stop offset=".26" stop-color="#E8641F" stop-opacity="0"/><stop offset=".42" stop-color="#E8641F"/><stop offset=".52" stop-color="#F9C34A"/><stop offset=".62" stop-color="#8FC1F5" stop-opacity=".75"/><stop offset=".76" stop-color="#8FC1F5" stop-opacity="0"/></linearGradient>
+      <radialGradient id="pc-brillo" cx=".34" cy=".25" r=".22"><stop stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <clipPath id="pc-c"><circle cx="40" cy="42" r="36"/></clipPath>
+      <filter id="pc-suave" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.2"/></filter>
       <symbol id="pc" viewBox="0 0 80 84">
-        <path fill="url(#pc-espectro)" fill-rule="evenodd" d="M27 6H45C62 6 74 17 74 33S62 60 45 60H32V63C32 72 27 77 19 77S6 72 6 64V28C6 14 14 6 27 6Z M42 22C39 22 37 24 36 27L32 39C31 43 33 46 37 46H41C44 46 46 44 47 41L51 29C52 25 50 22 46 22Z"/>
-        <path fill="url(#pc-azul)" fill-rule="evenodd" d="M27 6H45C62 6 74 17 74 33S62 60 45 60H32V63C32 72 27 77 19 77S6 72 6 64V28C6 14 14 6 27 6Z M42 22C39 22 37 24 36 27L32 39C31 43 33 46 37 46H41C44 46 46 44 47 41L51 29C52 25 50 22 46 22Z"/>
+        <circle cx="40" cy="42" r="36" fill="url(#pc-orbe)"/>
+        <g clip-path="url(#pc-c)"><ellipse cx="40" cy="43" rx="46" ry="8.5" fill="url(#pc-destello)" filter="url(#pc-suave)" transform="rotate(-40 40 43)"/></g>
+        <circle cx="40" cy="42" r="36" fill="url(#pc-brillo)"/>
+        <circle cx="40" cy="42" r="35.4" fill="none" stroke="#fff" stroke-opacity=".22" stroke-width="1.2"/>
       </symbol>
     </defs>
   </svg>
@@ -80,26 +85,26 @@
       </div>
 
       <div class="heroe-texto">
-        <p class="etiqueta revela">Cotizador y gestión comercial para tiendas de tecnología</p>
-        <h1 id="titulo-heroe" class="titular revela" aria-label="Cotiza en un minuto. Vende el resto del día.">
-          <span class="solo-escritorio" aria-hidden="true"><span>Cotiza en un minuto.</span><br><span class="tono-2">Vende el resto del día.</span></span>
+        <p class="etiqueta revela">Suite de ventas para tiendas de tecnología</p>
+        <h1 id="titulo-heroe" class="titular revela" aria-label="Vende mejor. Tu cliente lo nota.">
+          <span class="solo-escritorio" aria-hidden="true"><span>Vende mejor.</span><br><span class="tono-2">Tu cliente lo nota.</span></span>
           <span class="solo-movil ajusta" aria-hidden="true">
-            <span class="linea">Cotiza en</span>
-            <span class="linea">un minuto.</span>
-            <span class="linea tono-2">Vende el resto</span>
-            <span class="linea tono-2">del día.</span>
+            <span class="linea">Vende</span>
+            <span class="linea">mejor.</span>
+            <span class="linea tono-2">Tu cliente</span>
+            <span class="linea tono-2">lo nota.</span>
           </span>
         </h1>
-        <p class="heroe-apoyo revela">La lista de tu proveedor se vuelve un catálogo que tu equipo busca en segundos. La cotización, la orden de compra y el recibo salen con tu marca, el IVA y la garantía, listos para imprimir o mandar por WhatsApp. Y ningún cliente se queda sin respuesta.</p>
+        <p class="heroe-apoyo revela">La suite de ventas de tu tienda: clientes, ventas, catálogo, cotizaciones, remisiones e inventario en un solo lugar. La IA te ayuda a responder y redactar mejor, cada documento sale con tu marca listo para WhatsApp, y la factura se genera conectando tu facturación electrónica por API. Tu equipo vende más rápido y tu cliente recibe una atención que se siente.</p>
         <div class="acciones revela">
           <a class="boton boton-principal" href="#prueba">Pruébala aquí</a>
           <button class="enlace enlace-boton" type="button" data-abre="demo">Pedir una demo con tu catálogo</button>
         </div>
         <dl class="hechos revela">
-          <div><dt>Ahorra tiempo</dt><dd>Precio, IVA e imagen para WhatsApp sin abrir el PDF</dd></div>
-          <div><dt>Ahorra dinero</dt><dd>Precios de la lista de hoy y ventas que no se olvidan</dd></div>
-          <div><dt>Atiende mejor</dt><dd>Respuestas rápidas y seguimiento a cada cliente</dd></div>
-          <div><dt>Asesor con IA</dt><dd>Arma equipos con tu catálogo y lee la foto del cliente</dd></div>
+          <div><dt>Clientes y ventas</dt><dd>Cada cliente, cada compra y cada remisión, guardados y a mano</dd></div>
+          <div><dt>Catálogo e inventario</dt><dd>Precios al día y existencias por tienda, sin hojas sueltas</dd></div>
+          <div><dt>Facturación por API</dt><dd>Conecta tu sistema de facturación electrónica y factura desde la venta</dd></div>
+          <div><dt>IA que vende contigo</dt><dd>Redacta mejores respuestas, arma equipos y lee la foto del cliente</dd></div>
         </dl>
       </div>
     </section>
@@ -386,7 +391,7 @@
     <!-- ── Funciones: un índice que se despliega y un solo escenario ── -->
     <section class="seccion ciclo" id="funciones" aria-labelledby="titulo-ciclo">
       <p class="etiqueta revela">Todo lo demás</p>
-      <h2 id="titulo-ciclo" class="titulo-seccion revela">Una sola app para la venta. <span class="tono-2">De la lista del proveedor al cierre.</span></h2>
+      <h2 id="titulo-ciclo" class="titulo-seccion revela">Una suite para toda la venta. <span class="tono-2">Del primer mensaje a la factura.</span></h2>
 
       <div class="ciclo-cuerpo">
         <ol class="indice revela" role="tablist" aria-orientation="vertical" aria-label="Funciones">
@@ -657,12 +662,12 @@
         <div class="piloto-orbe" aria-hidden="true"><canvas class="orbe" data-textura="assets/img/orbe-textura.webp" width="300" height="300"></canvas></div>
         <div class="piloto-texto">
           <p class="etiqueta revela">Demo con tu catálogo · 30 minutos</p>
-          <h2 id="titulo-piloto" class="titulo-seccion revela">Míralo con la lista de tu proveedor.</h2>
-          <p class="cuerpo revela">Nació y se usa a diario en una tienda de tecnología con tres sedes. Te lo mostramos con tus productos, tus precios y tu logo, sin instalar nada.</p>
+          <h2 id="titulo-piloto" class="titulo-seccion revela">Míralo con tu tienda adentro.</h2>
+          <p class="cuerpo revela">Nació y se usa a diario en una tienda de tecnología con tres sedes. Te lo mostramos con tu catálogo, tus clientes y tu logo, sin instalar nada.</p>
           <button class="boton boton-principal revela" type="button" data-abre="demo">Pedir una demo</button>
         </div>
         <ol class="lista lista-numerada revela">
-          <li><b>Nos mandas la lista de tu proveedor</b><small>En PDF o Excel, como te llega</small></li>
+          <li><b>Nos mandas tu catálogo</b><small>En PDF o Excel, como lo tengas hoy</small></li>
           <li><b>La cargamos con tu marca</b><small>Logo, datos de contacto y condiciones de garantía</small></li>
           <li><b>La pruebas con tu equipo</b><small>Con cotizaciones de verdad, y decides</small></li>
         </ol>
@@ -675,7 +680,7 @@
       <svg width="28" height="30" aria-hidden="true"><use href="#pc"/></svg>
       <span>projectcode</span>
     </a>
-    <p>Cotizador y gestión comercial para tiendas de tecnología.</p>
+    <p>Suite de ventas para tiendas de tecnología.</p>
     <p class="pie-nota"><a href="https://wa.me/573046217300" target="_blank" rel="noopener">WhatsApp 304 621 7300</a> · © 2026 ProjectCode</p>
   </footer>
 
@@ -759,7 +764,7 @@
     <span class="asa" aria-hidden="true"></span>
     <form id="form-demo" novalidate>
       <h2 id="titulo-demo">Pide una demo</h2>
-      <p class="cuerpo">Te escribimos por WhatsApp para mostrarte la app con la lista de tu proveedor.</p>
+      <p class="cuerpo">Te escribimos por WhatsApp para mostrarte la suite con tu catálogo.</p>
       <label class="campo"><span>Tu nombre</span><input name="nombre" autocomplete="name" required></label>
       <label class="campo"><span>Tienda</span><input name="tienda" autocomplete="organization" required></label>
       <label class="campo"><span>Ciudad y sedes</span><input name="ciudad" autocomplete="address-level2" required placeholder="Bogotá, 2 sedes"></label>
