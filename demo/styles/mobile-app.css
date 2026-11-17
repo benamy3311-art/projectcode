@@ -1,0 +1,761 @@
+/* ═══════════════════════════════════════════════════════════════════
+   SPEEDLOGIC · CAPA MÓVIL NATIVA  (solo ≤ 768px)
+   ───────────────────────────────────────────────────────────────────
+   Convierte la vista móvil en una app nativa: barra inferior flotante
+   estilo "liquid glass", hoja "Más", cabecera nativa, safe-areas y
+   medidas de app.  Se carga DESPUÉS de styles.css, así que sus reglas
+   móviles ganan por orden.
+
+   ⚠️  TODO el estilo real vive dentro de @media (max-width:768px).
+       Lo único fuera del media query es ocultar los 4 componentes
+       NUEVOS (que no existen en el diseño de escritorio), por lo que
+       la versión PC/tablet queda 100 % idéntica.
+═══════════════════════════════════════════════════════════════════ */
+
+/* Chrome móvil: oculto por defecto en cualquier ancho (elementos nuevos,
+   sin efecto sobre el desktop). Se reactiva dentro del media query. */
+.mobtopbar,
+.mobnav,
+.mobsheet,
+.mobsheet-backdrop,
+.sb-close-mob {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+
+  /* ── Tokens de la capa móvil ─────────────────────────────────── */
+  :root {
+    --mtb-h: 52px;      /* alto barra superior (sin safe-area) */
+    --mnav-h: 62px;     /* alto barra inferior (sin safe-area) */
+    --mnav-gap: 12px;   /* margen flotante de la barra inferior */
+  }
+
+  /* ── Marco de app: chrome fijo, contenido con scroll propio ──── */
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior-y: none;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  .app {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+  }
+
+  .pv {
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    padding-top: calc(var(--mtb-h) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--mnav-h) + (var(--mnav-gap) * 2) + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* La navegación pasa a las barras nativas: se ocultan las de escritorio */
+  .pv-top,
+  .tabs,
+  .mobile-toggle {
+    display: none !important;
+  }
+
+  /* Los paneles scrollean por dentro con inercia; nada de rebote raro */
+  .qpanel,
+  .cpanel,
+  .ivapanel,
+  .clist,
+  .sb-body,
+  .mobsheet {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Sub-navegación del hub Admin: que respire bajo la cabecera */
+  #adminSubnav {
+    padding-top: 8px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     BARRA SUPERIOR NATIVA
+  ═══════════════════════════════════════════════════════════════ */
+  .mobtopbar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: calc(var(--mtb-h) + env(safe-area-inset-top, 0px));
+    padding: env(safe-area-inset-top, 0px) 14px 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 700;
+    background: rgba(255, 255, 255, 0.72);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+  }
+
+  .mtb-title {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--gray-900);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mtb-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .mtb-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--gray-700);
+    position: relative;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s var(--ease);
+  }
+
+  .mtb-btn:active {
+    background: rgba(17, 24, 39, 0.07);
+  }
+
+  .mtb-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mtb-badge {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--blue);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+  }
+
+  /* Ocultar acciones que el rol lite no debe ver (espeja styles.css) */
+  body.lite-user .mtb-hist {
+    display: none;
+  }
+
+  /* Botón de cierre del formulario (cajón a pantalla completa) */
+  .sb-close-mob {
+    display: inline-flex;
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 10px);
+    right: 12px;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(17, 24, 39, 0.06);
+    border: none;
+    color: var(--gray-700);
+    z-index: 5;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s var(--ease);
+  }
+
+  .sb-close-mob:active {
+    background: rgba(17, 24, 39, 0.14);
+  }
+
+  .sb-close-mob svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     BARRA INFERIOR · LIQUID GLASS
+  ═══════════════════════════════════════════════════════════════ */
+  .mobnav {
+    display: flex;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: calc(var(--mnav-gap) + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 24px);
+    max-width: 460px;
+    height: var(--mnav-h);
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 5px 6px;
+    z-index: 700;
+    border-radius: 26px;
+    background: rgba(255, 255, 255, 0.60);
+    -webkit-backdrop-filter: saturate(200%) blur(28px);
+    backdrop-filter: saturate(200%) blur(28px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+      0 12px 34px rgba(16, 24, 40, 0.16),
+      0 4px 12px rgba(16, 24, 40, 0.10),
+      inset 0 1px 0 rgba(255, 255, 255, 0.70);
+  }
+
+  .mobnav-item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 4px 2px;
+    border: none;
+    background: transparent;
+    color: var(--gray-500);
+    font-family: var(--font);
+    cursor: pointer;
+    position: relative;
+    border-radius: 16px;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.18s var(--ease), transform 0.12s var(--ease);
+  }
+
+  .mobnav-item:active {
+    transform: scale(0.92);
+  }
+
+  .mobnav-ico {
+    display: inline-flex;
+  }
+
+  .mobnav-ico svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mobnav-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+
+  .mobnav-item.active {
+    color: var(--blue);
+  }
+
+  .mobnav-item.active .mobnav-lbl {
+    font-weight: 700;
+  }
+
+  .mobnav-item.active::before {
+    content: '';
+    position: absolute;
+    inset: 3px 8px;
+    background: rgba(37, 99, 235, 0.10);
+    border-radius: 14px;
+    z-index: -1;
+  }
+
+  /* Badge (Recogidas) */
+  .mobnav-badge {
+    position: absolute;
+    top: 1px;
+    left: 56%;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--red);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+    box-sizing: border-box;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+  }
+
+  /* Botón central elevado · acción primaria "Cotizar" */
+  .mobnav-center {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
+
+  .mobnav-center::before {
+    display: none;
+  }
+
+  .mobnav-fab {
+    width: 54px;
+    height: 40px;
+    margin-top: -16px;
+    margin-bottom: 3px;
+    border-radius: 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--grad-blue);
+    color: #fff;
+    box-shadow:
+      0 8px 20px rgba(37, 99, 235, 0.42),
+      inset 0 1px 0 rgba(255, 255, 255, 0.40);
+    transition: transform 0.12s var(--ease);
+  }
+
+  .mobnav-center:active .mobnav-fab {
+    transform: scale(0.94);
+  }
+
+  .mobnav-fab svg {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mobnav-center .mobnav-lbl {
+    color: var(--blue);
+    font-weight: 700;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     HOJA "MÁS" · BOTTOM SHEET
+  ═══════════════════════════════════════════════════════════════ */
+  .mobsheet-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(17, 24, 39, 0.34);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.28s var(--ease);
+  }
+
+  .mobsheet-backdrop.on {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobsheet {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1001;
+    padding: 8px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+    background: rgba(250, 250, 252, 0.86);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    backdrop-filter: saturate(180%) blur(24px);
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 -14px 44px rgba(16, 24, 40, 0.20);
+    transform: translateY(105%);
+    transition: transform 0.36s var(--ease-out);
+    max-height: 84dvh;
+    overflow-y: auto;
+  }
+
+  .mobsheet.on {
+    transform: translateY(0);
+  }
+
+  .mobsheet-grab {
+    width: 40px;
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(17, 24, 39, 0.18);
+    margin: 4px auto 12px;
+  }
+
+  .mobsheet-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .mobsheet-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .mobsheet-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 78px;
+    padding: 12px 4px;
+    border: none;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.62);
+    color: var(--gray-700);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-align: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.05);
+    transition: transform 0.12s var(--ease), background 0.15s var(--ease);
+  }
+
+  .mobsheet-item:active {
+    background: rgba(37, 99, 235, 0.10);
+    transform: scale(0.95);
+  }
+
+  .mobsheet-item svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mobsheet-item.mobsheet-danger {
+    color: var(--red);
+  }
+
+  .mobsheet-item[hidden] {
+    display: none;
+  }
+
+  /* ── Ajustes finos de tacto en móvil (targets ≥ 44px cómodos) ── */
+  .qbtn,
+  .note-btn,
+  .iva-btn {
+    min-height: 34px;
+  }
+}
+
+/* Respeto por "reducir movimiento": sin slides ni escalados */
+@media screen and (max-width: 768px) and (prefers-reduced-motion: reduce) {
+
+  .mobsheet,
+  .mobsheet-backdrop,
+  .mobnav-item,
+  .mobnav-fab,
+  .mobsheet-item,
+  .mtb-btn {
+    transition: none !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DOCUMENTO DE COTIZACIÓN · fluido + líneas como tarjetas apiladas
+   ───────────────────────────────────────────────────────────────────
+   El documento es de ancho fijo (800px) pensado para escritorio/impresión.
+   En un teléfono no cabe y se recortaba por ambos lados. Aquí, SOLO en
+   pantalla, se vuelve fluido y cada producto se muestra como una tarjeta
+   (etiqueta : valor) — nativo y legible.
+
+   · Se limita a `screen`: en impresión/PDF se usa el layout normal.
+   · Durante "Copiar imagen" (ui/mobile-nav.js) se añade la clase `.qexport`
+     al #quoteDoc, que desactiva estas reglas y devuelve la tabla — así la
+     imagen que se envía al cliente queda idéntica a la de siempre.
+═══════════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+
+  /* El documento ocupa todo el ancho; el gutter lo da la tabla */
+  .qpanel { align-items: stretch; padding-left: 0; padding-right: 0; }
+
+  .qpanel .qdoc:not(.qexport) {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    border-radius: 0;
+  }
+
+  /* Cabecera: reflow sin recortes */
+  .qdoc:not(.qexport) .qhdr { min-width: 0; flex-wrap: wrap; gap: 10px 14px; }
+  .qdoc:not(.qexport) .qhdr > * { min-width: 0; }
+  .qdoc:not(.qexport) .qnumbox { margin-left: auto; }
+
+  /* Condiciones + total: apilados */
+  .qdoc:not(.qexport) .qbottom { flex-direction: column; gap: 14px; padding: 16px; }
+  .qdoc:not(.qexport) .quote-total-card { flex: none; width: 100%; }
+
+  /* ── Tabla de líneas → tarjetas tipo factura ──
+     Cada producto es una tarjeta ordenada:
+       · Nombre (título)                                    [×]
+       · [CATEGORÍA]                              SKU CUSTOM
+       · Cant. 1  ·  Unit. $ 2.500.000
+       · ───────────────────────────────────────────────
+       · TOTAL                              $ 2.500.000     */
+  .qdoc:not(.qexport) thead { display: none; }
+  .qdoc:not(.qexport) table,
+  .qdoc:not(.qexport) tbody { display: block; width: auto !important; }
+  .qdoc:not(.qexport) table { border: 0; padding: 8px 12px 4px; }
+
+  .qdoc:not(.qexport) tbody tr {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 6px;
+    row-gap: 5px;
+    border: 1px solid var(--gray-200);
+    border-radius: 14px;
+    background: #fff;
+    padding: 13px 15px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .qdoc:not(.qexport) tbody td {
+    display: block;
+    width: auto !important;
+    border: 0 !important;
+    padding: 0 !important;
+    text-align: left !important;
+    white-space: normal !important;
+    font-size: 12.5px !important;
+  }
+
+  /* Colocación consistente (todo alineado a la izquierda):
+       nombre / categoría / SKU / (Cant. · Unit.) / Total
+     cat, sku y tot ocupan su propia línea (basis 100%); c y unit
+     comparten línea (c auto + unit crece), y como sku va antes en 100%
+     y tot va después en 100%, el par Cant.·Unit. queda siempre junto. */
+  .qdoc:not(.qexport) tbody td.ref  { order: 1; flex: 1 1 100%; }
+  .qdoc:not(.qexport) tbody td.cat  { order: 2; flex: 1 1 100%; }
+  .qdoc:not(.qexport) tbody td.sku  { order: 3; flex: 1 1 100%; }
+  .qdoc:not(.qexport) tbody td.c    { order: 4; flex: 0 0 auto; }
+  .qdoc:not(.qexport) tbody td.unit { order: 5; flex: 1 1 auto; }
+  .qdoc:not(.qexport) tbody td.tot  { order: 6; flex: 1 1 100%; }
+
+  /* 1 · Nombre (título de la tarjeta) */
+  .qdoc:not(.qexport) tbody td.ref {
+    font-size: 14.5px !important;
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.3;
+    padding-right: 70px !important;   /* sitio para los botones swap + × */
+  }
+
+  /* 2 · Meta: categoría (izq) + SKU (der) en una línea */
+  .qdoc:not(.qexport) tbody td.cat .catpill { font-size: 10px; }
+  .qdoc:not(.qexport) tbody td.sku {
+    color: var(--gray-400);
+    font-size: 11px !important;
+    font-family: var(--mono);
+  }
+  .qdoc:not(.qexport) tbody td.sku::before {
+    content: 'SKU ';
+    font-family: var(--font);
+    letter-spacing: 0.3px;
+  }
+
+  /* 3 · Detalle: cantidad · unitario en una línea */
+  .qdoc:not(.qexport) tbody td.c,
+  .qdoc:not(.qexport) tbody td.unit { color: var(--gray-700); }
+  .qdoc:not(.qexport) tbody td.c::before   { content: 'Cant. '; }
+  .qdoc:not(.qexport) tbody td.unit::before { content: '·  Unit. '; }
+  .qdoc:not(.qexport) tbody td.c::before,
+  .qdoc:not(.qexport) tbody td.unit::before {
+    color: var(--gray-400);
+    font-weight: 600;
+  }
+
+  /* 4 · Total destacado (todo a la izquierda, no partido a los lados) */
+  .qdoc:not(.qexport) tbody td.tot {
+    display: block !important;
+    margin-top: 8px;
+    padding-top: 9px !important;
+    border-top: 1px solid var(--gray-100) !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    color: var(--blue) !important;
+  }
+  .qdoc:not(.qexport) tbody td.tot::before {
+    content: 'Total ';
+    color: var(--gray-500);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-right: 6px;
+  }
+
+  /* Botón eliminar: SIEMPRE visible (en móvil no hay hover) */
+  .qdoc:not(.qexport) tbody tr:not(.qrow-specs) .qrow-rm {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border-radius: 50%;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    font-size: 19px;
+    opacity: 1;
+  }
+  .qdoc:not(.qexport) .qrow-rm:active { background: var(--red-lt); color: var(--red); }
+  .qdoc:not(.qexport) .qrow-qty { font-weight: 700; color: var(--gray-900); }
+
+  /* Botón "reemplazar producto" (swap): junto al ×, también visible en móvil */
+  .qdoc:not(.qexport) tbody tr:not(.qrow-specs) .qrow-swap {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    right: 46px;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    border-radius: 50%;
+    background: var(--gray-100);
+    color: var(--gray-500);
+    opacity: 1;
+  }
+  .qdoc:not(.qexport) .qrow-swap:hover { transform: none; }
+  .qdoc:not(.qexport) .qrow-swap:active { background: var(--blue-lt); color: var(--blue); }
+  .qdoc:not(.qexport) .qrow-swap .ico { width: 16px; height: 16px; }
+
+  /* Ficha técnica: los chips se ajustan solos, solo hay que quitarles la
+     tarjeta propia y las celdas vacías que el layout de móvil apila. */
+  .qdoc:not(.qexport) tbody tr.qrow-specs {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    margin: -6px 0 10px;
+    padding: 2px 15px;
+  }
+  .qdoc:not(.qexport) tbody tr.qrow-specs td { flex: 1 1 100%; padding: 0 !important; background: transparent; }
+  .qdoc:not(.qexport) tbody tr.qrow-specs td:empty { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   "COPIAR IMAGEN" = documento EXACTO como en la web (escritorio)
+   ───────────────────────────────────────────────────────────────────
+   En móvil el documento se ve como tarjetas, pero al copiar/descargar la
+   imagen (ui/mobile-nav.js añade .qexport al #quoteDoc durante html2canvas)
+   reponemos el layout de escritorio: 800px, tabla y fuentes normales — así
+   la imagen que se envía al cliente sale idéntica a la de la versión web.
+═══════════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+  .qdoc.qexport {
+    width: 800px !important;
+    min-width: 800px !important;
+    max-width: none !important;
+    font-size: 11.5px !important;
+    border-radius: 14px !important;
+  }
+
+  /* Cabecera como en escritorio */
+  .qdoc.qexport .qhdr {
+    padding: 22px 30px 18px !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
+    align-items: center !important;
+  }
+  .qdoc.qexport .qhdr > * { min-width: auto !important; }
+  .qdoc.qexport .qlogo img { height: 84px !important; max-width: 300px !important; }
+  .qdoc.qexport .qcontact .wa { font-size: 16px !important; }
+  .qdoc.qexport .qnumbox { margin-left: 0 !important; padding: 9px 20px 11px !important; }
+  .qdoc.qexport .qnum-n { font-size: 40px !important; }
+  .qdoc.qexport .qmeta { padding: 12px 30px !important; flex-direction: row !important; align-items: center !important; }
+  .qdoc.qexport .qmeta span { font-size: 13px !important; }
+
+  /* Tabla como en escritorio (deshace tarjetas + encogido móvil) */
+  .qdoc.qexport thead { display: table-header-group !important; }
+  .qdoc.qexport thead th { padding: 12px 14px !important; font-size: 10px !important; letter-spacing: 0.08em !important; }
+  .qdoc.qexport thead th:first-child { padding-left: 30px !important; }
+  .qdoc.qexport thead th:last-child { padding-right: 30px !important; }
+  .qdoc.qexport tbody td { padding: 13px 14px !important; font-size: 11.5px !important; }
+  .qdoc.qexport tbody td:first-child { padding-left: 30px !important; }
+  .qdoc.qexport tbody td:last-child { padding-right: 30px !important; }
+  .qdoc.qexport td.c { font-size: 14px !important; }
+  .qdoc.qexport td.sku { font-size: 11px !important; }
+  .qdoc.qexport td.ref { font-size: 13px !important; }
+  .qdoc.qexport td.unit { font-size: 12.5px !important; }
+  .qdoc.qexport td.tot { font-size: 13.5px !important; }
+
+  /* Bloque inferior en fila (condiciones + tarjeta total) */
+  .qdoc.qexport .qbottom { flex-direction: row !important; }
+  .qdoc.qexport .quote-total-card { flex: 0 0 290px !important; width: 290px !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   AJUSTES DE CHROME MÓVIL (bugs menores de la auditoría)
+═══════════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 768px) {
+
+  /* (1) Ocultar barra inferior y cabecera cuando hay un modal a pantalla
+     completa abierto — así no se asoman tenues por debajo. */
+  body:has(#settingsPanel.on, #billOv.on, #scanOv.on, #smartQuoteOv.on,
+           #pcBuilderOv.on, #quoteTextOv.on, #clientAnswerOv.on,
+           #swapPickerOv.on, .hpanel.on, #quoteImgLightbox) .mobnav,
+  body:has(#settingsPanel.on, #billOv.on, #scanOv.on, #smartQuoteOv.on,
+           #pcBuilderOv.on, #quoteTextOv.on, #clientAnswerOv.on,
+           #swapPickerOv.on, .hpanel.on, #quoteImgLightbox) .mobtopbar {
+    display: none !important;
+  }
+
+  /* (2) Banner superior ("versión/lista nueva"): mientras está visible se
+     oculta la cabecera móvil (si no, la tapaba). Además respeta el notch. */
+  body.sl-topnotice .mobtopbar { display: none; }
+  .top-notice { padding-top: calc(9px + env(safe-area-inset-top, 0px)); }
+}

@@ -1,0 +1,1031 @@
+/* ═══════════════════════════════════════════════════════════════════
+   COTIZACIÓN PARA EMPRESAS — hoja A4
+   ───────────────────────────────────────────────────────────────────
+   Documento en geometría de papel real (210 × 297 mm), no la pantalla
+   encogida: unidades en mm y pt para que no dependa de cómo el
+   navegador escale al imprimir. Lo arma ui/empresas.js.
+
+   Mantiene la identidad del cotizador (mismo azul, DM Sans, iconos SVG
+   stroke) pero en registro formal: hairlines en vez de bandas de color,
+   sin sombras internas, sin chips de color que encarecen la impresión.
+═══════════════════════════════════════════════════════════════════ */
+
+.emp-doc {
+  --ink: #0f172a;
+  --ink-2: #475569;
+  --ink-3: #94a3b8;
+  --line: #e2e8f0;
+  --line-2: #cbd5e1;
+  --navy: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+}
+
+.emp-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  background: #fff;
+  padding: 14mm 15mm 20mm;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-xl);
+  font-size: 9.2pt;
+  line-height: 1.45;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+/* filete de marca al borde del papel */
+.emp-sheet::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 3.2mm;
+  background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 45%, #3b82f6 100%);
+}
+
+/* ── Encabezado ─────────────────────────────────── */
+.emp-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14mm;
+  padding-bottom: 6mm;
+}
+
+.emp-hd-cont {
+  padding-bottom: 5mm;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 6mm;
+}
+
+.emp-hd-logo {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5mm;
+  min-width: 0;
+}
+
+.emp-logo-img {
+  height: 15mm;
+  width: auto;
+  max-width: 70mm;
+  object-fit: contain;
+  display: block;
+}
+
+.emp-logo-txt {
+  font-size: 14pt;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  color: var(--navy);
+}
+
+.emp-emisor {
+  font-size: 7.6pt;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.emp-emisor b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.emp-hd-doc {
+  text-align: right;
+  flex: 0 0 auto;
+}
+
+.emp-t {
+  font-size: 10.5pt;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.emp-t-sm {
+  font-size: 8pt;
+  letter-spacing: .12em;
+}
+
+.emp-n {
+  font-family: var(--mono);
+  font-size: 19pt;
+  font-weight: 500;
+  color: var(--blue);
+  line-height: 1.15;
+  margin-top: 1mm;
+  letter-spacing: -.5px;
+}
+
+.emp-cont-tag {
+  font-size: 7.4pt;
+  color: var(--ink-3);
+  margin-top: 1mm;
+}
+
+.emp-hd-doc dl {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: .8mm 4mm;
+  margin-top: 3mm;
+  font-size: 7.4pt;
+}
+
+.emp-hd-doc dt {
+  color: var(--ink-3);
+  font-weight: 600;
+  text-align: right;
+}
+
+.emp-hd-doc dd {
+  color: var(--ink);
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Emisor / cliente ───────────────────────────── */
+.emp-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: 1.6mm;
+  overflow: hidden;
+  margin-bottom: 6mm;
+}
+
+.emp-party {
+  padding: 4mm 5mm;
+  min-width: 0;
+}
+
+.emp-party + .emp-party {
+  border-left: 1px solid var(--line);
+}
+
+.emp-party.dest {
+  background: #f8fafc;
+}
+
+.emp-party h3 {
+  font-size: 6.6pt;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 2.4mm;
+}
+
+.emp-nm {
+  font-size: 10pt;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -.2px;
+  line-height: 1.25;
+  margin-bottom: 1.6mm;
+  word-break: break-word;
+}
+
+.emp-party dl {
+  display: grid;
+  grid-template-columns: 19mm 1fr;
+  gap: .9mm 0;
+  font-size: 7.6pt;
+  line-height: 1.4;
+}
+
+.emp-party dt {
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.emp-party dd {
+  color: var(--ink-2);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.emp-party dd b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ── Tabla ──────────────────────────────────────── */
+.emp-items {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* la cabecera se repite sola en cada hoja al imprimir */
+.emp-items thead {
+  display: table-header-group;
+}
+
+.emp-items thead th {
+  font-size: 6.8pt;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--navy);
+  padding: 2.6mm;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.emp-items thead th:first-child {
+  border-radius: 1.2mm 0 0 0;
+  padding-left: 3.4mm;
+}
+
+.emp-items thead th:last-child {
+  border-radius: 0 1.2mm 0 0;
+  padding-right: 3.4mm;
+}
+
+.emp-items th.r,
+.emp-items td.r {
+  text-align: right;
+}
+
+.emp-items th.c,
+.emp-items td.c {
+  text-align: center;
+}
+
+.emp-items tbody tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-items tbody td {
+  padding: 2.5mm 2.6mm;
+  border-bottom: 1px solid #eef2f7;
+  vertical-align: top;
+}
+
+.emp-items tbody td:first-child {
+  padding-left: 3.4mm;
+}
+
+.emp-items tbody td:last-child {
+  padding-right: 3.4mm;
+}
+
+.emp-items tbody tr:nth-child(even) td {
+  background: #fbfcfe;
+}
+
+.emp-it-n {
+  font-size: 7.4pt;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+
+.emp-it-sku {
+  font-family: var(--mono);
+  font-size: 7.2pt;
+  color: var(--ink-3);
+  letter-spacing: -.02em;
+}
+
+.emp-it-desc {
+  font-size: 8.4pt;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+/* Ficha técnica: misma cápsula vertical del documento normal (.qspec),
+   escalada a A4. La cápsula de la etiqueta es de ancho fijo, así los
+   valores quedan alineados en columna. */
+.emp-specs {
+  margin-top: 1.4mm;
+}
+
+.emp-spec {
+  display: block;
+  line-height: 1.4;
+  margin-bottom: 1mm;
+}
+
+.emp-spec:last-child {
+  margin-bottom: 0;
+}
+
+.emp-spec b {
+  display: inline-block;
+  width: 24mm;
+  margin-right: 2.6mm;
+  padding: .5mm 1.4mm;
+  text-align: center;
+  border-radius: 1mm;
+  background: #f8fafc;
+  border: .3mm solid var(--line);
+  font-size: 6.2pt;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  vertical-align: 1px;
+}
+
+.emp-spec b.emp-spec-nolabel {
+  background: transparent;
+  border-color: transparent;
+}
+
+.emp-spec i {
+  display: inline-block;
+  vertical-align: top;
+  /* valores largos (p. ej. una resolución de monitor) envuelven en más de
+     una línea — sin el ancho acotado, esa segunda línea volvía al borde
+     izquierdo del bloque en vez de quedar bajo la primera. */
+  max-width: calc(100% - 26.6mm);
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 7.6pt;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+/* Procesador y gráfica: lo primero que compara el cliente */
+.emp-spec.hero b {
+  background: var(--blue-lt);
+  border-color: #bfdbfe;
+  color: var(--blue);
+}
+
+.emp-spec.hero i {
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.emp-it-nota {
+  font-size: 7.2pt;
+  color: var(--ink-3);
+  font-style: italic;
+  margin-top: .8mm;
+}
+
+.emp-it-cat {
+  display: inline-block;
+  font-size: 6.2pt;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  background: var(--blue-lt);
+  padding: .6mm 1.8mm;
+  border-radius: 1mm;
+  margin-top: 1.1mm;
+}
+
+.emp-excl {
+  display: inline-block;
+  font-size: 6.2pt;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: #b45309;
+  background: #fef3c7;
+  padding: .6mm 1.8mm;
+  border-radius: 1mm;
+  margin: 1.1mm 0 0 1.4mm;
+}
+
+.emp-it-qty {
+  font-size: 8.4pt;
+  font-weight: 700;
+}
+
+.emp-it-vu {
+  font-size: 8.2pt;
+  color: var(--ink-2);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.emp-it-tot {
+  font-size: 8.6pt;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Reemplazar / eliminar producto — solo pantalla (no-print ya las oculta
+   al imprimir). Reveladas al pasar el mouse por la fila, mismo patrón que
+   .qrow-swap/.qrow-rm del documento normal, para no ensuciar la vista
+   previa de un documento que se ve formal. */
+.emp-it-actions {
+  white-space: nowrap;
+  text-align: right;
+  vertical-align: middle;
+}
+
+/* La sangría de la primera columna del documento (la numeración) no puede
+   colgar de :first-child: ese lugar lo ocupa ahora la columna de acciones,
+   que sigue en el DOM al imprimir (display:none no cambia :first-child).
+   Sin esto el "#" quedaba pegado al borde en el PDF. */
+.emp-items thead th:nth-child(2),
+.emp-items tbody td.emp-it-n {
+  padding-left: 3.4mm;
+}
+
+.emp-act-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .12s, background .12s, color .12s;
+}
+
+.emp-items tbody tr:hover .emp-act-btn {
+  opacity: 1;
+}
+
+.emp-act-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+.emp-act-btn:hover {
+  background: var(--gray-100);
+  color: var(--accent);
+}
+
+.emp-act-btn.emp-act-rm:hover {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+/* ── Totales ────────────────────────────────────── */
+.emp-sum-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 5mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-sum {
+  width: 78mm;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.emp-sum-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 2mm 3.4mm;
+  font-size: 8.2pt;
+}
+
+.emp-sum-row + .emp-sum-row {
+  border-top: 1px solid var(--line);
+}
+
+.emp-sum-row .l {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+
+.emp-sum-row .v {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.emp-sum-row.desc .l,
+.emp-sum-row.desc .v {
+  color: #b91c1c;
+}
+
+.emp-sum-row.total {
+  background: var(--navy);
+  border-radius: 1.6mm;
+  padding: 3.2mm 3.4mm;
+  margin-top: 1.6mm;
+  border-top: 0;
+}
+
+.emp-sum-row.total .l {
+  color: #93b4f5;
+  font-size: 7.4pt;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+
+.emp-sum-row.total .v {
+  color: #fff;
+  font-size: 14pt;
+  font-weight: 800;
+  letter-spacing: -.4px;
+}
+
+.emp-sum-row.neto {
+  background: #e0f2fe;
+  border-radius: 1.6mm;
+  border-top: 0;
+  margin-top: 1.2mm;
+}
+
+.emp-sum-row.neto .l,
+.emp-sum-row.neto .v {
+  color: #0c4a6e;
+  font-weight: 800;
+}
+
+.emp-letras {
+  margin-top: 4mm;
+  padding: 2.6mm 3.4mm;
+  border: 1px solid var(--line);
+  border-radius: 1.6mm;
+  background: #f8fafc;
+  font-size: 7.6pt;
+  color: var(--ink-2);
+  line-height: 1.5;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-letras b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* ── Condiciones / pago / firma ─────────────────── */
+.emp-sect {
+  margin-top: 7mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-sect-h {
+  font-size: 6.8pt;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--blue);
+  padding-bottom: 1.6mm;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 3mm;
+}
+
+.emp-cond-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.6mm 8mm;
+}
+
+.emp-cond {
+  display: flex;
+  gap: 2.4mm;
+  align-items: flex-start;
+  font-size: 7.9pt;
+  line-height: 1.45;
+}
+
+.emp-cond svg {
+  flex: 0 0 auto;
+  width: 3.6mm;
+  height: 3.6mm;
+  stroke: var(--blue);
+  margin-top: .4mm;
+}
+
+.emp-cond .k {
+  color: var(--ink-3);
+  font-weight: 600;
+  display: block;
+  font-size: 6.8pt;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: .3mm;
+}
+
+.emp-cond .v {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.emp-cond .v small {
+  color: var(--ink-2);
+  font-weight: 500;
+  font-size: 7.4pt;
+}
+
+.emp-wgroups {
+  display: block;
+  margin-top: .8mm;
+}
+
+.emp-wrow {
+  display: block;
+  position: relative;
+  padding-left: 3mm;
+  margin-bottom: .6mm;
+}
+
+.emp-wrow:last-child {
+  margin-bottom: 0;
+}
+
+.emp-wrow::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.emp-pago {
+  margin-top: 4mm;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--line);
+  border-radius: 1.6mm;
+  overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-pago > div {
+  padding: 3mm 4mm;
+}
+
+.emp-pago > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.emp-pago h4 {
+  font-size: 6.6pt;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1.6mm;
+}
+
+.emp-pago p {
+  font-size: 7.9pt;
+  color: var(--ink);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.emp-pago p span {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+
+/* Notas por-cotización (#notasCot). Mismo lenguaje visual que el bloque de
+   notas del documento normal: filete azul a la izquierda sobre papel gris.
+   pre-wrap porque el vendedor escribe en varios renglones. */
+.emp-notas {
+  margin-top: 4mm;
+  padding: 3mm 4mm;
+  border: 1px solid var(--line);
+  border-left: 1mm solid var(--blue);
+  border-radius: 1.6mm;
+  background: #f8fafc;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-notas h4 {
+  font-size: 6.6pt;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 1.6mm;
+}
+
+.emp-notas p {
+  font-size: 7.9pt;
+  color: var(--ink);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.emp-legal {
+  font-size: 7pt;
+  color: var(--ink-3);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.emp-legal-row {
+  margin-top: 4mm;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6mm;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.emp-legal-row .emp-legal {
+  flex: 1 1 auto;
+}
+
+/* ── Pie de hoja ────────────────────────────────── */
+.emp-ft {
+  position: absolute;
+  left: 15mm;
+  right: 15mm;
+  bottom: 8mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8mm;
+  padding-top: 2.4mm;
+  border-top: 1px solid var(--line);
+  font-size: 6.8pt;
+  color: var(--ink-3);
+}
+
+.emp-ft b {
+  color: var(--ink-2);
+  font-weight: 700;
+}
+
+.emp-ft .pg {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════
+   Formulario de datos del cliente (solo pantalla)
+═══════════════════════════════════════════════════ */
+.empf {
+  width: 210mm;
+  max-width: 100%;
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 14px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.empf-h {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 13px;
+}
+
+.empf-h svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.empf-h small {
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--gray-400);
+  font-size: 11px;
+}
+
+.empf-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.empf-row + .empf-row {
+  margin-top: 10px;
+}
+
+.empf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.empf-field span {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+
+.empf-field input {
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 8px 11px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 9px;
+  background: var(--gray-50);
+  color: var(--gray-900);
+  transition: border-color .15s, background .15s;
+  min-width: 0;
+}
+
+.empf-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+}
+
+/* ═══════════════════════════════════════════════════
+   Selector de modo (Normal | Empresas)
+   Solo tiene sentido parado en la pestaña Cotización — en el resto de la
+   barra (Catálogo, IVA, Tienda...) sobra. #qmodeSeg es el sibling
+   inmediato de #tab-q en el markup, así que el sibling combinator alcanza
+   sin JS extra: switchTab() ya mueve la clase .active entre pestañas.
+═══════════════════════════════════════════════════ */
+/* ── Selector de modo vertical (Normal | Empresas) en Sidebar ── */
+#qmodeSeg {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qmode-vsec {
+  background: #ffffff;
+  border: 1px solid var(--gray-200, #e2e8f0);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.qmode-vlbl {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gray-800, #1e293b);
+  letter-spacing: -0.1px;
+  margin-bottom: 9px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.qmode-vlbl svg {
+  width: 15px;
+  height: 15px;
+  color: #2563eb;
+}
+
+.qmode-vbtn {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 9px;
+  padding: 9px 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+.qmode-vbtn:hover:not(.on) {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.qmode-vbtn.on {
+  background: #eff6ff;
+  border-color: #2563eb;
+  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.12);
+}
+
+.qmode-vbtn-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qmode-radio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #94a3b8;
+  display: inline-block;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.qmode-vbtn.on .qmode-radio {
+  border-color: #2563eb;
+  background: #2563eb;
+}
+
+.qmode-vbtn.on .qmode-radio::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.qmode-vbtn-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.qmode-vbtn.on .qmode-vbtn-title {
+  color: #1d4ed8;
+}
+
+.qmode-vbtn-desc {
+  font-size: 10.5px;
+  color: #64748b;
+  margin-top: 2px;
+  padding-left: 22px;
+}
+  font-weight: 600;
+  color: var(--gray-500);
+  padding: 5px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s, box-shadow .15s;
+}
+
+.qmode-btn:hover:not(.on) {
+  color: var(--gray-900);
+}
+
+.qmode-btn.on {
+  background: #fff;
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 900px) {
+  .qmode-btn {
+    padding: 5px 9px;
+    font-size: 11.5px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   IMPRESIÓN
+   El @media print global (styles.css) ya oculta el chrome de la app
+   y los .no-print. Aquí solo va la geometría de página.
+═══════════════════════════════════════════════════ */
+@media print {
+  /* El @media print global le mete padding al body para que el documento
+     normal no toque el borde. La hoja A4 ya trae su propio margen de
+     15mm, así que aquí ese padding sobra y correría todo. */
+  body.empresa-mode {
+    padding: 0 !important;
+  }
+
+  .emp-doc {
+    display: block;
+    gap: 0;
+  }
+
+  /* Con la columna de acciones oculta, la esquina redondeada de la banda
+     del encabezado tiene que pasar a la primera celda que sí se ve. */
+  .emp-items thead th:nth-child(2) {
+    border-radius: 1.2mm 0 0 0;
+  }
+
+  .emp-sheet {
+    box-shadow: none;
+    margin: 0;
+    width: 210mm;
+    min-height: 297mm;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .emp-sheet:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+}

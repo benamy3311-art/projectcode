@@ -1,0 +1,105 @@
+/* ═══════════════════════════════════════════════════
+   TEMA GUSTO — Cuadre de caja (cuadre.html, rediseño paso 6)
+   ═══════════════════════════════════════════════════
+   cuadre.html es otra página (se abre en un iframe dentro de la app) con sus
+   propios estilos: esta capa le da la misma piel que tema-gusto.css. Quitar el
+   <link> de cuadre.html devuelve el aspecto anterior.
+
+   - El total del día y «A entregar en caja» son las cifras que se buscan al
+     cerrar: van en tinta, grandes; nada compite con ellas.
+   - Ingresos y egresos conservan su significado (menta entra, rosa sale), en
+     pastel y sin bordes.
+   - Las formas de pago siguen distinguiéndose por color (se reconocen sin leer),
+     pero en pasteles suaves para que la tabla no grite.
+═══════════════════════════════════════════════════ */
+
+@font-face { font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../assets/fonts/Geist-Variable.woff2") format("woff2"); }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/GeistMono-Medium.woff2") format("woff2"); }
+
+:root {
+  --font: "Geist", -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, monospace;
+  --gray-50: #F6F7F9; --gray-100: #F2F3F6; --gray-200: #E7E8EE; --gray-300: #D3D6E0;
+  --gray-400: #8E919C; --gray-500: #6B6E79; --gray-600: #50535E; --gray-700: #393B44; --gray-900: #141519;
+  --text: #141519; --text2: #393B44; --muted: #8E919C;
+  --c1: #141519; --blue: #141519; --blue-lt: #F2F3F6; --blue-hover: #2A2C33;
+  --green: #1F5A3C; --green-lt: #CFEEDD; --red: #8C2A2A; --red-lt: #F9DCDC;
+  --glass-border: #E7E8EE; --glass-border-hover: #D3D6E0;
+  --radius: 20px; --radius-sm: 12px; --radius-xs: 999px;
+  --shadow-sm: 0 1px 2px rgba(20, 24, 50, .04), 0 4px 12px rgba(20, 24, 50, .05);
+  --shadow: 0 1px 2px rgba(20, 24, 50, .04), 0 4px 12px rgba(20, 24, 50, .05);
+  --shadow-lg: 0 2px 4px rgba(20, 24, 50, .05), 0 12px 32px rgba(20, 24, 50, .10);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --menta: #CFEEDD; --menta-t: #1F5A3C; --rosa: #F9D7E4; --rosa-t: #6F2A47;
+  --durazno: #FCE3CC; --durazno-t: #6E4516; --cielo: #DCE5FF; --cielo-t: #1B3A86;
+  --lavanda: #E4DEFC; --lavanda-t: #3F3470; --lima: #E8F0B0; --lima-t: #47540F;
+}
+
+body {
+  background:
+    radial-gradient(60% 50% at 0% 100%, rgba(196, 184, 245, .25), transparent 70%),
+    #ECEDF2;
+  letter-spacing: -.005em;
+}
+
+/* Encabezado: transparente sobre el lienzo; navegación en píldoras sobre una pista */
+header { background: rgba(236, 237, 242, .88); border-bottom: 0; }
+.app-title { font-size: 20px; font-weight: 650; letter-spacing: -.03em; }
+.header-nav { background: #E7E8EE; border-radius: 999px; padding: 4px; gap: 2px; }
+.nav-btn { border: 0; background: transparent; color: #50535E; }
+.nav-btn:hover { background: rgba(255, 255, 255, .6); border: 0; color: #141519; }
+.nav-btn.active { background: #fff; color: #141519; box-shadow: 0 1px 2px rgba(20, 20, 40, .10), 0 3px 8px -2px rgba(20, 20, 40, .16); }
+.date-pill, .admin-bar { border: 0; box-shadow: 0 1px 2px rgba(20, 24, 50, .05); }
+.total-label { font: 500 11px var(--mono); text-transform: none; letter-spacing: .02em; color: #6B6E79; }
+.total-val { color: #141519; font-size: 22px; font-weight: 650; letter-spacing: -.03em; }
+
+/* Tarjetas */
+.card, .kpi, .chart-card { border: 0; border-radius: 20px; box-shadow: var(--shadow); }
+.card-header { background: transparent; border-bottom: 1px solid rgba(20, 21, 25, .06); }
+.card-title { font: 500 11.5px var(--mono); letter-spacing: .02em; text-transform: none; color: #141519; }
+.tfoot-row, .res-total { background: #F6F7F9; border-top-color: rgba(20, 21, 25, .06); }
+.res-head { background: transparent; }
+.res-total .rv { color: #141519 !important; font-size: 20px; font-weight: 650; }
+.res-caja { background: #141519; color: #fff; border-radius: 16px; margin: 10px 14px 14px; padding: 14px 16px; }
+.res-caja span, .res-caja span:last-child { color: #fff !important; }
+.vnum { font-variant-numeric: tabular-nums; }
+
+/* Controles */
+.field input, .field select, .vw input, .agente-inp, .search-input-field, .split-inp {
+  background: #F2F3F6 !important; border-color: transparent !important; border-radius: 12px !important;
+}
+.field input:focus, .vw input:focus, .agente-inp:focus, .search-input-field:focus { background: #fff !important; border-color: #141519 !important; box-shadow: 0 0 0 1px #141519 !important; }
+.chip, .toggle-form-btn, .qf-btn, .abtn, .cal-nav-btn, .mes-nav button { border: 0; background: #F2F3F6; color: #23252B; border-radius: 999px; }
+.chip:hover, .toggle-form-btn:hover, .qf-btn:hover, .abtn:hover { background: #E7E8EE; }
+.qf-btn.qf-active { background: #141519; color: #fff; border: 0; }
+.btn-add, .btn-split-confirm { background: #141519; border: 0; border-radius: 999px; box-shadow: 0 1px 2px rgba(20, 20, 40, .10), 0 3px 8px -2px rgba(20, 20, 40, .16); }
+.btn-add:hover, .btn-split-confirm:hover { background: #2A2C33; }
+.btn-ing { background: var(--menta); color: var(--menta-t); border: 0; border-radius: 999px; }
+.btn-eg { background: var(--rosa); color: var(--rosa-t); border: 0; border-radius: 999px; }
+.mvi { color: var(--menta-t); }
+.mve { color: var(--rosa-t); }
+.bdel:hover { background: var(--rosa) !important; color: var(--rosa-t) !important; }
+
+/* Estados y formas de pago: mismo significado, en pastel */
+.badge, .tag { border: 0 !important; border-radius: 999px; font-weight: 600; }
+.bok, .aok { background: var(--menta); color: var(--menta-t); }
+.bpn { background: var(--durazno); color: var(--durazno-t); }
+.bna { background: #F2F3F6; color: #6B6E79; }
+.al, .lloc, .tdf { background: #F2F3F6; color: #393B44; }
+.awh, .lwhi, .tad { background: var(--cielo); color: var(--cielo-t); }
+.azn, .lzen { background: var(--lavanda); color: var(--lavanda-t); }
+.awp, .lwha, .tef, .tep { background: var(--menta); color: var(--menta-t); }
+.tbs { background: var(--lima); color: var(--lima-t); }
+.tds, .tcx { background: var(--rosa); color: var(--rosa-t); }
+
+/* Resumen e historial */
+.kpi-val { font-weight: 650; letter-spacing: -.03em; }
+.kpi-val.accent { color: #141519; }
+.kpi-val.green { color: var(--menta-t); }
+.kpi-val.orange { color: var(--durazno-t); }
+.bar { background: #141519; border-radius: 6px 6px 0 0; }
+.hist-item { border: 0; border-radius: 16px; box-shadow: var(--shadow); }
+.cal-day-btn.selected { background: #141519 !important; box-shadow: none; }
+.cal-day-btn.today { box-shadow: inset 0 0 0 1.5px #141519; }
+.cal-day-btn.has-data { background: var(--cielo); color: var(--cielo-t); }
+.save-toast { border-radius: 999px; background: #141519; }

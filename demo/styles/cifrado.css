@@ -1,0 +1,281 @@
+/* ============================================================
+   CIFRADO DE DATOS DE CLIENTES — ui/cifrado.js
+   ============================================================
+   Las ventanas reusan la tarjeta, botones y casillas de styles/legal.css
+   (clases lg-*), así ambas pantallas se ven de la misma familia. Acá solo
+   va lo propio: estado en Configuración, la llave y la confirmación.
+   ============================================================ */
+
+/* Marcador en el historial cuando los datos del cliente están cifrados y
+   este dispositivo no tiene la llave. */
+.hlocked {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gray-500, #6b7280);
+  background: var(--gray-100, #f3f4f6);
+  border-radius: 6px;
+  padding: 1px 7px;
+}
+
+/* ── Sección de Configuración ───────────────────────────── */
+.cf-cap {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.cf-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.cf-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 650;
+  margin: 2px 0 6px;
+}
+
+.cf-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.cf-on {
+  color: #15803d;
+}
+
+.cf-on .cf-dot {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
+
+.cf-off {
+  color: #b45309;
+}
+
+.cf-off .cf-dot {
+  background: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+}
+
+.cf-fp {
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.5px;
+  color: var(--gray-900, #111827);
+}
+
+/* ── Ventanas ───────────────────────────────────────────── */
+.cf-warn {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #78350f;
+  border-radius: 11px;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.cf-warn ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.cf-warn li {
+  margin-bottom: 4px;
+}
+
+/* La llave: grande, legible y fácil de seleccionar entera. */
+.cf-key {
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  line-height: 1.6;
+  text-align: center;
+  white-space: nowrap; /* los renglones los decide cifrado.js, entre grupos */
+  overflow-x: auto;
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 12px;
+  padding: 16px 14px;
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+.cf-key-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cf-key-actions .lg-btn-ghost {
+  padding: 8px 12px;
+  font-size: 12.5px;
+}
+
+.cf-fp-lbl {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--gray-500, #6b7280);
+}
+
+.cf-fp-lbl b {
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: var(--gray-900, #111827);
+  font-weight: 500;
+}
+
+.cf-input {
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 11px 12px;
+  border: 1px solid var(--gray-200, #e5e7eb);
+  border-radius: 11px;
+  background: #fff;
+  color: var(--gray-900, #111827);
+}
+
+.cf-input:focus {
+  outline: none;
+  border-color: var(--accent, #2563eb);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.cf-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--gray-700, #374151);
+}
+
+.cf-input-sm {
+  width: 128px;
+  text-align: center;
+}
+
+.cf-err {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  border-radius: 10px;
+  padding: 9px 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.cf-err[hidden] {
+  display: none;
+}
+
+/* ── Explicación para las empresas (CifradoUI.explicar) ──── */
+.cf-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent, #2563eb);
+  cursor: pointer;
+  text-align: left;
+  align-self: flex-start;
+}
+
+.cf-link:hover {
+  text-decoration: underline;
+}
+
+.cf-link-settings {
+  display: block;
+  margin-top: 10px;
+}
+
+/* La X de cerrar va en la esquina: el documento deja aire arriba. */
+.cf-explica .lg-doc {
+  margin-top: 18px;
+}
+
+/* Ejemplo "lo que ves tú / lo que queda en la nube". */
+.cf-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 12px 0 6px;
+  padding: 12px 14px;
+  background: var(--gray-50, #f9fafb);
+  border: 1px solid var(--gray-200, #e5e7eb);
+  border-radius: 11px;
+}
+
+.cf-sample-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cf-sample-lbl {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--gray-400, #9ca3af);
+}
+
+.cf-sample-plain {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gray-900, #111827);
+}
+
+.cf-sample-enc {
+  display: block;
+  font-family: 'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  color: #64748b;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Detalles técnicos plegados, para quien los pida. */
+details.cf-tech {
+  margin-top: 16px;
+  border-top: 1px solid var(--gray-200, #e5e7eb);
+  padding-top: 12px;
+}
+
+details.cf-tech summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-700, #374151);
+  list-style-position: inside;
+}
+
+details.cf-tech ul {
+  margin-top: 8px;
+}
+
+@media (max-width: 640px) {
+  .cf-key {
+    font-size: 15px;
+    letter-spacing: 1px;
+  }
+
+  .cf-fp-lbl {
+    margin-left: 0;
+    width: 100%;
+  }
+}

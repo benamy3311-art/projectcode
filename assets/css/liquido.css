@@ -240,3 +240,76 @@ body {
   background: var(--ruido), radial-gradient(70% 50% at 100% 0%, rgba(240,122,42,.28), transparent 70%), radial-gradient(50% 40% at 0% 100%, rgba(143,193,245,.12), transparent 70%), linear-gradient(160deg, var(--noche-2), var(--noche-0)) !important;
   box-shadow: var(--brillo-int-oscuro), 0 30px 60px -28px rgba(0,0,0,.6) !important;
 }
+
+/* ── La demo: la app real en un marco de vidrio ───────────────────────── */
+.demo-marco { padding: 0; overflow: hidden; margin-top: var(--e8, 32px); }
+.demo-barra { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-bottom: 1px solid rgba(20,21,25,.06); }
+.demo-barra p { flex: 1; margin: 0; font-size: 13px; color: var(--tinta-2); }
+.demo-barra a { font-size: 13px; font-weight: 500; color: var(--tinta); }
+.demo-puntos { display: inline-flex; gap: 6px; }
+.demo-puntos i { width: 10px; height: 10px; border-radius: 50%; background: rgba(20,21,25,.14); }
+.demo-app { display: block; inline-size: 100%; block-size: min(780px, 82svh); border: 0; background: #ECEDF2; }
+@media (max-width: 699px) { .demo-barra p { display: none; } .demo-barra { justify-content: space-between; } .demo-app { block-size: 680px; } }
+
+/* ── En el celular: teléfonos con capturas reales ─────────────────────── */
+.moviles-panel {
+  position: relative; isolation: isolate; overflow: hidden; color: #fff;
+  padding: clamp(28px, 5vw, 64px) clamp(20px, 4vw, 56px) clamp(32px, 5vw, 64px);
+  border-radius: clamp(28px, 4vw, 44px);
+  background: var(--ruido),
+    radial-gradient(40% 50% at 50% 70%, rgba(240,122,42,.22), transparent 70%),
+    radial-gradient(30% 40% at 90% 10%, rgba(143,193,245,.12), transparent 70%),
+    linear-gradient(180deg, var(--noche-1), var(--noche-0));
+  box-shadow: var(--brillo-int-oscuro), 0 40px 80px -40px rgba(0,0,0,.6);
+}
+.moviles-cabeza { display: grid; gap: var(--e4, 16px); max-width: 720px; }
+.moviles-panel .etiqueta { color: rgba(255,255,255,.7); }
+.moviles-panel .titulo-seccion { color: #fff; }
+.moviles-panel .tono-2 { color: rgba(255,255,255,.55); }
+.moviles-panel .cuerpo { color: rgba(255,255,255,.66); }
+.moviles-fila {
+  display: flex; gap: clamp(14px, 2vw, 28px); align-items: flex-end; margin-top: clamp(28px, 4vw, 52px);
+  overflow-x: auto; scroll-snap-type: x mandatory; padding: 10px 4px 24px; scrollbar-width: none;
+  margin-inline: calc(clamp(20px, 4vw, 56px) * -1); padding-inline: clamp(20px, 4vw, 56px);
+}
+.moviles-fila::-webkit-scrollbar { display: none; }
+.tel { flex: 0 0 auto; display: grid; gap: 14px; justify-items: center; margin: 0; scroll-snap-align: center; }
+.tel-pantalla {
+  position: relative; inline-size: clamp(190px, 17vw, 236px); aspect-ratio: 390 / 870;
+  padding: 9px; border-radius: 44px;
+  background: linear-gradient(145deg, #3A3A40, #121214 40%, #26262B);
+  box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.18), inset 0 0 0 4px #0A0A0C, 0 40px 60px -30px rgba(0,0,0,.85), 0 0 0 1px rgba(255,255,255,.06);
+}
+/* Botones laterales */
+.tel-pantalla::before, .tel-pantalla::after {
+  content: ""; position: absolute; width: 3px; border-radius: 2px; background: linear-gradient(90deg, #2A2A2F, #4A4A52);
+}
+.tel-pantalla::before { left: -3px; top: 22%; height: 9%; box-shadow: 0 -52px 0 0 #3A3A40; }
+.tel-pantalla::after { right: -3px; top: 28%; height: 14%; }
+.tel-pantalla img { display: block; inline-size: 100%; block-size: calc(100% - 26px); object-fit: cover; object-position: top; border-radius: 0 0 36px 36px; }
+/* Barra de estado e isla */
+.tel-estado {
+  position: relative; display: flex; align-items: center; justify-content: space-between; block-size: 26px; padding: 2px 20px 0 26px;
+  border-radius: 36px 36px 0 0; background: #F7F7FA; color: #141519; font: 600 10.5px/1 var(--fuente);
+}
+.tel-estado::before {
+  content: ""; position: absolute; left: 50%; top: 5px; transform: translateX(-50%);
+  inline-size: 28%; block-size: 16px; border-radius: 999px; background: #050506;
+}
+.tel-estado i {
+  inline-size: 38px; block-size: 10px;
+  background:
+    linear-gradient(#141519, #141519) 0 7px / 2.5px 3px no-repeat, linear-gradient(#141519, #141519) 4px 5px / 2.5px 5px no-repeat,
+    linear-gradient(#141519, #141519) 8px 3px / 2.5px 7px no-repeat, linear-gradient(#141519, #141519) 12px 1px / 2.5px 9px no-repeat,
+    linear-gradient(#141519, #141519) 20px 1px / 15px 9px no-repeat;
+  border-radius: 2px;
+}
+.tel figcaption { font-size: 13px; font-weight: 500; color: rgba(255,255,255,.7); }
+@media (min-width: 900px) {
+  .moviles-fila { justify-content: center; overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .tel { transform: translateY(var(--sube, 0)); }
+  .tel:nth-child(2), .tel:nth-child(4) { --sube: -26px; }
+  .tel-centro { --sube: -52px; }
+  .tel .tel-pantalla { inline-size: clamp(150px, 13.2vw, 206px); }
+  .tel-centro .tel-pantalla { inline-size: clamp(170px, 15vw, 236px); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.22), inset 0 0 0 4px #0A0A0C, 0 50px 80px -30px rgba(240,122,42,.35), 0 0 0 1px rgba(255,255,255,.08); }
+}

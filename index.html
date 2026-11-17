@@ -51,6 +51,7 @@
     <nav class="nav" aria-label="Secciones">
       <a href="#prueba">Pruébala</a>
       <a href="#vender">Vender</a>
+      <a href="#movil">Celular</a>
       <a href="#tiempo">Tiempo</a>
       <a href="#dinero">Dinero</a>
       <a href="#funciones">Funciones</a>
@@ -115,127 +116,17 @@
     <section class="seccion prueba" id="prueba" aria-labelledby="titulo-prueba">
       <p class="etiqueta revela"><span class="punto-vivo" aria-hidden="true"></span>Pruébala aquí mismo</p>
       <h2 id="titulo-prueba" class="titulo-seccion revela">Arma una cotización ahora. <span class="tono-2">Sin cuenta y sin instalar nada.</span></h2>
-      <p class="cuerpo revela">Busca productos, pídele un equipo al asesor IA y conviértelo en cotización, orden de compra o recibo, listo para imprimir o mandar por WhatsApp. Después sigue la venta hasta la caja. Es la forma de trabajar de la app, con un catálogo de ejemplo.</p>
+      <p class="cuerpo revela">Esta es la app real, con productos de ejemplo. Arma una cotización, pídele un equipo al asistente IA, registra una venta con su recibo y mira cómo se mueve el inventario. Todo lo que ves es lo que usa tu equipo en la tienda.</p>
 
-      <div class="ventana revela" id="ventana">
-        <nav class="riel-app" role="tablist" aria-label="Vistas de la app" aria-orientation="vertical">
-          <span class="riel-logo" aria-hidden="true"><svg width="30" height="32"><use href="#pc"/></svg></span>
-          <button role="tab" type="button" data-v="cotizar" id="tab-cotizar" aria-selected="true" aria-controls="v-cotizar"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M7 3.5h7l4 4V19a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19V5a1.5 1.5 0 0 1 1-1.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M13.5 3.5v4h4M9 12h6M9 15.5h4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Cotizar</span><i class="riel-cuenta" id="riel-cuenta" hidden></i></button>
-          <button role="tab" type="button" data-v="ia" id="tab-ia" aria-selected="false" tabindex="-1" aria-controls="v-ia"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M12 3.5l1.6 4.2 4.2 1.6-4.2 1.6L12 15.1l-1.6-4.2-4.2-1.6 4.2-1.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18 14.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM6 15.5l.6 1.4 1.4.6-1.4.6L6 19.5l-.6-1.4L4 17.5l1.4-.6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg><span>Asesor IA</span></button>
-          <button role="tab" type="button" data-v="seguimiento" id="tab-seguimiento" aria-selected="false" tabindex="-1" aria-controls="v-seguimiento"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 6.5h10M4 12h7M4 17.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="18" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Seguimiento</span></button>
-          <button role="tab" type="button" data-v="caja" id="tab-caja" aria-selected="false" tabindex="-1" aria-controls="v-caja"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3.5" y="6" width="17" height="12.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 10.5h17M7.5 15h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Caja</span></button>
-          <span class="riel-pie" aria-hidden="true"><span class="avatar avatar-lavanda">AN</span></span>
-        </nav>
-
-        <div class="app">
-          <header class="app-barra">
-            <p class="app-nombre">ProjectCode <small>Tu Tienda · Sede Norte</small></p>
-            <p class="app-fecha" id="app-fecha"></p>
-            <span class="app-iconos" aria-hidden="true">
-              <span class="chip chip-cielo">Lista del proveedor: hoy</span>
-              <span class="avatar avatar-lavanda">AN</span>
-            </span>
-          </header>
-
-          <div class="app-vistas">
-            <!-- Cotizar -->
-            <section class="tb-vista" id="v-cotizar" role="tabpanel" aria-labelledby="tab-cotizar" data-activa>
-              <div class="cot">
-                <article class="tarjeta-app catalogo" aria-label="Catálogo">
-                  <header class="tarjeta-cabeza"><div><h4>Catálogo</h4><p id="cat-sub"></p></div></header>
-                  <label class="buscar-app">
-                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                    <span class="solo-lector">Buscar en el catálogo</span>
-                    <input type="search" id="cat-buscar" placeholder="Busca: ssd 1tb, 4060, portátil…" autocomplete="off" enterkeyhint="search">
-                  </label>
-                  <div class="filtros-pildora filtros-desliza" id="cat-filtros" role="group" aria-label="Filtrar por categoría"></div>
-                  <ul class="cat-lista" id="cat-lista" aria-live="polite"></ul>
-                </article>
-
-                <article class="tarjeta-app cotizacion" aria-label="Cotización en curso">
-                  <header class="tarjeta-cabeza">
-                    <div><h4>Cotización <span id="cot-num">A-1193</span></h4><p id="cot-sub">Agrega productos del catálogo</p></div>
-                    <span class="reloj" id="cot-reloj" title="Tiempo desde el primer producto"><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><circle cx="8" cy="8.5" r="5.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 5.5v3l2 1.2M6.5 1.5h3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg><span id="cot-reloj-t">0:00</span></span>
-                  </header>
-                  <label class="campo-linea"><span>Cliente</span><input id="cot-cliente" placeholder="Nombre del cliente" autocomplete="off" maxlength="40"></label>
-                  <ul class="cot-items" id="cot-items"></ul>
-                  <dl class="totales">
-                    <div><dt>Base</dt><dd id="cot-base">$ 0</dd></div>
-                    <div><dt>IVA 19 %</dt><dd id="cot-iva">$ 0</dd></div>
-                    <div class="total"><dt>Total</dt><dd id="cot-total">$ 0</dd></div>
-                  </dl>
-                  <div class="cot-acciones">
-                    <button class="boton boton-principal" type="button" id="cot-ver" disabled>Ver cómo le llega</button>
-                    <button class="boton boton-hundido" type="button" id="cot-vaciar" disabled>Vaciar</button>
-                  </div>
-                </article>
-              </div>
-            </section>
-
-            <!-- Asesor IA -->
-            <section class="tb-vista" id="v-ia" role="tabpanel" aria-labelledby="tab-ia">
-              <div class="ia">
-                <article class="tarjeta-app ia-chat" aria-label="Chat con el asesor IA">
-                  <header class="tarjeta-cabeza"><div><h4>Asesor IA</h4><p>Busca en el catálogo de tu tienda y propone</p></div><span class="ia-cara" aria-hidden="true"><svg width="22" height="24"><use href="#pc"/></svg></span></header>
-                  <ul class="ia-mensajes" id="ia-mensajes" aria-live="polite"></ul>
-                  <div class="ia-sugeridos" id="ia-sugeridos"></div>
-                  <form class="asistente-campo" id="ia-form" autocomplete="off">
-                    <label class="solo-lector" for="ia-texto">Escribe al asesor IA</label>
-                    <input id="ia-texto" placeholder="Ej.: PC para jugar en 1440p con 6 millones" maxlength="140" enterkeyhint="send">
-                    <button type="submit" class="icono-redondo enviar" aria-label="Enviar"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M5 12h13M13 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-                  </form>
-                </article>
-                <article class="tarjeta-app ia-propuesta" id="ia-propuesta" aria-label="Propuesta del asesor IA" aria-live="polite"></article>
-              </div>
-            </section>
-
-            <!-- Seguimiento -->
-            <section class="tb-vista" id="v-seguimiento" role="tabpanel" aria-labelledby="tab-seguimiento">
-              <dl class="cifras-app" id="seg-cifras">
-                <div><dt>Cotizado este mes</dt><dd id="seg-cotizado">$ 0</dd></div>
-                <div><dt>Cierre del mes</dt><dd id="seg-cierre">0 %</dd></div>
-                <div><dt>Para retomar</dt><dd id="seg-retomar">0</dd></div>
-              </dl>
-              <div class="seg">
-                <div class="seg-lista">
-                  <div class="filtros-pildora filtros-desliza" id="seg-filtros" role="group" aria-label="Filtrar por estado"></div>
-                  <div class="tarjeta-app lista-app" id="seg-filas"></div>
-                </div>
-                <article class="tarjeta-app seg-detalle" id="seg-detalle" aria-live="polite"></article>
-              </div>
-            </section>
-
-            <!-- Caja -->
-            <section class="tb-vista" id="v-caja" role="tabpanel" aria-labelledby="tab-caja">
-              <div class="caja">
-                <article class="tarjeta-app caja-ventas" aria-label="Ventas de hoy">
-                  <header class="tarjeta-cabeza"><div><h4>Ventas de hoy</h4><p id="caja-sub"></p></div>
-                    <button class="boton boton-principal boton-chico" type="button" id="caja-registrar">
-                      <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                      <span class="caras"><span data-activa>Registrar venta</span><span>Registrando…</span></span>
-                    </button>
-                  </header>
-                  <ul class="caja-lista" id="caja-lista"></ul>
-                </article>
-                <article class="arte-anillos" aria-label="Ventas de hoy por forma de pago">
-                  <p class="arte-titulo">Caja<br>de hoy</p>
-                  <ul class="capsula" id="capsula"></ul>
-                </article>
-                <article class="tarjeta-app caja-cuadre" aria-label="Cuadre de efectivo">
-                  <header class="tarjeta-cabeza"><div><h4>Cuadre</h4><p>Cuenta el efectivo y escríbelo</p></div></header>
-                  <dl class="cuadre-cifras">
-                    <div><dt>Total vendido</dt><dd id="caja-total">$ 0</dd></div>
-                    <div><dt>Efectivo a entregar</dt><dd id="caja-efectivo">$ 0</dd></div>
-                  </dl>
-                  <label class="campo-linea campo-dinero"><span>Contado</span><input id="caja-contado" inputmode="numeric" placeholder="$ 0" autocomplete="off"></label>
-                  <p class="cuadre-estado" id="caja-estado"></p>
-                </article>
-              </div>
-            </section>
-          </div>
+      <div class="demo-marco vidrio-marco revela">
+        <div class="demo-barra">
+          <span class="demo-puntos" aria-hidden="true"><i></i><i></i><i></i></span>
+          <p>La app real · con un catálogo de ejemplo</p>
+          <a href="demo/" target="_blank" rel="noopener">Abrir en pantalla completa</a>
         </div>
+        <iframe class="demo-app" src="demo/" title="Demo de la app ProjectCode con datos de ejemplo" loading="lazy"></iframe>
       </div>
-      <p class="tablero-nota revela">Catálogo, clientes y cifras de ejemplo. Todo pasa en tu navegador: no se guarda ni se envía nada. En la app real, el asesor IA consulta el catálogo de tu tienda y tu equipo revisa cada sugerencia antes de enviarla.</p>
+      <p class="tablero-nota revela">Es la misma app que usa tu equipo, con productos y clientes de ejemplo. Todo pasa en tu navegador: no se guarda ni se envía nada. El asistente IA responde con un ejemplo; en tu tienda consulta tu catálogo.</p>
     </section>
 
     <!-- ── Tiempo: un pedido cualquiera, contado en segundos ── -->
@@ -266,6 +157,54 @@
       <figure class="vidrio-marco vender-inventario revela">
         <img src="assets/img/app-inventario.webp" width="1078" height="836" loading="lazy" decoding="async" alt="Pantalla Inventario: existencias por producto, entradas, conteos e historial">
       </figure>
+    </section>
+
+    <!-- ── En el celular: capturas reales de la app en marcos de teléfono ── -->
+    <section class="seccion moviles" id="movil" aria-labelledby="titulo-movil">
+      <div class="moviles-panel">
+        <div class="moviles-cabeza">
+          <p class="etiqueta revela">En el celular</p>
+          <h2 id="titulo-movil" class="titulo-seccion revela">Tu tienda, en el bolsillo. <span class="tono-2">Cotiza y vende desde el piso de venta.</span></h2>
+          <p class="cuerpo revela">La misma app en el celular de cada vendedor: busca en el catálogo, arma la cotización, registra la venta y entrega el recibo por WhatsApp sin volver al mostrador.</p>
+        </div>
+        <div class="moviles-fila">
+        <figure class="tel revela">
+          <div class="tel-pantalla">
+            <div class="tel-estado" aria-hidden="true"><span>9:41</span><i></i></div>
+            <img src="assets/img/movil-inicio.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Pantalla de inicio de la app con la esfera de vidrio del vendedor">
+          </div>
+          <figcaption>Inicio</figcaption>
+        </figure>
+        <figure class="tel revela">
+          <div class="tel-pantalla">
+            <div class="tel-estado" aria-hidden="true"><span>9:41</span><i></i></div>
+            <img src="assets/img/movil-cotizacion.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Cotización A-1 en el celular con dos productos, total e IVA">
+          </div>
+          <figcaption>Cotización</figcaption>
+        </figure>
+        <figure class="tel tel-centro revela">
+          <div class="tel-pantalla">
+            <div class="tel-estado" aria-hidden="true"><span>9:41</span><i></i></div>
+            <img src="assets/img/movil-vender.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Vender en el celular: cliente Laura Méndez y dos productos">
+          </div>
+          <figcaption>Vender</figcaption>
+        </figure>
+        <figure class="tel revela">
+          <div class="tel-pantalla">
+            <div class="tel-estado" aria-hidden="true"><span>9:41</span><i></i></div>
+            <img src="assets/img/movil-recibo.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Recibo de compra RC-C1-000001 en el celular, listo para imprimir o enviar por WhatsApp">
+          </div>
+          <figcaption>Recibo</figcaption>
+        </figure>
+        <figure class="tel revela">
+          <div class="tel-pantalla">
+            <div class="tel-estado" aria-hidden="true"><span>9:41</span><i></i></div>
+            <img src="assets/img/movil-inventario.webp" width="780" height="1688" loading="lazy" decoding="async" alt="Inventario en el celular: referencias con existencias y unidades">
+          </div>
+          <figcaption>Inventario</figcaption>
+        </figure>
+        </div>
+      </div>
     </section>
 
     <section class="seccion pedido" id="tiempo" aria-labelledby="titulo-pedido">
@@ -788,7 +727,6 @@
 
   <script src="assets/js/tacto.js"></script>
   <script src="assets/js/app.js" defer></script>
-  <script src="assets/js/prueba.js" defer></script>
   <script src="assets/js/orbe.js" defer></script>
   <script src="assets/js/liquido.js" defer></script>
 </body>

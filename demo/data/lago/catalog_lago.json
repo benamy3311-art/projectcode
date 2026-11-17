@@ -1,0 +1,333 @@
+{
+ "source": "demo",
+ "parsedAt": "2026-11-17T00:26:14.399Z",
+ "priceUnit": "COP",
+ "totalProducts": 45,
+ "totalCategories": 9,
+ "categories": [
+  {
+   "name": "PORTÁTILES",
+   "count": 5,
+   "products": [
+    {
+     "sku": "7801",
+     "name": "PORTÁTIL 14\" CORE I3 8 GB 256 GB SSD",
+     "category": "PORTÁTILES",
+     "price": 1699000
+    },
+    {
+     "sku": "7804",
+     "name": "PORTÁTIL 15,6\" RYZEN 5 16 GB 512 GB SSD",
+     "category": "PORTÁTILES",
+     "price": 2349000
+    },
+    {
+     "sku": "7810",
+     "name": "PORTÁTIL 14\" CORE I5 16 GB 512 GB SSD FHD",
+     "category": "PORTÁTILES",
+     "price": 2890000
+    },
+    {
+     "sku": "7822",
+     "name": "PORTÁTIL 15,6\" CORE I7 16 GB 1 TB RTX 4050",
+     "category": "PORTÁTILES",
+     "price": 4990000
+    },
+    {
+     "sku": "7830",
+     "name": "PORTÁTIL GAMER 16\" RYZEN 7 32 GB 1 TB RTX 4060",
+     "category": "PORTÁTILES",
+     "price": 6590000
+    }
+   ]
+  },
+  {
+   "name": "PROCESADORES",
+   "count": 5,
+   "products": [
+    {
+     "sku": "2105",
+     "name": "PROCESADOR RYZEN 5 5600G CON GRÁFICOS",
+     "category": "PROCESADORES",
+     "price": 589000
+    },
+    {
+     "sku": "2116",
+     "name": "PROCESADOR RYZEN 5 7600",
+     "category": "PROCESADORES",
+     "price": 849000
+    },
+    {
+     "sku": "2140",
+     "name": "PROCESADOR CORE I5-14400F",
+     "category": "PROCESADORES",
+     "price": 899000
+    },
+    {
+     "sku": "2121",
+     "name": "PROCESADOR RYZEN 7 7700X",
+     "category": "PROCESADORES",
+     "price": 1390000
+    },
+    {
+     "sku": "2124",
+     "name": "PROCESADOR RYZEN 7 7800X3D",
+     "category": "PROCESADORES",
+     "price": 1990000
+    }
+   ]
+  },
+  {
+   "name": "BOARDS",
+   "count": 4,
+   "products": [
+    {
+     "sku": "3302",
+     "name": "BOARD A520M MICRO ATX (AM4)",
+     "category": "BOARDS",
+     "price": 349000
+    },
+    {
+     "sku": "3318",
+     "name": "BOARD B650M MICRO ATX (AM5) WIFI",
+     "category": "BOARDS",
+     "price": 699000
+    },
+    {
+     "sku": "3325",
+     "name": "BOARD B760M MICRO ATX (LGA1700)",
+     "category": "BOARDS",
+     "price": 649000
+    },
+    {
+     "sku": "3340",
+     "name": "BOARD X670E ATX (AM5)",
+     "category": "BOARDS",
+     "price": 1290000
+    }
+   ]
+  },
+  {
+   "name": "MEMORIA",
+   "count": 4,
+   "products": [
+    {
+     "sku": "4410",
+     "name": "MEMORIA DDR4 16 GB (2X8) 3200 MHZ",
+     "category": "MEMORIA",
+     "price": 219000
+    },
+    {
+     "sku": "4421",
+     "name": "MEMORIA DDR5 16 GB 5600 MHZ",
+     "category": "MEMORIA",
+     "price": 289000
+    },
+    {
+     "sku": "4432",
+     "name": "MEMORIA DDR5 32 GB (2X16) 6000 MHZ",
+     "category": "MEMORIA",
+     "price": 549000
+    },
+    {
+     "sku": "4464",
+     "name": "MEMORIA DDR5 64 GB (2X32) 6000 MHZ",
+     "category": "MEMORIA",
+     "price": 1090000
+    }
+   ]
+  },
+  {
+   "name": "ALMACENAMIENTO",
+   "count": 3,
+   "products": [
+    {
+     "sku": "5105",
+     "name": "SSD NVME 500 GB",
+     "category": "ALMACENAMIENTO",
+     "price": 189000
+    },
+    {
+     "sku": "5110",
+     "name": "SSD NVME 1 TB",
+     "category": "ALMACENAMIENTO",
+     "price": 259000
+    },
+    {
+     "sku": "5120",
+     "name": "SSD NVME 2 TB GEN4",
+     "category": "ALMACENAMIENTO",
+     "price": 529000
+    }
+   ]
+  },
+  {
+   "name": "VIDEO",
+   "count": 6,
+   "products": [
+    {
+     "sku": "6150",
+     "name": "TARJETA DE VIDEO RTX 3050 6 GB",
+     "category": "VIDEO",
+     "price": 899000
+    },
+    {
+     "sku": "6160",
+     "name": "TARJETA DE VIDEO RTX 4060 8 GB",
+     "category": "VIDEO",
+     "price": 1490000
+    },
+    {
+     "sku": "6166",
+     "name": "TARJETA DE VIDEO RTX 4060 TI 16 GB",
+     "category": "VIDEO",
+     "price": 2190000
+    },
+    {
+     "sku": "6177",
+     "name": "TARJETA DE VIDEO RX 7700 XT 12 GB",
+     "category": "VIDEO",
+     "price": 2349000
+    },
+    {
+     "sku": "6170",
+     "name": "TARJETA DE VIDEO RTX 4070 SUPER 12 GB",
+     "category": "VIDEO",
+     "price": 3290000
+    },
+    {
+     "sku": "6180",
+     "name": "TARJETA DE VIDEO RTX 4080 SUPER 16 GB",
+     "category": "VIDEO",
+     "price": 5390000
+    }
+   ]
+  },
+  {
+   "name": "FUENTES Y CAJAS",
+   "count": 7,
+   "products": [
+    {
+     "sku": "7055",
+     "name": "FUENTE 550 W 80+ BRONZE",
+     "category": "FUENTES Y CAJAS",
+     "price": 249000
+    },
+    {
+     "sku": "7075",
+     "name": "FUENTE 750 W 80+ GOLD",
+     "category": "FUENTES Y CAJAS",
+     "price": 449000
+    },
+    {
+     "sku": "7085",
+     "name": "FUENTE 850 W 80+ GOLD",
+     "category": "FUENTES Y CAJAS",
+     "price": 589000
+    },
+    {
+     "sku": "7210",
+     "name": "CAJA MICRO ATX CON 2 VENTILADORES",
+     "category": "FUENTES Y CAJAS",
+     "price": 189000
+    },
+    {
+     "sku": "7230",
+     "name": "CAJA ATX VIDRIO TEMPLADO, 4 VENTILADORES",
+     "category": "FUENTES Y CAJAS",
+     "price": 329000
+    },
+    {
+     "sku": "7310",
+     "name": "DISIPADOR POR AIRE 120 MM",
+     "category": "FUENTES Y CAJAS",
+     "price": 129000
+    },
+    {
+     "sku": "7340",
+     "name": "REFRIGERACIÓN LÍQUIDA 240 MM",
+     "category": "FUENTES Y CAJAS",
+     "price": 389000
+    }
+   ]
+  },
+  {
+   "name": "MONITORES",
+   "count": 3,
+   "products": [
+    {
+     "sku": "5501",
+     "name": "MONITOR 22\" IPS FHD 75 HZ",
+     "category": "MONITORES",
+     "price": 419000
+    },
+    {
+     "sku": "5512",
+     "name": "MONITOR 24\" IPS FHD 100 HZ",
+     "category": "MONITORES",
+     "price": 589000
+    },
+    {
+     "sku": "5527",
+     "name": "MONITOR 27\" IPS QHD 165 HZ",
+     "category": "MONITORES",
+     "price": 1249000
+    }
+   ]
+  },
+  {
+   "name": "PERIFÉRICOS",
+   "count": 8,
+   "products": [
+    {
+     "sku": "6630",
+     "name": "COMBO TECLADO Y MOUSE INALÁMBRICO",
+     "category": "PERIFÉRICOS",
+     "price": 139000
+    },
+    {
+     "sku": "6640",
+     "name": "MOUSE INALÁMBRICO",
+     "category": "PERIFÉRICOS",
+     "price": 59000
+    },
+    {
+     "sku": "6645",
+     "name": "MOUSE GAMER 16.000 DPI",
+     "category": "PERIFÉRICOS",
+     "price": 119000
+    },
+    {
+     "sku": "6655",
+     "name": "TECLADO MECÁNICO 75 %",
+     "category": "PERIFÉRICOS",
+     "price": 289000
+    },
+    {
+     "sku": "6670",
+     "name": "DIADEMA GAMER 7.1",
+     "category": "PERIFÉRICOS",
+     "price": 199000
+    },
+    {
+     "sku": "6681",
+     "name": "WEBCAM FHD 1080P",
+     "category": "PERIFÉRICOS",
+     "price": 169000
+    },
+    {
+     "sku": "6902",
+     "name": "BASE REFRIGERANTE PARA PORTÁTIL",
+     "category": "PERIFÉRICOS",
+     "price": 89000
+    },
+    {
+     "sku": "6910",
+     "name": "MORRAL PARA PORTÁTIL 15,6\"",
+     "category": "PERIFÉRICOS",
+     "price": 129000
+    }
+   ]
+  }
+ ]
+}
