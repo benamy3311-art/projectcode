@@ -1,0 +1,7 @@
+# projectcodetools.com
+User-agent: *
+Allow: /
+# La demo es una copia de la app con datos de ejemplo: no se indexa.
+Disallow: /demo/
+
+Sitemap: https://projectcodetools.com/sitemap.xml
