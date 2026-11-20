@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════════
+   SUPERVISAR CHATS — ui/supervisar.js (jefe, PC)
+   Una tarjeta blanca con una fila por chat; rosa = cliente esperando más de
+   10 minutos, durazno = chat libre sin leer.
+═══════════════════════════════════════════════════ */
+#panel-supervision.sv { background: transparent; overflow-y: auto; flex-direction: column; justify-content: flex-start; padding: 0; }
+.sv-in { display: flex; flex-direction: column; gap: 16px; padding: 24px 28px; max-width: 1400px; width: 100%; margin: 0 auto; box-sizing: border-box; color: var(--tinta, #141519); }
+.sv-cab { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; }
+.sv-eti { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-3, #6B6E79); margin: 0 0 2px; }
+.sv-cab h1 { font-size: 30px; line-height: 1.1; font-weight: 700; letter-spacing: -.03em; margin: 0; }
+.sv-sub { margin: 6px 0 0; color: var(--tinta-2, #50535E); font-size: 14px; max-width: 720px; }
+.sv-lista { background: var(--surface, #fff); border-radius: 20px; padding: 6px 10px; }
+.sv-fila { display: grid; grid-template-columns: 40px minmax(0, 1fr) 90px 190px 170px auto; align-items: center; gap: 14px; padding: 10px 6px; border-top: 1px solid var(--linea, rgba(20, 21, 25, .07)); }
+.sv-fila:first-child { border-top: 0; }
+.sv-quien { display: grid; gap: 2px; min-width: 0; }
+.sv-quien b { font-size: 14px; font-weight: 600; }
+.sv-quien small { font-size: 12.5px; color: var(--tinta-3, #6B6E79); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sv-hora { font-size: 12px; color: var(--tinta-3, #6B6E79); white-space: nowrap; }
+.sv-est { justify-self: start; height: 24px; padding: 0 10px; border-radius: 999px; display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; background: var(--hundido, #F2F3F6); color: var(--tinta-2, #50535E); white-space: nowrap; }
+.sv-rojo { background: var(--rosa-g, #F9D7E4); color: var(--rosa-gt, #6F2A47); }
+.sv-dur { background: var(--durazno-g, #FCE3CC); color: var(--durazno-gt, #6E4516); }
+.sv-cie { background: var(--cielo-g, #DCE5FF); color: var(--cielo-gt, #1B3A86); }
+.sv-atiende select { width: 100%; height: 36px; padding: 0 12px; border: 0; border-radius: 999px; background: var(--hundido, #F2F3F6); font: 500 13px var(--font); color: var(--tinta, #141519); cursor: pointer; }
+.sv-atiende select:focus { outline: none; box-shadow: 0 0 0 2px var(--tinta, #141519); }
+.sv-btn { height: 36px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--hundido, #F2F3F6); color: var(--tinta, #141519); font: 600 13px var(--font); cursor: pointer; white-space: nowrap; transition: background-color .15s, transform .12s; }
+.sv-btn:hover:not(:disabled) { background: var(--gray-200, #E7E8EE); }
+.sv-btn:active:not(:disabled) { transform: scale(.97); }
+.sv-btn:disabled { opacity: .45; cursor: default; }
+.sv-btn:focus-visible { outline: 2px solid var(--tinta, #141519); outline-offset: 2px; }
+.sv-btn-tinta { height: 42px; padding: 0 18px; background: var(--tinta, #141519); color: #fff; box-shadow: var(--sombra-toque, none); }
+.sv-btn-tinta:hover:not(:disabled) { background: #2A2C33; }
+.sv-vacio { margin: 16px; font-size: 13px; color: var(--tinta-3, #6B6E79); }

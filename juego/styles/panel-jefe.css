@@ -1,0 +1,78 @@
+/* ═══════════════════════════════════════════════════
+   PANEL DEL JEFE — ui/panel-jefe.js
+   Registro sereno: lienzo gris, tarjetas blancas sin borde, cifras grandes,
+   un solo acento en tinta (gráfica, barras y periodo activo). Pasteles solo
+   con significado: durazno = atención, rosa = falta en el catálogo.
+═══════════════════════════════════════════════════ */
+
+#panel-jefe.pj { background: var(--lienzo, #ECEDF2); overflow-y: auto; flex-direction: column; justify-content: flex-start; padding: 0; }
+.pj { display: flex; flex-direction: column; gap: 16px; padding: 24px 28px 28px; max-width: 1400px; width: 100%; margin: 0 auto; color: var(--tinta, #141519); }
+
+/* El periodo va bajo el título, a la izquierda: arriba a la derecha sale el
+   aviso del día (ui/daily-brief.js) y lo taparía. */
+.pj-cab { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.pj-eti { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--tinta-3, #6B6E79); margin: 0 0 2px; }
+.pj-cab h1 { font-size: 30px; line-height: 1.1; font-weight: 700; letter-spacing: -.03em; margin: 0; }
+.pj-sub { margin: 4px 0 0; color: var(--tinta-2, #50535E); font-size: 14px; }
+.pj-link { border: 0; background: none; padding: 0; font: inherit; color: var(--tinta, #141519); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
+.pj-seg { display: flex; gap: 4px; padding: 4px; background: var(--gray-200, #E7E8EE); border-radius: 999px; }
+.pj-seg button { height: 34px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; color: var(--tinta-2, #50535E); font: 500 14px var(--font); cursor: pointer; transition: background-color .15s, color .15s; }
+.pj-seg button:hover { color: var(--tinta, #141519); }
+.pj-seg button.on { background: var(--surface, #fff); color: var(--tinta, #141519); box-shadow: var(--shadow-sm); }
+.pj-seg button:focus-visible { outline: 2px solid var(--tinta, #141519); outline-offset: 2px; }
+
+.pj-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.pj-kpi { background: var(--surface, #fff); border-radius: 20px; padding: 18px 20px; min-width: 0; }
+.pj-kpi small { display: block; font-size: 12px; color: var(--tinta-3, #6B6E79); }
+.pj-cifra { font-size: 28px; line-height: 1.15; font-weight: 700; letter-spacing: -.03em; margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+.pj-nota { font-size: 12px; color: var(--tinta-2, #50535E); margin-top: 6px; }
+.pj-atencion { color: var(--durazno-gt, #6E4516); font-weight: 600; }
+
+.pj-rej { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); grid-template-rows: auto auto; gap: 12px; }
+.pj-tarjeta { background: var(--surface, #fff); border-radius: 20px; padding: 20px; min-width: 0; }
+.pj-tarjeta h2 { font-size: 16px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 12px; }
+.pj-h2-2 { margin-top: 20px !important; }
+.pj-graf { color: var(--tinta, #141519); }
+.pj-lado { grid-row: span 2; }
+.pj-svg { width: 100%; height: 180px; display: block; }
+.pj-grid line { stroke: var(--linea, rgba(20,21,25,.07)); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.pj-ejes { display: flex; justify-content: space-between; font-size: 12px; color: var(--tinta-3, #6B6E79); margin-top: 6px; }
+
+.pj-fila { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 9px 0; border-top: 1px solid var(--linea, rgba(20,21,25,.07)); font-size: 13px; color: var(--tinta-2, #50535E); }
+.pj-fila:first-of-type { border-top: 0; }
+.pj-fila span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pj-fila b { color: var(--tinta, #141519); font-variant-numeric: tabular-nums; }
+.pj-chip { flex: none; height: 24px; padding: 0 10px; border-radius: 999px; display: inline-flex; align-items: center; font-size: 12px; font-weight: 600; background: var(--rosa-g, #F9D7E4); color: var(--rosa-gt, #6F2A47); }
+
+.pj-asesor { display: grid; grid-template-columns: 28px minmax(0, 1fr) 140px 90px 150px; align-items: center; gap: 12px; padding: 9px 0; border-top: 1px solid var(--linea, rgba(20,21,25,.07)); font-size: 13px; }
+.pj-asesor:first-of-type { border-top: 0; }
+.pj-av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; background: var(--lavanda-g, #E4DEFC); color: var(--lavanda-gt, #3F3470); }
+.pj-nom { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pj-barra { height: 8px; border-radius: 999px; background: var(--hundido, #F2F3F6); overflow: hidden; }
+.pj-barra i { display: block; height: 100%; border-radius: 999px; background: var(--tinta, #141519); }
+.pj-asesor b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pj-det { color: var(--tinta-3, #6B6E79); white-space: nowrap; text-align: right; }
+
+.pj-vacio { font-size: 13px; color: var(--tinta-3, #6B6E79); margin: 0; padding: 8px 0; }
+.pj-cargando { padding: 40px 0; text-align: center; color: var(--tinta-3, #6B6E79); }
+.pj-aviso { display: grid; gap: 8px; justify-items: start; }
+.pj-aviso span { color: var(--tinta-2, #50535E); font-size: 14px; }
+.pj-pie { font-size: 12px; color: var(--tinta-3, #6B6E79); margin: 0; }
+
+@media (max-width: 1280px) {
+  .pj-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pj-asesor { grid-template-columns: 28px minmax(0, 1fr) 100px 80px; }
+  .pj-det { display: none; }
+}
+
+/* Embudo: chats → cotizaciones → ventas → pagos aprobados */
+.pj-embudo h2 { margin-bottom: 14px; }
+.pj-embudo-fila { display: flex; align-items: stretch; gap: 8px; }
+.pj-paso { flex: 1; min-width: 0; display: grid; gap: 2px; padding: 14px 16px; border-radius: 16px; background: var(--hundido, #F2F3F6); }
+.pj-paso b { font-size: 24px; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.pj-paso span { font-size: 12.5px; color: var(--tinta-2, #50535E); }
+.pj-paso:last-child { background: var(--menta-g, #CFEEDD); }
+.pj-paso:last-child span { color: var(--menta-gt, #1F5A3C); }
+.pj-flecha { flex: none; align-self: center; min-width: 52px; text-align: center; font-size: 12px; font-weight: 600; color: var(--tinta-3, #6B6E79); position: relative; padding-bottom: 12px; }
+.pj-flecha::after { content: ""; position: absolute; left: 10px; right: 10px; bottom: 4px; height: 2px; border-radius: 2px; background: var(--gray-300, #D3D6E0); }

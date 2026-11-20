@@ -1,0 +1,658 @@
+/* ═══════════════════════════════════════════════════
+   TEMA GUSTO — la piel nueva del cotizador
+   ═══════════════════════════════════════════════════
+   Se carga al final y pisa estilos sin editar styles.css. Quitar el <link>
+   de index.html devuelve la app al aspecto anterior.
+
+   Reglas del registro (sereno con golpe):
+   - Lienzo gris claro, tarjetas blancas, tinta casi negra.
+   - Los botones que mandan van en tinta. El azul queda para lo que informa.
+   - Un pastel = un significado: menta listo/vendido, durazno atención/retomar,
+     cielo lo que prepara la app, lavanda negociando, rosa perdido/falta.
+   - Sombras frías y casi invisibles; radios 12/16/20/28; píldoras para controles.
+   Plan y porqués: REDISENO.md
+═══════════════════════════════════════════════════ */
+
+@font-face { font-family: "Geist"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../assets/fonts/Geist-Variable.woff2") format("woff2"); }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 500; font-display: swap; src: url("../assets/fonts/GeistMono-Medium.woff2") format("woff2"); }
+
+/* ── 1. Tokens ─────────────────────────────────────── */
+:root {
+  --font: "Geist", -apple-system, "Segoe UI", sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", monospace;
+
+  --tinta: #141519; --tinta-2: #50535E; --tinta-3: #6B6E79;
+  --lienzo: #ECEDF2; --hundido: #F2F3F6; --linea: rgba(20, 21, 25, .07);
+  --cielo-g: #DCE5FF; --cielo-gt: #1B3A86;
+  --menta-g: #CFEEDD; --menta-gt: #1F5A3C;
+  --durazno-g: #FCE3CC; --durazno-gt: #6E4516;
+  --lavanda-g: #E4DEFC; --lavanda-gt: #3F3470;
+  --rosa-g: #F9D7E4; --rosa-gt: #6F2A47;
+  --sombra-toque: 0 1px 2px rgba(20, 20, 40, .10), 0 3px 8px -2px rgba(20, 20, 40, .16);
+
+  --bg: #ECEDF2;
+  --surface: #FFFFFF;
+  --gray-50: #F6F7F9; --gray-100: #F2F3F6; --gray-200: #E7E8EE; --gray-300: #D3D6E0;
+  --gray-400: #8E919C; --gray-500: #6B6E79; --gray-600: #50535E; --gray-700: #393B44; --gray-800: #23252B; --gray-900: #141519;
+
+  --accent: #141519; --accent-lt: #F2F3F6; --accent2: #141519;
+  --blue: #141519; --blue-hover: #2A2C33; --blue-lt: #F2F3F6;
+  --blue-50: #F2F3F6; --blue-100: #E4E6EF; --blue-200: #D3D6E0; --blue-300: #B9BDCB;
+  --blue-500: #141519; --blue-600: #141519; --blue-700: #141519;
+  --grad-blue: linear-gradient(180deg, #2A2C33, #141519);
+  --grad-blue-soft: #F2F3F6;
+  --grad-surface: #FFFFFF;
+
+  --green: #1F5A3C; --green-lt: #CFEEDD;
+  --red: #8C2A2A; --red-lt: #F9DCDC;
+  --amber: #6E4516; --amber-lt: #FCE3CC;
+  --sky: #1B3A86; --sky-lt: #DCE5FF;
+
+  --radius: 16px; --radius-sm: 12px; --radius-xs: 8px; --radius-lg: 20px; --radius-xl: 28px;
+  --shadow-sm: 0 1px 2px rgba(20, 24, 50, .04);
+  --shadow: 0 1px 2px rgba(20, 24, 50, .04), 0 4px 12px rgba(20, 24, 50, .05);
+  --shadow-lg: 0 2px 4px rgba(20, 24, 50, .05), 0 12px 32px rgba(20, 24, 50, .10);
+  --shadow-xl: 0 2px 4px rgba(20, 24, 50, .05), 0 24px 48px rgba(20, 24, 50, .12);
+  --shadow-blue: var(--sombra-toque);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --dur: .2s;
+}
+
+/* ── 2. Lienzo ─────────────────────────────────────── */
+body {
+  background:
+    radial-gradient(60% 50% at 0% 100%, rgba(196, 184, 245, .30), transparent 70%),
+    radial-gradient(50% 40% at 100% 0%, rgba(214, 224, 255, .50), transparent 70%),
+    #ECEDF2;
+  letter-spacing: -.005em;
+  font-variant-numeric: tabular-nums;
+}
+::selection { background: #DCE5FF; color: #141519; }
+
+/* Controles: hundidos, sin borde; el foco en tinta. Pisa la regla global de styles.css */
+input, textarea, select {
+  background: var(--hundido); border-color: transparent; box-shadow: none; border-radius: 12px;
+}
+input:hover, textarea:hover, select:hover { border-color: transparent; background: #ECEEF2; }
+input:focus, textarea:focus, select:focus { background: #fff; border-color: #141519; box-shadow: 0 0 0 1px #141519; }
+input::placeholder, textarea::placeholder { color: #8E919C; }
+:focus-visible { outline-color: #141519; }
+
+.switch .slider { background: #C9CCD6; }
+.switch input:checked + .slider { background: #141519; }
+
+/* ── 3. Barra lateral ───────────────────────────────── */
+.sb {
+  background: rgba(255, 255, 255, .62);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2); backdrop-filter: blur(24px) saturate(1.2);
+  border-right: 1px solid var(--linea); box-shadow: none;
+}
+.logo-wrap { padding: 20px 20px 12px; border-bottom: 0; }
+.sb-brand-txt { font-weight: 650; letter-spacing: -.035em; }
+.logo-tag { letter-spacing: .14em; font-size: 9px; color: #8E919C; }
+.plan-badge.plan-pro, .plan-badge.plan-premium, .plan-badge[class*="pro"] { background: #141519 !important; color: #fff !important; border-color: #141519 !important; box-shadow: none !important; }
+
+.sec { padding: 14px 20px; border-bottom: 0; border-top: 1px solid var(--linea); gap: 10px; }
+.sec-lbl { font-size: 12px; font-weight: 600; letter-spacing: -.005em; text-transform: none; color: #141519; display: flex; align-items: center; gap: 6px; }
+.field label { font-size: 11px; color: #50535E; font-weight: 500; }
+
+/* Cliente: el primer dato de cada cotización, grande y a la vista */
+.sec-cliente { border-top: 0; padding-top: 6px; }
+.campo-cliente label { font-size: 12px; font-weight: 600; color: #141519; }
+.campo-cliente input { min-height: 44px; font-size: 15px; padding: 0 14px; }
+.sec-cliente .enc-lbl { font-size: 11.5px; font-weight: 500; color: #50535E; padding: 4px 0 0; }
+.sec-cliente .enc-summary { opacity: 1; max-width: 65%; font-size: 11px; color: #8E919C; font-family: var(--font); }
+#secEncabezado:not(.collapsed) .enc-summary { opacity: 0; }
+
+/* Productos: encabezado con su acción a la derecha */
+.sec-productos .sec-lbl { justify-content: flex-start; }
+.sec-productos #itemCount { color: #6B6E79 !important; font-weight: 500 !important; }
+.sec-accion {
+  margin-left: auto; min-height: 28px; padding: 0 12px; border: 0; border-radius: 999px;
+  background: transparent; color: #6B6E79; font: 500 11.5px var(--font); cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.sec-accion:hover { background: var(--rosa-g); color: var(--rosa-gt); }
+.items-wrap { gap: 6px; max-height: none; }
+.item { background: #fff; border: 0; border-radius: 14px; padding: 10px 12px; box-shadow: 0 1px 2px rgba(20, 24, 50, .04), 0 2px 8px rgba(20, 24, 50, .04); }
+.item-price { font-family: var(--font); font-weight: 600; color: #141519; font-size: 12px; }
+.items-empty { border: 1.5px dashed #D3D6E0; border-radius: 14px; background: transparent; color: #6B6E79; }
+.custom-item-form { border-radius: 14px; border-color: transparent; background: transparent; }
+.custom-item-hdr { color: #50535E; padding: 8px 4px; }
+
+/* Grupo de herramientas: un rótulo discreto separa lo de cada cotización de lo ocasional */
+.sec-grupo-lbl { padding: 18px 20px 2px; font: 500 11px/16px var(--mono); letter-spacing: .02em; color: #8E919C; border-top: 1px solid var(--linea); }
+.sec-grupo-lbl + .sec, .sec-grupo-lbl + .qmode-vsec { border-top: 0; }
+.ai-chip { background: #fff; border-color: transparent; border-radius: 999px; box-shadow: 0 1px 2px rgba(20, 24, 50, .06); color: #141519; }
+.ai-chip:hover { background: #F2F3F6; }
+.ai-chip.active, .ai-chip.on, .ai-chip[aria-pressed="true"] { background: #141519; color: #fff; }
+.scan-num-btn, .bbtn-primary { background: #141519 !important; border-radius: 999px !important; }
+.pcb-seg { background: #E7E8EE; border-radius: 999px; }
+.pcb-seg-btn { border-radius: 999px; }
+.pcb-seg-btn.active { background: #fff; color: #141519; box-shadow: var(--sombra-toque); }
+
+/* Formato: un segmentado de dos opciones (era una lista de tarjetas) */
+.qmode-vsec { margin: 0; padding: 14px 20px; border: 0; border-top: 1px solid var(--linea); border-radius: 0; background: transparent; box-shadow: none; }
+.qmode-vlbl { font-size: 12px; font-weight: 600; color: #141519; margin-bottom: 8px; }
+.qmode-vlbl svg, .qmode-vlbl .ico { display: none; }
+#qmodeSeg { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: 4px; border-radius: 999px; background: #E7E8EE; }
+.qmode-vbtn { padding: 8px 10px; border: 0; border-radius: 999px; background: transparent; text-align: center; }
+.qmode-vbtn:hover:not(.on) { background: rgba(255, 255, 255, .5); border: 0; }
+.qmode-vbtn.on { background: #fff; border: 0; box-shadow: var(--sombra-toque); }
+.qmode-vbtn-top { justify-content: center; }
+.qmode-radio { display: none; }
+.qmode-vbtn-title { font-size: 13px; font-weight: 500; color: #50535E; }
+.qmode-vbtn.on .qmode-vbtn-title { color: #141519; }
+.qmode-vbtn-desc { display: none; }
+
+/* Pie fijo: el total siempre a la vista, con sus ajustes al lado (proximidad) */
+.sb-foot { background: rgba(255, 255, 255, .86); border-top: 1px solid var(--linea); padding: 12px 16px 14px; gap: 10px; }
+.sb-foot .total-bar {
+  margin: 0; padding: 0; background: transparent; border: 0; box-shadow: none; border-radius: 0;
+  display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px; align-items: center; min-width: 0;
+}
+.sb-foot .total-bar > div:first-child { flex: 1 1 100%; min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto; align-items: end; column-gap: 12px; margin-bottom: 4px; }
+.sb-foot .tlabel { grid-column: 1; grid-row: 1; margin: 0; font: 500 11px/14px var(--mono); letter-spacing: .02em; text-transform: none; color: #6B6E79; }
+.sb-foot .tcount { grid-column: 1; grid-row: 2; margin: 0; font-size: 11px; color: #8E919C; }
+.sb-foot .tval {
+  grid-column: 2; grid-row: 1 / span 2; justify-self: end; min-width: 0; white-space: nowrap;
+  background: none; -webkit-text-fill-color: #141519; color: #141519;
+  font: 650 28px/1 var(--font); letter-spacing: -.035em;
+}
+.sb-foot .total-bar > div:nth-child(2), .sb-foot .rete-btn { flex: 1 1 0; min-width: 0; height: 38px; }
+/* Descuento: una sola píldora con su porcentaje adentro (sin flechas) */
+.sb-foot .total-bar > div:nth-child(2) { display: flex !important; align-items: center; gap: 0 !important; border-radius: 999px; background: #F2F3F6; padding: 0 10px 0 0; }
+.sb-foot .total-bar > div:nth-child(2):has(.btn-disc.on), .sb-foot .total-bar > div:nth-child(2):has(.btn-disc.active) { background: var(--durazno-g); }
+.sb-foot .total-bar > div:nth-child(2) > div { background: transparent !important; border: 0 !important; padding: 0 !important; gap: 1px !important; }
+.sb-foot .total-bar > div:nth-child(2) > div span, .sb-foot #discPct { color: inherit !important; }
+.sb-foot #btnDisc { flex: 1 1 auto !important; min-width: 0; height: 38px; background: transparent; justify-content: flex-start; text-align: left; overflow: hidden; text-overflow: ellipsis; }
+.sb-foot #discPct { -moz-appearance: textfield; appearance: textfield; text-align: right !important; font-weight: 600 !important; }
+.sb-foot #discPct::-webkit-inner-spin-button, .sb-foot #discPct::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.sb-foot .rete-btn { width: auto; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 12px; font-size: 12px; }
+#btnDisc { white-space: nowrap; font-size: 11.5px; padding: 0 10px; }
+#discPct { width: 30px !important; }
+.btn-disc, .rete-btn {
+  min-height: 34px; padding: 0 12px; border: 0; border-radius: 999px; font-weight: 500; font-size: 12px;
+}
+.btn-disc { background: #F2F3F6; color: #50535E; }
+.btn-disc.on, .btn-disc.active { background: var(--durazno-g); color: var(--durazno-gt); }
+.rete-btn { background: #F2F3F6; color: #50535E; }
+.rete-btn.on, .rete-btn.active { background: var(--cielo-g); color: var(--cielo-gt); }
+.btn-disc:hover, .rete-btn:hover { transform: none; box-shadow: none; filter: brightness(.97); }
+#btnDisc + div { background: #F2F3F6 !important; border: 0 !important; border-radius: 999px !important; min-height: 34px; }
+#btnDisc + div input, #btnDisc + div span { color: #141519 !important; }
+.sb-foot .iva-toggle-row { flex: 1 1 100%; padding: 6px 4px 0; background: transparent; border: 0; font-size: 12px; color: #50535E; }
+#reteSummary { flex: 1 1 100%; margin-top: 0 !important; background: var(--cielo-g) !important; border: 0 !important; border-radius: 12px !important; }
+#reteSummary .rete-row, #reteSummary span { color: var(--cielo-gt) !important; }
+.sb-user-row { border-radius: 14px; }
+.sb-version { color: #8E919C; }
+
+/* ── 4. Vista previa: barra superior y pestañas ─────── */
+.pv { background: transparent; }
+.pv-top { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; border-bottom: 0; padding: 14px 22px 4px; }
+.pv-btn, .gear-btn {
+  border-radius: 999px; border: 0; background: #fff; min-height: 36px; padding: 0 16px;
+  font-size: 12.5px; font-weight: 500; color: #23252B; box-shadow: 0 1px 2px rgba(20, 24, 50, .05);
+}
+.gear-btn { padding: 0 11px; }
+.pv-btn:hover, .gear-btn:hover { background: #F2F3F6; transform: none; }
+.pv-btn-primary { background: #141519; color: #fff; box-shadow: var(--sombra-toque); }
+.pv-btn-primary:hover { background: #2A2C33; }
+.hbadge { background: #141519; border-radius: 999px; }
+.hfollow-badge { background: var(--durazno-g) !important; color: var(--durazno-gt) !important; }
+
+.tabs { background: transparent; border-bottom: 0; padding: 6px 22px 12px; gap: 4px; }
+.tab {
+  border-radius: 999px; border-bottom: 0; padding: 9px 16px; font-weight: 500; font-size: 12.5px;
+  color: #50535E; background: rgba(255, 255, 255, .55);
+}
+.tab:hover { background: #fff; color: #141519; }
+.tab.active { background: #141519; color: #fff; border-bottom: 0; font-weight: 500; box-shadow: var(--sombra-toque); }
+.tab.active .ico svg, .tab.active svg { color: #fff; stroke: #fff; }
+.tab-sep { background: #D3D6E0; }
+
+/* ── 5. Catálogo (paso 3) ──────────────────────────
+   - Una sola columna: el ojo baja en línea recta en vez de zigzaguear entre dos
+     columnas (patrón F). Nombre a la izquierda, precio alineado a la derecha.
+   - El buscador es la forma principal de encontrar (reconocer > recordar): va
+     primero, grande, y recibe el foco al abrir el catálogo (ui/catalogo-ux.js).
+   - El logo de Google a color se repetía en cada fila (800 veces): ruido que le
+     quita fuerza a lo importante. Ahora es una lupa discreta que aparece al pasar.
+   - «Activar Lista 2» no destruye nada: deja de ser rojo de peligro.
+   - Añadir en tinta; ya añadido en menta (= listo). */
+.ctoolbar {
+  background: transparent; border-bottom: 0; -webkit-backdrop-filter: none; backdrop-filter: none;
+  padding: 2px 22px 14px; gap: 8px !important;
+}
+.ctoolbar .clearable { order: -1; flex: 1 1 100%; }
+.csearch {
+  min-height: 46px; padding-left: 44px; font-size: 15px; border-radius: 999px; background-color: #fff;
+  background-position: 16px center; box-shadow: 0 1px 2px rgba(20, 24, 50, .05);
+}
+.csearch:focus { box-shadow: 0 0 0 1px #141519; }
+.pl-toggle-wrap { background: #E7E8EE; border: 0; border-radius: 999px; padding: 4px; }
+.pl-toggle-btn { border-radius: 999px; padding: 0 16px; min-height: 30px; font-weight: 500; font-size: 12.5px; color: #50535E; }
+.pl-toggle-btn.active, .pl-toggle-btn.active.store, .pl-toggle-btn.active.lago { background: #fff; color: #141519; box-shadow: var(--sombra-toque); }
+#btnActivateLago { background: #fff; color: #141519; border: 0; border-radius: 999px; min-height: 38px; padding: 0 16px; font-weight: 500; box-shadow: 0 1px 2px rgba(20, 24, 50, .05); }
+#btnActivateLago:hover { background: #F2F3F6; }
+.cfilter { min-height: 38px; border-radius: 999px; border: 0; background-color: #fff; padding-left: 14px; font-size: 12.5px; max-width: 220px; box-shadow: 0 1px 2px rgba(20, 24, 50, .05); }
+.ccount { margin-left: auto; font: 500 11.5px var(--mono); color: #8E919C; }
+
+.clist { grid-template-columns: minmax(0, 1fr); padding: 0 22px 28px; }
+.csec-hdr {
+  margin-top: 14px; padding: 10px 4px 8px; border: 0; border-radius: 0;
+  background: linear-gradient(180deg, rgba(236, 237, 242, .96) 70%, rgba(236, 237, 242, 0));
+  font: 500 11.5px/16px var(--mono); letter-spacing: .04em; color: #141519; box-shadow: none;
+  justify-content: flex-start; gap: 8px;
+}
+.csec-count { color: #8E919C; font-weight: 500; }
+.crow {
+  gap: 14px; min-height: 58px; padding: 10px 14px; background: #fff; border: 0;
+  border-bottom: 1px solid var(--linea); box-shadow: none;
+}
+.csec-hdr + .crow { border-radius: 16px 16px 0 0; }
+.crow:has(+ .csec-hdr), .crow:last-child { border-radius: 0 0 16px 16px; border-bottom: 0; }
+.csec-hdr + .crow:has(+ .csec-hdr), .csec-hdr + .crow:last-child { border-radius: 16px; }
+.crow:hover { background: #FAFAFC; box-shadow: none; }
+.crow-sku { order: 2; width: auto; min-width: 46px; padding: 0; background: none; border: 0; font: 500 11px var(--mono); color: #8E919C; text-align: left; }
+.crow-name { order: 1; font-size: 13.5px; font-weight: 500; letter-spacing: -.01em; color: #141519; }
+.crow-gsearch {
+  order: 3; padding: 6px; border: 0; background: transparent; opacity: 0; box-shadow: none;
+  transition: opacity var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+.crow-gsearch .gs-g { display: none; }
+.crow-gsearch .gs-lupa { width: 15px; height: 15px; color: #6B6E79; }
+.crow:hover .crow-gsearch, .crow-gsearch:focus-visible { opacity: 1; }
+.crow-gsearch:hover { background: #F2F3F6; transform: none; box-shadow: none; }
+@media (hover: none) { .crow-gsearch { opacity: .55; } }
+.crow-price { order: 4; min-width: 104px; font: 600 14px var(--font); letter-spacing: -.01em; color: #141519; font-variant-numeric: tabular-nums; }
+.btn-add {
+  order: 5; min-width: 92px; min-height: 36px; padding: 0 14px;
+  background: #141519; box-shadow: var(--sombra-toque); font-weight: 500; font-size: 12.5px;
+}
+.btn-add:hover { background: #2A2C33; transform: none; box-shadow: var(--sombra-toque); }
+.btn-add.added { background: var(--menta-g); color: var(--menta-gt); box-shadow: none; }
+.btn-add.added svg { stroke: var(--menta-gt); }
+.cempty { color: #6B6E79; }
+.csec-count { background: none !important; padding: 0 !important; }
+@media (max-width: 760px) {
+  .ctoolbar { padding: 2px 12px 10px; }
+  .clist { padding: 0 12px 24px; display: block; }
+  .crow { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "nombre nombre nombre" "sku precio boton"; gap: 6px 12px; padding: 12px 14px; contain-intrinsic-size: auto 96px; }
+  .crow-name { grid-area: nombre; font-size: 14px; }
+  .crow-sku { grid-area: sku; align-self: center; }
+  .crow-gsearch { display: none; }
+  .crow-price { grid-area: precio; min-width: 0; align-self: center; }
+  .btn-add { grid-area: boton; min-height: 40px; }
+}
+
+/* ── 6. Documento del cliente (paso 4) ──────────────
+   Negro y gris: la hoja la imprime y la reenvía el cliente; sin color de marca
+   se lee como documento formal y sale bien en cualquier impresora.
+   - El cliente va primero en la franja de datos: es quien lee (templates.js).
+   - El descuento se muestra como ahorro (menta), no como pérdida (rojo):
+     efecto de encuadre — el mismo número se percibe distinto según cómo se
+     presenta.
+   - «No incluye envío» sigue llamando la atención, en rosa suave en vez de
+     alarma roja.
+   - Lo que no le importa al cliente (categoría, SKU) baja de peso. */
+.qdoc { border-radius: 20px; box-shadow: var(--shadow-xl); color: #141519; }
+/* html2canvas (Copiar imagen) dibuja letra por letra y no aplica cifras tabulares:
+   con ellas el «1» queda con un hueco al lado («1 2 HILOS»). En la hoja, cifras normales. */
+.qdoc, .qdoc *, .emp-sheet, .emp-sheet * { font-variant-numeric: normal; }
+.qdoc::after { background: none; }
+.qtopbar { height: 4px; background: #141519; }
+.qlogo-txt { font-weight: 650; letter-spacing: -.035em; }
+.qcontact .qdate { color: #8E919C; }
+.qnumbox { background: #F2F3F6; border: 0; border-radius: 16px; }
+.qnumbox .qnum-hash { color: #50535E; }
+.qnumbox .qnum-n { color: #141519; font-weight: 700; }
+.qnum-qr-cap { color: rgba(80, 83, 94, .45); }
+.qmeta { background: #F6F7F9; border-color: var(--linea); }
+.qmeta span { color: #50535E; }
+.qmeta strong { color: #141519; font-weight: 600; }
+.qmeta .qmeta-cliente { font-size: 14px; }
+.qmeta .qmeta-cliente strong { font-weight: 700; }
+.qmeta-lista, .qmeta-lista.alt { background: #E7E8EE; color: #141519; border-radius: 999px; font-weight: 600; }
+.qdiscl { color: #8E919C; }
+.qdoc thead tr { background: #141519; }
+.qdoc thead th { color: #C9CCD6; }
+.qdoc td.ref { color: #141519; font-weight: 650; }
+.qdoc td.sku { color: #8E919C; }
+.catpill, .qdoc .catpill { background: #F2F3F6; color: #50535E; font-weight: 500; border-radius: 999px; }
+.qdoc .qedit:hover { background: #F2F3F6; box-shadow: inset 0 0 0 1px #D3D6E0; }
+.qcond-h { color: #141519; }
+.qcond-item svg, .qcond-item svg * { stroke: #141519; }
+.qcond-wrow::before { color: #141519; }
+.qcond .no-envio { color: var(--rosa-gt); background: var(--rosa-g); border: 0; border-radius: 999px; font-weight: 650; }
+.qcond .no-envio.si-envio { color: var(--menta-gt); background: var(--menta-g); }
+.qcond .gracias { color: #8E919C; }
+.qtc-row { border-color: var(--linea); }
+.qtc-row.main { background: #141519; border-radius: 16px; }
+.qtc-row.main .qtc-label { color: #C9CCD6; }
+.qtc-row.main .qtc-val { font-weight: 700; letter-spacing: -.03em; }
+.qtc-row.disc .qtc-label, .qtc-row.disc .qtc-val { color: var(--menta-gt); }
+.qtc-row.disc .qtc-val { white-space: nowrap; }
+.qtc-row.rete { background: #F6F7F9; }
+.qtc-row.rete .qtc-label, .qtc-row.rete .qtc-val { color: #50535E; }
+.qtc-row.neto { background: #E7E8EE; border-radius: 0 0 16px 16px; }
+.qtc-row.neto .qtc-label, .qtc-row.neto .qtc-val { color: #141519; }
+
+/* Acciones bajo la hoja (no se imprimen): píldoras; la principal en tinta */
+.vendido-wrap { border-top-color: var(--linea); flex-wrap: wrap; }
+.btn-vendido { border: 0; border-radius: 999px; background: #F2F3F6; color: #23252B; min-height: 36px; padding: 0 16px; font-size: 12.5px; }
+.btn-vendido:hover { background: #E7E8EE; color: #141519; }
+.btn-add-prod { background: #141519 !important; border: 0 !important; color: #fff !important; font-weight: 500 !important; box-shadow: var(--sombra-toque); }
+.btn-add-prod:hover { background: #2A2C33 !important; }
+
+/* Empresas (A4): mismo registro, sin el filete azul */
+.emp-doc { --ink: #141519; --ink-2: #50535E; --ink-3: #8E919C; --line: #E7E8EE; --line-2: #D3D6E0; --navy: #141519; }
+.emp-sheet::before { background: #141519; }
+
+/* ── 7. Historial y seguimiento (paso 5) ─────────────
+   - Panel flotante con aire (como las hojas de Apple), más ancho para leer.
+   - Cada tarjeta empieza por el cliente y el total; el número queda en el detalle.
+   - «Cargar» es la acción principal (tinta); el resto, secundario; borrar (×)
+     aparte, a la derecha, para que no se toque por error.
+   - Las que llevan días sin respuesta se ven en durazno y ofrecen «Escribirle».
+   - «Borrar todo el historial» deja de ser el botón más llamativo del panel. */
+.overlay { background: rgba(20, 21, 25, .22); }
+.hpanel {
+  top: 12px; right: 12px; bottom: 12px; width: min(420px, calc(100vw - 24px));
+  border: 0; border-radius: 28px; background: #ECEDF2; box-shadow: var(--shadow-xl); overflow: hidden;
+  transform: translateX(calc(100% + 24px));
+}
+.hpanel.on { transform: translateX(0); }
+.hpanel-hdr { padding: 18px 20px 10px; border-bottom: 0; }
+.hpanel-hdr h3 { font-size: 20px; font-weight: 650; letter-spacing: -.03em; display: flex; align-items: center; gap: 8px; }
+.hpanel-hdr h3 .ico { display: none; }
+.hclose { width: 36px; height: 36px; padding: 0; border-radius: 50%; background: #fff; color: #50535E; font-size: 18px; box-shadow: 0 1px 2px rgba(20, 24, 50, .06); }
+.hclose:hover { background: #F2F3F6; color: #141519; }
+.hfilter { padding: 4px 16px; border-bottom: 0; gap: 6px; }
+.hfilter input { min-height: 40px; border: 0 !important; border-radius: 999px !important; background: #fff !important; padding: 0 16px !important; font-size: 13px !important; color: #141519 !important; }
+.hfilter button { border: 0 !important; border-radius: 999px !important; background: #fff !important; min-width: 40px; color: #6B6E79 !important; }
+.hseg { padding: 10px 16px 8px; border-bottom: 0; gap: 6px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+.hseg::-webkit-scrollbar { display: none; }
+.hseg-btn { flex: none; min-height: 32px; padding: 0 14px; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .7); color: #50535E; font-size: 12px; font-weight: 500; }
+.hseg-btn:hover { background: #fff; color: #141519; }
+.hseg-btn.active { background: #141519; color: #fff; font-weight: 500; }
+.hseg-btn.hseg-fu:not(.active) { background: var(--durazno-g); color: var(--durazno-gt); }
+#histAdminToggle { padding-top: 4px; }
+.hlist { padding: 4px 16px 16px; }
+.hitem { background: #fff; border: 0; border-radius: 20px; padding: 14px 16px; margin-bottom: 8px; box-shadow: 0 1px 2px rgba(20, 24, 50, .04), 0 4px 12px rgba(20, 24, 50, .04); }
+.hitem-fu { background: linear-gradient(180deg, #FFF7EF, #fff 70%); box-shadow: inset 0 0 0 1.5px var(--durazno-g), 0 4px 12px rgba(20, 24, 50, .04); }
+.hitem-top { align-items: baseline; flex-wrap: nowrap; }
+.hcliente { font-size: 15px; font-weight: 600; letter-spacing: -.015em; color: #141519; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hsin-cliente { color: #8E919C; font-weight: 500; }
+.htotal { font: 650 15px var(--font); letter-spacing: -.02em; color: #141519; }
+.hitem-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 8px; }
+.hest { border: 0; background: color-mix(in srgb, var(--est) 13%, #fff); color: var(--est); font-size: 11.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+.hest::after { content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 7px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); opacity: .7; }
+.hest:hover { background: color-mix(in srgb, var(--est) 20%, #fff); }
+.hfu-tag { background: var(--durazno-g); color: var(--durazno-gt); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
+.hfu-tag-snoozed { background: #F2F3F6; color: #6B6E79; }
+.hmeta { margin-top: 8px; font-size: 11.5px; color: #6B6E79; }
+.hmeta .hnum { font: 500 11px var(--mono); color: #50535E; background: none; padding: 0; }
+.htel { color: var(--menta-gt); }
+.hdate { display: none; }
+.hcrm-nota { background: #F6F7F9; border-left: 0; border-radius: 12px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: #50535E; }
+.hbtns { margin-top: 12px; gap: 6px; align-items: center; flex-wrap: nowrap; }
+.hbtn { border: 0; background: #F2F3F6; color: #23252B; min-height: 32px; padding: 0 11px; white-space: nowrap; flex: none; border-radius: 999px; font-size: 12px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; }
+.hbtn:hover { background: #E7E8EE; color: #141519; }
+.hbtn-main { background: #141519; color: #fff; }
+.hbtn-main:hover { background: #2A2C33; color: #fff; }
+.hbtn-wa { background: var(--menta-g); color: var(--menta-gt); }
+.hbtn-wa:hover { background: #BFE6D1; color: var(--menta-gt); }
+.hbtn.del { margin-left: auto; min-width: 32px; padding: 0; justify-content: center; background: transparent; color: #8E919C; font-size: 16px; }
+.hbtn.del:hover { background: var(--rosa-g); color: var(--rosa-gt); }
+.hcrm { border-top: 1px solid var(--linea); margin-top: 12px; padding-top: 12px; gap: 8px; }
+.hest-opt { border: 0; background: #F2F3F6; color: #50535E; min-height: 30px; padding: 0 12px; border-radius: 999px; font-weight: 500; font-size: 12px; }
+.hest-opt.on { background: color-mix(in srgb, var(--est) 14%, #fff); color: var(--est); box-shadow: inset 0 0 0 1.5px var(--est); }
+.hcrm-inp { border: 0; background: #F2F3F6; border-radius: 12px; padding: 9px 12px; font-size: 12.5px; color: #141519; }
+.hcrm-save { background: #141519 !important; color: #fff !important; }
+.hfoot { padding: 6px 16px 14px; border-top: 0; }
+.hfoot-btn { border: 0; background: transparent; color: #8E919C; font-size: 12px; }
+.hfoot-btn:hover { background: var(--rosa-g); color: var(--rosa-gt); }
+.hempty { color: #6B6E79; }
+
+/* ── 8. Operación: recogidas, calculadora IVA, cambios (paso 6) ──
+   - Las pestañas de operación (Recogidas, Cuadre) se veían más tenues que las
+     demás, como deshabilitadas: ahora tienen el mismo peso y quedan separadas
+     por la raya (agrupación por región).
+   - Recogidas: el estado avanza Pendiente → Preparado → Entregado con un color
+     por paso (durazno, lavanda, menta); la sede elegida se marca en tinta.
+   - Calculadora IVA: la calculadora rápida va primero porque es la que más se
+     usa (un valor y listo); el extractor de remisiones queda debajo.
+   - Cambios de precios: subir es malo para quien compra (rosa), bajar es bueno
+     (menta), nuevo es informativo (cielo), agotado queda en gris. */
+.tab.tab-tool:not(.active) { font-size: 12.5px; color: #50535E; }
+.tab.tab-tool:hover:not(.active) { color: #141519; }
+
+/* Recogidas */
+.rem-form-card, .rem-card { border: 0; border-radius: 20px; box-shadow: var(--shadow); }
+.rem-card-mia { box-shadow: inset 0 0 0 1.5px #141519, var(--shadow); }
+.rem-dest-btn { border: 0; border-radius: 999px; background: #F2F3F6; color: #23252B; min-height: 36px; }
+.rem-dest-btn:hover { background: #E7E8EE; }
+.rem-dest-btn.active { background: #141519; color: #fff; box-shadow: var(--sombra-toque); }
+.rem-btn-crear { border-radius: 999px; min-height: 46px; font-weight: 500; box-shadow: var(--sombra-toque); }
+.rem-seg { background: #E7E8EE; border-radius: 999px; padding: 4px; }
+.rem-seg-btn { border-radius: 999px; font-weight: 500; }
+.rem-seg-btn.active { box-shadow: var(--sombra-toque); }
+.rem-est { border: 0 !important; border-radius: 999px; font-weight: 600; letter-spacing: 0; }
+.rem-est-pend { background: var(--durazno-g); color: var(--durazno-gt); }
+.rem-est-prep { background: var(--lavanda-g); color: var(--lavanda-gt); }
+.rem-est-entr { background: var(--menta-g); color: var(--menta-gt); }
+.rem-btn { border-radius: 999px; font-weight: 500; min-height: 36px; }
+.rem-btn-prep { background: #141519; color: #fff; }
+.rem-btn-entr { background: var(--menta-g); color: var(--menta-gt); }
+.rem-btn-ghost, .rem-btn-edit { background: #F2F3F6; color: #23252B; }
+.rem-btn-del { background: transparent; color: #8E919C; }
+.rem-btn-del:hover { background: var(--rosa-g); color: var(--rosa-gt); }
+.rem-mysede-warn { background: var(--durazno-g); border: 0; color: var(--durazno-gt); border-radius: 999px; }
+.rem-notif-banner { background: var(--cielo-g); border: 0; border-radius: 16px; color: var(--cielo-gt); }
+.rem-imgattach { border-radius: 16px; border-color: #D3D6E0; background: #FAFAFC; }
+.rem-bignotify { border-radius: 20px; background: #141519; box-shadow: var(--shadow-xl); }
+
+/* Calculadora IVA: primero la rápida */
+.iva-calc-wrap { display: flex; flex-direction: column; gap: 20px; }
+.iva-calc-card { margin-top: 0 !important; border-radius: 24px; box-shadow: var(--shadow); flex-shrink: 0; }
+.iva-calc-card:has(#quickIvaBase) { order: -1; }
+.iva-calc-header h2 { font-weight: 650; letter-spacing: -.03em; }
+.iva-rate-badge { background: #F2F3F6; color: #141519; border-radius: 999px; font-weight: 600; }
+#quickIvaBase, #quickIvaAmount { font-weight: 650 !important; letter-spacing: -.02em; }
+
+/* Cambios de precios */
+.pn-seg { background: #E7E8EE; border-radius: 999px; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.pn-seg-btn { border-radius: 999px; font-weight: 500; }
+.pn-seg-btn.active { background: #fff; color: #141519; box-shadow: var(--sombra-toque); }
+.pn-chip { border: 0 !important; border-radius: 999px; font-weight: 600; }
+.pn-chip.up { background: var(--rosa-g); color: var(--rosa-gt); }
+.pn-chip.down { background: var(--menta-g); color: var(--menta-gt); }
+.pn-chip.new { background: var(--cielo-g); color: var(--cielo-gt); }
+.pn-chip.gone { background: #F2F3F6; color: #6B6E79; }
+.pn-group { border-radius: 20px !important; }
+.pn-eyebrow { font: 500 12px/16px var(--mono) !important; letter-spacing: .02em !important; text-transform: none !important; color: #6B6E79 !important; }
+
+/* ── 9. Ventanas, configuración y avisos (paso 7) ─────
+   - Todas las ventanas comparten forma: tarjeta blanca de 28 px sobre un velo
+     suave en tinta. Una sola forma = menos que aprender (consistencia, Nielsen).
+   - Cerrar no es peligroso: deja de ser rojo. El rojo (rosa) queda para borrar.
+   - La acción principal de cada ventana va en tinta; las demás, en gris.
+   - Configuración: secciones con rótulo claro y aire entre ellas (agrupación),
+     para encontrar «Datos de la empresa» o «Garantías» sin leer todo.
+   - Avisos (toasts): abajo y no arriba. Arriba tapaban las pestañas y el
+     buscador justo donde se está mirando; abajo quedan en la vista periférica,
+     como en iOS y Material. En el teléfono, encima de la barra inferior. No
+     bloquean clics: los botones del pie de Facturación siguen tocables. */
+.overlay, .settings-panel, .swap-ov, .bill-ov, .scan-ov, .vstats-ov {
+  background: rgba(20, 21, 25, .28);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.settings-card, .swap-picker, .bmodal, .scan-modal, .vstats-card {
+  background: #fff; border: 0; border-radius: 28px; box-shadow: var(--shadow-xl);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.scan-modal-halo { display: none; }
+.settings-hdr, .scan-modal-hdr { background: transparent; border-bottom: 1px solid var(--linea); }
+.settings-hdr h3, .scan-modal-hdr h3, .vstats-hdr { font-weight: 650; letter-spacing: -.02em; }
+.scan-modal-foot, .settings-foot { background: transparent; border-top: 1px solid var(--linea); }
+.bclose, .settings-hdr button, .swap-close {
+  width: 34px; height: 34px; padding: 0; border: 0; border-radius: 50%;
+  background: #F2F3F6; color: #50535E; font-size: 16px; display: inline-grid; place-items: center;
+}
+.bclose:hover, .settings-hdr button:hover, .swap-close:hover { background: #E7E8EE; color: #141519; }
+
+/* Configuración */
+.settings-card { width: 520px; }
+.settings-body { padding: 8px 24px 24px; }
+.settings-section {
+  margin: 22px 0 10px; padding-top: 18px; border-top: 1px solid var(--linea);
+  font: 500 12px/16px var(--mono); letter-spacing: .02em; text-transform: none; color: #141519;
+}
+.settings-body > .settings-section:first-child, .settings-body > div:first-child > .settings-section:first-child { margin-top: 10px; padding-top: 0; border-top: 0; }
+.sfield { border: 0; background: #F2F3F6; border-radius: 12px; min-height: 42px; }
+.sfield:focus { background: #fff; box-shadow: 0 0 0 1px #141519; }
+.upload-btn, .settings-admin-btn-accent { background: #141519; border-radius: 999px; }
+.settings-admin-btn { border-radius: 999px; background: #F2F3F6; }
+
+/* Botones de las ventanas */
+.bbtn { border-radius: 999px; font-weight: 500; min-height: 36px; }
+.bbtn-primary { background: #141519; box-shadow: var(--sombra-toque); }
+.bbtn-primary:hover { background: #2A2C33; }
+.bbtn-ghost, .bbtn-close { background: #F2F3F6 !important; color: #23252B !important; border: 0 !important; }
+.bbtn-ghost:hover, .bbtn-close:hover { background: #E7E8EE !important; }
+.bbtn-danger { background: var(--rosa-g); color: var(--rosa-gt); border: 0; border-radius: 999px; }
+
+/* Agregar / reemplazar producto */
+.swap-picker { background: #fff; }
+.swap-cat-pill { border: 0; background: #F2F3F6; color: #50535E; font-weight: 500; }
+.swap-cat-pill.active { background: #141519; color: #fff; box-shadow: none; transform: none; }
+.swap-row { background: #fff; border-color: transparent; }
+.swap-row:hover { background: #F6F7F9; }
+.swap-row-hl { background: #F6F7F9 !important; border-color: transparent !important; box-shadow: inset 0 0 0 1.5px #141519 !important; }
+.swap-row-hl .swap-row-go, .swap-row:hover .swap-row-go { background: #141519 !important; color: #fff !important; }
+
+/* Facturación SIIGO y texto para el cliente */
+.bm-hint { background: var(--cielo-g); border: 0; border-radius: 16px; color: var(--cielo-gt); }
+.bsum-card { background: #F6F7F9; border: 0; border-radius: 16px; }
+.bsum-val, .bsum-val.blue { color: #141519; font-family: var(--font); font-weight: 650; letter-spacing: -.02em; }
+.bsum-val.green { color: var(--menta-gt); }
+.bsum-val.amber { color: var(--durazno-gt); }
+.bk-inp { border: 0; background: #F2F3F6; border-radius: 8px; }
+.qtone-btn { border: 0; background: #F2F3F6; color: #50535E; border-radius: 999px; }
+.qtone-btn.qtone-active { background: #141519; color: #fff; }
+.vstats-tile { background: #F6F7F9; border: 0; border-radius: 16px; }
+.vstats-val { font-family: var(--font); font-weight: 650; letter-spacing: -.02em; }
+
+/* Resumen de la mañana y aviso de versión nueva */
+.brief-card { border-radius: 20px; background: #141519; box-shadow: var(--shadow-xl); }
+.brief-go { color: #FCE3CC; }
+.top-notice { background: #141519; }
+.top-notice-btn { color: #141519; border-radius: 999px; }
+
+/* Avisos: abajo, una tarjeta en tinta con el icono en el pastel de su tipo */
+.toast {
+  top: auto; bottom: calc(24px + env(safe-area-inset-bottom)); max-width: min(560px, calc(100vw - 32px));
+  transform: translateX(-50%) translateY(16px); padding: 11px 18px 11px 12px; border-radius: 999px;
+  background: #141519 !important; color: #fff !important; font-weight: 500; font-size: 13px;
+  box-shadow: var(--shadow-xl); pointer-events: none;
+  display: flex; align-items: center; gap: 10px;
+}
+.toast.on { transform: translateX(-50%) translateY(0); }
+.toast > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.toast .ico { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; }
+.toast-success .ico { background: var(--menta-g); color: var(--menta-gt); }
+.toast-error .ico { background: var(--rosa-g); color: var(--rosa-gt); }
+.toast-warn .ico { background: var(--durazno-g); color: var(--durazno-gt); }
+.toast-info .ico, .toast-neutral .ico { background: var(--cielo-g); color: var(--cielo-gt); }
+@media (max-width: 760px) {
+  .toast { bottom: calc(96px + env(safe-area-inset-bottom)); width: calc(100vw - 32px); }
+  .toast > span:last-child { white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+}
+
+/* ── 8. Legibilidad en plan Basic ───────────────────
+   styles.css apagaba a propósito el panel lateral en Basic (#adb5bd sobre
+   gris): el vendedor no leía lo que escribía. El plan ya se distingue por la
+   etiqueta BASIC/PRO; el texto de trabajo siempre en tinta. */
+body:not(.premium-user) .sb { background: rgba(255, 255, 255, .62) !important; }
+body:not(.premium-user) .sb-foot { background: rgba(255, 255, 255, .86) !important; }
+body:not(.premium-user) .sb-body .sec-lbl { color: var(--tinta) !important; }
+body:not(.premium-user) .sb-body .field label { color: var(--tinta-2) !important; }
+body:not(.premium-user) .sb-body input,
+body:not(.premium-user) .sb-body select { color: var(--tinta) !important; }
+
+/* ── 9. Checklist de PC ─────────────────────────────
+   Mismo lenguaje que el resto: tarjeta blanca, una sola pastilla de estado y
+   un punto de color por fila (menta = está, rosa = falta). Sin bordes ni
+   fondos de alarma: lo que falta se lee por el texto, no por un muro rojo. */
+.pcc-card { background: #fff; border: 0; border-radius: 16px; box-shadow: var(--shadow-sm, 0 1px 2px rgba(20,21,25,.06)); margin-top: 12px; }
+.pcc-header { background: transparent; border-bottom: 1px solid var(--linea); padding: 12px 14px; }
+.pcc-main-ico { color: var(--tinta); }
+.pcc-main-ico svg { width: 16px; height: 16px; }
+.pcc-title { font-size: 13px; font-weight: 600; color: var(--tinta); letter-spacing: -.01em; }
+.pcc-badge { font-size: 11px; font-weight: 600; padding: 4px 10px; border: 0; border-radius: 999px; }
+.pcc-badge-ok { background: var(--menta-g); color: var(--menta-gt); border: 0; }
+.pcc-badge-warn { background: var(--durazno-g); color: var(--durazno-gt); border: 0; }
+.pcc-chevron { color: var(--tinta-3); }
+.pcc-body { padding: 6px 8px 8px; gap: 0; }
+.pcc-row, .pcc-row.pcc-ok, .pcc-row.pcc-miss, .pcc-row.pcc-opt { background: transparent; border: 0; border-radius: 10px; padding: 8px 6px; font-size: 12.5px; }
+.pcc-row + .pcc-row { border-top: 1px solid var(--linea); border-radius: 0; }
+.pcc-status-ico { width: 18px; height: 18px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 10px; font-weight: 700; line-height: 1; }
+.pcc-ok .pcc-status-ico { background: var(--menta-g); color: var(--menta-gt); }
+.pcc-miss .pcc-status-ico { background: var(--rosa-g); color: var(--rosa-gt); }
+.pcc-opt .pcc-status-ico { background: var(--hundido); color: var(--tinta-3); }
+.pcc-label { font-weight: 500; color: var(--tinta); }
+.pcc-detail { font-size: 12px; color: var(--tinta-3); }
+.pcc-miss .pcc-detail { color: var(--rosa-gt); font-weight: 600; }
+
+/* ── 10. Celular (paso 8) ───────────────────────────
+   - Letra de 16px en todo campo: con menos, el iPhone acerca la pantalla al
+     enfocar y el vendedor tiene que alejarla a mano en cada campo.
+   - Todo lo que se toca mide 44px o más (Fitts; guía de Apple): cantidad,
+     quitar, cambiar producto, segmentos y filtros.
+   - La barra inferior lleva lo que más se usa en la tienda: Cotización,
+     Catálogo, Cotizar, Vender. Recogidas pasa a «Más» (su aviso se ve ahí).
+   - El formulario termina con «Ver cotización»: siempre se sabe cuál es el
+     siguiente paso (no solo la X de cerrar).
+   - Las acciones de la cotización en dos columnas parejas, la principal primero. */
+.sb-ver-cot { display: none; }
+@media screen and (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+  select, textarea { font-size: 16px !important; }
+  #discPct, #qivaDiscPct { font-size: 16px !important; width: 44px !important; }
+
+  .qbtn, .idel, .qrow-swap, .qrow-rm, .tv-cant button, .tv-quitar, .tv-x, .hclose { min-width: 44px; min-height: 44px; }
+  .qnum, .qnum-inp { min-height: 44px; width: 44px !important; }
+  .iva-btn, .note-btn, .ai-chip, .qmode-vbtn, .pl-toggle-btn, .sec-accion, .btn-disc, .rete-btn,
+  .tv-seg button, .tv-btn, .tv-chip, .hseg-btn, .cfilter, #btnActivateLago { min-height: 44px; }
+  .tv-link { min-height: 44px; display: inline-flex; align-items: center; }
+  .enc-lbl { min-height: 44px; }
+
+  .sb-ver-cot {
+    display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 50px; margin-top: 4px;
+    border: 0; border-radius: 999px; background: #141519; color: #fff; font: 600 15px var(--font); cursor: pointer;
+  }
+
+  .vendido-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 14px 16px; }
+  .vendido-wrap .btn-vendido { width: 100%; min-height: 46px; justify-content: center; margin: 0; }
+  .vendido-wrap .btn-add-prod { grid-column: 1 / -1; }
+
+  /* Inventario: indicadores en una franja que se desliza, no una pantalla entera */
+  .tv-kpis { display: flex !important; overflow-x: auto; gap: 8px; scroll-snap-type: x mandatory; margin-inline: -16px; padding: 2px 16px 6px; scrollbar-width: none; }
+  .tv-kpis::-webkit-scrollbar { display: none; }
+  .tv-kpis > div { flex: 0 0 auto; min-width: 140px; padding: 10px 14px; scroll-snap-align: start; }
+  .tv-kpis dd { font-size: 19px; margin-top: 4px; }
+  .tv-cab-acc { width: 100%; }
+  .tv-cab-acc .tv-btn { flex: 1 1 auto; }
+
+  /* Comparar: título arriba, los dos botones debajo a lo ancho */
+  #panel-cmp { padding: 16px !important; }
+  #panel-cmp > div > div:first-child { flex-direction: column !important; align-items: stretch !important; gap: 12px; }
+  #panel-cmp > div > div:first-child > div:last-child { display: grid !important; grid-template-columns: 1fr 1fr; }
+  #panel-cmp > div > div:first-child > div:last-child .bbtn { min-height: 44px; justify-content: center; }
+
+  /* Recogidas: menos aire arriba; el formulario aparece sin bajar */
+  #panel-rem { padding: 0 !important; }
+  #panel-rem > div { padding: 18px 16px 24px !important; }
+}

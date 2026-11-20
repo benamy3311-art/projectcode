@@ -1,0 +1,104 @@
+/* ═══════════════════════════════════════════════════
+   CAPA "FUTURO" (PC) — ui/futuro.js
+   ═══════════════════════════════════════════════════
+   Lo que hace que la app se sienta viva y confiable sin gritar (mi-gusto,
+   registro sereno, aprendizaje 2026-11-19 "degradado estético, futurista"):
+     - Lienzo con aurora pastel fija y grano (lavanda, durazno, menta), nunca
+       un degradado liso. Las tarjetas siguen blancas y planas encima.
+     - Barra de secciones con una píldora que viaja entre ellas.
+     - Cambio de sección con relevo de opacidad + 2 px de desenfoque.
+     - Una pieza de arte oscura por pantalla en la cifra que manda.
+     - Esperas con la forma de lo que viene (huesos), no con un texto.
+   Va después de todas las hojas: solo ajusta, no redefine componentes.
+═══════════════════════════════════════════════════ */
+
+@media (min-width: 1025px) {
+  /* ── Aurora y grano ───────────────────────────── */
+  body.con-riel { background: var(--lienzo, #ECEDF2); }
+  body.con-riel::before,
+  body.con-riel::after {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  }
+  body.con-riel::before {
+    background:
+      radial-gradient(55% 45% at 6% -6%, rgba(228, 222, 252, .95), transparent 70%),
+      radial-gradient(40% 38% at 100% 4%, rgba(252, 227, 204, .80), transparent 70%),
+      radial-gradient(50% 42% at 72% 108%, rgba(207, 238, 221, .75), transparent 70%),
+      radial-gradient(35% 30% at 18% 96%, rgba(220, 229, 255, .65), transparent 70%);
+  }
+  body.con-riel::after {
+    opacity: .07; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+
+  /* Las pantallas dejan ver la aurora: sin fondo propio */
+  body.con-riel #panel-jefe.pj,
+  body.con-riel #panel-seg.sg,
+  body.con-riel #panel-empresa.me,
+  body.con-riel #panel-wa.wa-panel,
+  body.con-riel #panel-cuadre,
+  body.con-riel #panel-rem,
+  body.con-riel #panel-cambios { background: transparent; }
+  body.con-riel .me-pie { background: linear-gradient(to bottom, transparent, rgba(236, 237, 242, .92) 35%); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+
+  /* ── Barra: la píldora que viaja ─────────────── */
+  .barra { view-transition-name: barra; }
+  .barra-ind {
+    position: absolute; left: 0; top: 4px; height: 36px; border-radius: 999px;
+    background: var(--tinta, #141519); box-shadow: var(--sombra-toque, none);
+    pointer-events: none; z-index: 0; opacity: 0;
+    transition: transform .42s var(--muelle-medio, cubic-bezier(.3, 1.18, .45, 1)), width .42s var(--muelle-medio, cubic-bezier(.3, 1.18, .45, 1)), opacity .15s var(--salida, ease);
+  }
+  .barra-ind.listo { opacity: 1; }
+  .barra-nav.con-ind .barra-btn.on { background: transparent; box-shadow: none; }
+
+  /* El formulario de cotizar, también de vidrio */
+  body.con-riel .sb { background: rgba(250, 251, 255, .78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+
+  /* ── Pieza de arte: la cifra que manda (panel del jefe) ── */
+  .pj-kpi-arte {
+    position: relative; overflow: hidden; isolation: isolate;
+    background:
+      radial-gradient(120% 90% at 100% 0%, rgba(143, 110, 255, .55), transparent 55%),
+      radial-gradient(90% 80% at 0% 110%, rgba(232, 100, 31, .40), transparent 60%),
+      radial-gradient(60% 60% at 70% 120%, rgba(143, 193, 245, .35), transparent 70%),
+      #17151F !important;
+    color: #fff;
+  }
+  .pj-kpi-arte::after {
+    content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; mix-blend-mode: overlay; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  }
+  .pj-kpi-arte small, .pj-kpi-arte .pj-nota { color: rgba(255, 255, 255, .72); }
+  .pj-kpi-arte .pj-cifra { color: #fff; }
+
+  /* ── Huesos: la forma de lo que viene ─────────── */
+  .pj-hueso {
+    border-radius: 20px; background: rgba(255, 255, 255, .55); position: relative; overflow: hidden;
+  }
+  .pj-hueso::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(100deg, transparent 20%, rgba(255, 255, 255, .7) 50%, transparent 80%);
+    transform: translateX(-100%); animation: fut-brillo 1.6s var(--salida, ease) infinite;
+  }
+  .pj-hueso-kpi { height: 112px; }
+  .pj-hueso-arte { background: rgba(23, 21, 31, .14); }
+  .pj-hueso-graf { height: 270px; }
+  .pj-hueso-lado { grid-row: span 2; min-height: 420px; }
+  .pj-hueso-equipo { height: 220px; }
+  @keyframes fut-brillo { to { transform: translateX(100%); } }
+
+  /* ── Relevo entre secciones (View Transitions) ── */
+  ::view-transition-old(root) { animation: fut-sale .14s var(--entrada, ease-in) both; }
+  ::view-transition-new(root) { animation: fut-entra .3s var(--salida, ease-out) both; }
+  ::view-transition-group(barra) { animation: none; }
+}
+
+@keyframes fut-sale { to { opacity: 0; filter: blur(var(--borron, 2px)); } }
+@keyframes fut-entra { from { opacity: 0; filter: blur(var(--borron, 2px)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .barra-ind { transition: none; }
+  .pj-hueso::after { animation: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}

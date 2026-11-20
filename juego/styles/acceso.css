@@ -1,0 +1,146 @@
+/* ═══════════════════════════════════════════════════
+   PANTALLAS DE ACCESO — index.html (#loginOverlay, #pendingOverlay,
+   #pausedOverlay, #sessionKickedOverlay, #authLoading)
+   Registro sereno con la capa "futuro": aurora con grano de fondo, una pieza
+   de arte oscura (la marca y lo que hace la suite) y una tarjeta blanca con
+   una sola acción. Sin emojis; íconos de línea.
+═══════════════════════════════════════════════════ */
+
+.acc {
+  position: fixed; inset: 0; z-index: 99999;
+  align-items: center; justify-content: center; padding: 24px;
+  overflow: auto; color: var(--tinta, #141519); font-family: var(--font);
+  background:
+    radial-gradient(55% 45% at 6% -6%, rgba(228, 222, 252, .95), transparent 70%),
+    radial-gradient(40% 38% at 100% 4%, rgba(252, 227, 204, .80), transparent 70%),
+    radial-gradient(50% 42% at 72% 108%, rgba(207, 238, 221, .75), transparent 70%),
+    var(--lienzo, #ECEDF2);
+}
+.acc::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .07; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+.acc-cargando { z-index: 99998; }
+
+/* ── Marca ─────────────────────────────────────── */
+.acc-orbe {
+  display: inline-block; width: 28px; height: 28px; border-radius: 50%; flex: none; position: relative; overflow: hidden;
+  background:
+    radial-gradient(circle at 36% 28%, rgba(255, 255, 255, .95) 0 6%, transparent 20%),
+    radial-gradient(circle at 40% 62%, #1d1d23, #0b0b0d 72%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22);
+}
+.acc-orbe::after {
+  content: ""; position: absolute; inset: 42% -20% 30% -10%;
+  background: linear-gradient(90deg, transparent, #E8641F, #F9C34A, #8FC1F5, transparent);
+  filter: blur(3px); transform: rotate(-40deg);
+}
+.acc-marca { display: flex; align-items: center; gap: 10px; font-size: 17px; letter-spacing: -.02em; }
+.acc-marca-movil { display: none; }
+
+/* ── Escena: arte + tarjeta ─────────────────────── */
+.acc-escena {
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 12px;
+  width: 100%; max-width: 960px; min-height: 560px;
+  animation: acc-entra .5s var(--salida, cubic-bezier(.22, 1, .36, 1)) both;
+}
+.acc-arte {
+  position: relative; overflow: hidden; isolation: isolate;
+  border-radius: 28px; padding: 32px; color: #fff;
+  display: flex; flex-direction: column; justify-content: space-between;
+  background:
+    radial-gradient(110% 80% at 100% 0%, rgba(143, 110, 255, .60), transparent 55%),
+    radial-gradient(90% 70% at 0% 110%, rgba(232, 100, 31, .45), transparent 60%),
+    radial-gradient(60% 60% at 75% 115%, rgba(143, 193, 245, .40), transparent 70%),
+    #17151F;
+}
+.acc-arte::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; opacity: .2; mix-blend-mode: overlay; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+/* Un brillo lento que cruza la pieza: lo único que se mueve solo */
+.acc-luz {
+  position: absolute; z-index: -1; width: 60%; height: 140%; top: -20%; left: -70%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .10), transparent);
+  transform: rotate(8deg); animation: acc-luz 9s ease-in-out 1.2s infinite;
+}
+.acc-arte-txt { display: grid; gap: 18px; }
+.acc-eti { margin: 0; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; opacity: .7; }
+.acc-arte h2 { margin: 0; font-size: 32px; line-height: 1.12; font-weight: 700; letter-spacing: -.03em; max-width: 15ch; }
+.acc-puntos { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.acc-puntos li { display: flex; align-items: baseline; gap: 12px; font-size: 14px; color: rgba(255, 255, 255, .78); }
+.acc-puntos span {
+  flex: none; min-width: 64px; height: 24px; padding: 0 10px; border-radius: 999px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .12); color: #fff; font-size: 12px; font-weight: 600;
+}
+
+.acc-tarjeta {
+  position: relative; z-index: 1;
+  background: rgba(255, 255, 255, .92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  border-radius: 28px; padding: 40px 36px;
+  display: flex; flex-direction: column; justify-content: center; gap: 14px;
+}
+.acc-tarjeta h1 { margin: 0; font-size: 30px; line-height: 1.1; font-weight: 700; letter-spacing: -.03em; }
+.acc-sub { margin: 0 0 10px; font-size: 15px; line-height: 1.5; color: var(--tinta-2, #50535E); }
+
+.acc-google {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  width: 100%; height: 52px; border: 0; border-radius: 999px; cursor: pointer;
+  background: #fff; color: var(--tinta, #141519); font: 600 15px var(--font);
+  box-shadow: inset 0 0 0 1px rgba(20, 21, 25, .12), var(--sombra-toque, 0 1px 2px rgba(20, 20, 40, .1));
+  transition: transform .12s var(--salida, ease), box-shadow .15s var(--salida, ease), background-color .15s;
+}
+.acc-google:hover:not(:disabled) { background: #FAFAFC; box-shadow: inset 0 0 0 1px rgba(20, 21, 25, .2), 0 6px 18px -6px rgba(20, 20, 40, .2); }
+.acc-google:active:not(:disabled) { transform: scale(.98); }
+.acc-google:disabled { cursor: progress; color: var(--tinta-2, #50535E); }
+.acc-google:focus-visible { outline: 2px solid var(--tinta, #141519); outline-offset: 3px; }
+
+.acc-error { padding: 12px 14px; border-radius: 14px; background: var(--rosa-g, #F9D7E4); color: var(--rosa-gt, #6F2A47); font-size: 13px; line-height: 1.5; font-weight: 500; }
+
+.acc-confianza { display: flex; align-items: flex-start; gap: 10px; margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--linea, rgba(20, 21, 25, .07)); font-size: 12.5px; line-height: 1.5; color: var(--tinta-3, #6B6E79); }
+.acc-confianza svg { flex: none; width: 16px; height: 16px; margin-top: 1px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── Tarjetas sueltas (pendiente, pausa, otro equipo) ── */
+.acc-sola { max-width: 440px; width: 100%; text-align: left; animation: acc-entra .45s var(--salida, ease) both; }
+.acc-sola .acc-eti { color: var(--durazno-gt, #6E4516); opacity: 1; }
+.acc-icono { width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 6px; }
+.acc-icono svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.acc-icono-durazno { background: var(--durazno-g, #FCE3CC); color: var(--durazno-gt, #6E4516); }
+.acc-icono-lavanda { background: var(--lavanda-g, #E4DEFC); color: var(--lavanda-gt, #3F3470); }
+.acc-correo { padding: 12px 16px; border-radius: 14px; background: var(--hundido, #F2F3F6); font: 500 14px var(--mono); word-break: break-all; }
+.acc-principal, .acc-secundario {
+  width: 100%; height: 48px; border: 0; border-radius: 999px; cursor: pointer; font: 600 15px var(--font);
+  transition: transform .12s var(--salida, ease), background-color .15s;
+}
+.acc-principal { background: var(--tinta, #141519); color: #fff; box-shadow: var(--sombra-toque, none); }
+.acc-principal:hover { background: #2A2C33; }
+.acc-secundario { background: var(--hundido, #F2F3F6); color: var(--tinta, #141519); }
+.acc-secundario:hover { background: var(--gray-200, #E7E8EE); }
+.acc-principal:active, .acc-secundario:active { transform: scale(.98); }
+.acc-principal:focus-visible, .acc-secundario:focus-visible { outline: 2px solid var(--tinta, #141519); outline-offset: 3px; }
+
+/* ── Verificando acceso ─────────────────────────── */
+.acc-cargando > div { position: relative; z-index: 1; display: grid; justify-items: center; gap: 14px; }
+.acc-cargando p { margin: 0; font-size: 13px; color: var(--tinta-3, #6B6E79); font-weight: 500; }
+.acc-orbe-grande { width: 44px; height: 44px; animation: acc-latido 1.6s ease-in-out infinite; }
+
+@keyframes acc-entra { from { opacity: 0; transform: translateY(10px) scale(.99); filter: blur(var(--borron, 2px)); } }
+@keyframes acc-luz { 0%, 100% { left: -70%; } 50% { left: 120%; } }
+@keyframes acc-latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+
+/* ── Celular: solo la tarjeta, con la marca arriba ── */
+@media (max-width: 860px) {
+  .acc { padding: 16px; }
+  .acc-escena { grid-template-columns: minmax(0, 1fr); min-height: 0; max-width: 440px; }
+  .acc-arte { display: none; }
+  .acc-marca-movil { display: flex; margin-bottom: 18px; }
+  .acc-tarjeta { padding: 32px 24px; }
+  .acc-tarjeta h1 { font-size: 26px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .acc-escena, .acc-sola, .acc-luz, .acc-orbe-grande { animation: none; }
+  .acc-google, .acc-principal, .acc-secundario { transition: none; }
+}

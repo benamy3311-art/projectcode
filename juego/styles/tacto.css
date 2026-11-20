@@ -1,0 +1,179 @@
+/* ═══════════════════════════════════════════════════
+   TACTO — cómo responde la app al tocar (paso 9)
+   ═══════════════════════════════════════════════════
+   Registro «sereno»: lo que se toca responde al instante, lo que cambia de
+   estado llega con un muelle que se pasa 1–2 px, y nada pide atención.
+   El hundido al pulsar lo hace ui/tacto.js (WAAPI sobre `scale`); aquí van
+   los interruptores, la píldora que viaja, las cifras, la sacudida, las
+   ventanas, la barra de deshacer y los detalles que no se ven.
+   Reglas y porqués: TACTO.md (carpeta gusto). Lógica: ui/tacto-app.js.
+═══════════════════════════════════════════════════ */
+
+:root {
+  --salida: cubic-bezier(.22, 1, .36, 1);
+  --entrada: cubic-bezier(.55, 0, .8, .2);
+  --muelle-corto: cubic-bezier(.34, 1.45, .64, 1);   /* viaje de menos de 40 px: se pasa ~2 px */
+  --muelle-medio: cubic-bezier(.3, 1.18, .45, 1);    /* 40–200 px: se pasa ~2 px (medido: píldora de 156 px) */
+  --borron: 2px;
+}
+
+/* ── Detalles que no se ven ───────────────────────── */
+button, [role="button"], .tab, label.switch, .mobnav-item, .mobsheet-item {
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+button, [role="button"], .tab, .mobnav-item, .mobsheet-item { -webkit-user-select: none; user-select: none; }
+
+/* Nunca `transition: all`: estas reglas venían con `all`; se queda su duración
+   y su curva, pero solo para las propiedades que de verdad cambian. */
+.combo-toggle-btn,
+.iva-toggle-row,
+.scan-drop.loading .scan-title,
+.item-name,
+.cpill,
+.iva-btn,
+.btn-clear,
+.pv-btn,
+.tab,
+.csearch,
+.cfilter,
+.upload-btn,
+.qcond .no-envio,
+.qtone-btn,
+.btn-vendido,
+.hclose,
+.hitem,
+.hbtn,
+.hseg-btn,
+.hest,
+.hest-opt,
+.brief-card.gone,
+.hfoot-btn,
+.bclose,
+.bsum-card,
+.st-sku,
+.net-val,
+.copy-st,
+.fmt-btn,
+.ext-ta,
+.toast,
+.qiva-disc-btn,
+.iva-mode-btn,
+.iva-rate-btn,
+.iva-siigo-row,
+.item-price,
+.custom-item-hdr,
+.custom-item-btn,
+.gear-btn,
+.pl-toggle-btn,
+.scan-chk,
+.tour-dot,
+.tour-btn,
+.drive-toggle-btn,
+.rem-dest-btn,
+.rem-seg-btn,
+.rem-bignotify.gone,
+.ai-chip,
+.pn-seg-btn,
+.swap-close,
+.swap-search-field,
+.swap-clear,
+.swap-cat-pill,
+.swap-row,
+.swap-row-go,
+.qdoc-add-btn,
+.qa-item {
+  transition-property: background-color, border-color, color, box-shadow, opacity, transform, filter, outline-color, fill, stroke;
+}
+
+/* ── Interruptores: el pulgar se estira hacia donde va y llega pasándose ── */
+.switch .slider { transition: background-color 200ms ease-out; }
+.switch .slider::before { transition: transform 450ms var(--muelle-corto), scale 120ms ease-out; transform-origin: left center; }
+.switch input:checked + .slider::before { transform-origin: right center; }
+.switch:active .slider::before { scale: 1.18 1; }
+.tv-interruptor i { transition: background-color 200ms ease-out; }
+.tv-interruptor i::after { transition: transform 450ms var(--muelle-corto), scale 120ms ease-out; transform-origin: left center; }
+.tv-interruptor[aria-checked="true"] i::after { transform-origin: right center; }
+.tv-interruptor:active i::after { scale: 1.18 1; }
+
+/* ── Selectores de opciones: una sola píldora que viaja ── */
+.tv-seg, .qmode-vgroup, .pl-toggle-wrap { position: relative; isolation: isolate; }
+[data-pildora]::before {
+  content: ""; position: absolute; z-index: -1; left: 0; top: 0;
+  width: var(--pw, 0); height: var(--ph, 0); translate: var(--px, 0) var(--py, 0);
+  border-radius: 999px; background: #fff; box-shadow: var(--sombra-toque, 0 1px 2px rgba(20, 20, 40, .1), 0 3px 8px -2px rgba(20, 20, 40, .16));
+  opacity: var(--po, 0); pointer-events: none;
+}
+[data-pildora="viaja"]::before {
+  transition: translate 480ms var(--muelle-medio), width 480ms var(--muelle-medio), height 480ms var(--muelle-medio), opacity 150ms ease-out;
+}
+[data-pildora] > [aria-pressed="true"], [data-pildora] > .on, [data-pildora] > .active,
+.pl-toggle-wrap[data-pildora] > .pl-toggle-btn.active {
+  background: transparent !important; box-shadow: none !important;
+}
+[data-pildora] > * { transition-property: color; transition-duration: 200ms; }
+
+/* ── Cifras: solo ruedan los dígitos que cambian ───── */
+.solo-lector { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.cifra-hueco { position: relative; display: inline-block; }
+.cifra-digito { display: inline-block; }
+.cifra-digito[data-entra] { animation: cifra-entra 420ms var(--salida) both; animation-delay: calc(var(--i, 0) * 40ms + 50ms); }
+.cifra-sale { position: absolute; inset: 0; text-align: center; animation: cifra-sale 150ms var(--entrada) both; animation-delay: calc(var(--i, 0) * 40ms); }
+@keyframes cifra-entra { from { opacity: 0; translate: 0 calc(var(--dir, 1) * .3em); filter: blur(var(--borron)); } }
+@keyframes cifra-sale  { to   { opacity: 0; translate: 0 calc(var(--dir, 1) * -.3em); filter: blur(var(--borron)); } }
+
+/* ── Fallo: sacudida de cuatro tramos (280 ms) ─────── */
+@keyframes sacudida {
+  0%    { translate: 0 0;    animation-timing-function: var(--salida); }
+  28.6% { translate: -6px 0; animation-timing-function: var(--salida); }
+  57.1% { translate: 4px 0;  animation-timing-function: var(--salida); }
+  78.6% { translate: -2px 0; animation-timing-function: var(--salida); }
+  100%  { translate: 0 0; }
+}
+[data-sacude] { animation: sacudida 280ms; }
+
+/* ── Ventanas: nacen de .97 con 2 px de desenfoque ─── */
+@keyframes tacto-abre { from { opacity: 0; scale: .97; filter: blur(var(--borron)); } }
+.tv-modal-caja, .esf-ov.on .esf-caja { animation: tacto-abre 250ms var(--salida) both; }
+/* Configuración siempre está en el DOM: se anima con transición; cierra más rápido de lo que abre */
+.settings-panel .settings-card { scale: .97; filter: blur(var(--borron)); transition: scale 150ms var(--salida), filter 150ms var(--salida); }
+.settings-panel.on .settings-card { scale: 1; filter: none; transition: scale 250ms var(--salida), filter 250ms var(--salida); }
+
+/* ── Éxito de la venta: la marca se dibuja ─────────── */
+.tacto-marca path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: tacto-traza 350ms var(--salida) 120ms forwards; }
+.tv-ok { animation: tacto-llega 500ms var(--salida) both; }
+@keyframes tacto-traza { to { stroke-dashoffset: 0; } }
+@keyframes tacto-llega { from { opacity: 0; scale: .9; filter: blur(8px); } }
+
+/* ── Deshacer: sube, crece y se enfoca; se va más rápido ── */
+.deshacer {
+  position: fixed; z-index: 9500; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: 14px; max-width: min(520px, calc(100vw - 32px));
+  padding: 6px 6px 6px 18px; border-radius: 999px;
+  background: rgba(20, 21, 25, .9); color: #fff; font: 500 13.5px var(--font, inherit);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  box-shadow: 0 18px 40px -14px rgba(20, 16, 40, .5);
+  opacity: 0; visibility: hidden; translate: -50% 16px; scale: .97; filter: blur(var(--borron));
+  transition: opacity 250ms var(--salida), translate 250ms var(--salida), scale 250ms var(--salida), filter 250ms var(--salida), visibility 0s linear 250ms;
+}
+.deshacer[data-abierto] {
+  opacity: 1; visibility: visible; translate: -50% 0; scale: 1; filter: none;
+  transition: opacity 350ms var(--salida), translate 480ms var(--muelle-medio), scale 350ms var(--salida), filter 350ms var(--salida), visibility 0s;
+}
+.deshacer-txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.deshacer-btn { flex: none; min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: #fff; color: #141519; font: 600 13px var(--font, inherit); cursor: pointer; }
+@media (max-width: 768px) { .deshacer { bottom: calc(96px + env(safe-area-inset-bottom)); } }
+
+/* ── Ajustes de tacto en Configuración ─────────────── */
+.tacto-ajuste { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 0; }
+.tacto-ajuste span { display: grid; font-size: 13.5px; font-weight: 500; color: #141519; }
+.tacto-ajuste small { font-size: 12px; font-weight: 400; color: #6B6E79; }
+
+/* ── Movimiento reducido: se conserva la respuesta, no el desplazamiento ── */
+@media (prefers-reduced-motion: reduce) {
+  [data-pildora]::before { transition: opacity 150ms ease-out !important; }
+  [data-sacude], .tv-ok, .tv-modal-caja, .esf-ov.on .esf-caja { animation: none; }
+  .settings-panel .settings-card { scale: 1; filter: none; }
+  .cifra-digito[data-entra], .cifra-sale { animation: none; }
+  .cifra-sale { display: none; }
+}
+:root[data-tacto="no"] *, :root[data-tacto="no"] *::before, :root[data-tacto="no"] *::after { animation: none !important; }

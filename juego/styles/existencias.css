@@ -1,0 +1,6 @@
+/* Existencias junto a cada producto (ui/existencias.js): menta = alcanza,
+   durazno = no alcanza para lo que se pide, rosa = no hay. */
+.ex { display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 999px; font-size: 11px; font-weight: 600; white-space: nowrap; vertical-align: middle; }
+.ex-ok { background: var(--menta-g, #CFEEDD); color: var(--menta-gt, #1F5A3C); }
+.ex-poco { background: var(--durazno-g, #FCE3CC); color: var(--durazno-gt, #6E4516); }
+.ex-no { background: var(--rosa-g, #F9D7E4); color: var(--rosa-gt, #6F2A47); }
