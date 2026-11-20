@@ -556,7 +556,9 @@
       detectados: f.origen || {},
       items: items,
       referencia: cot ? 'Cot. ' + numCot(cot.x) : '',
-      medio: medio
+      medio: medio,
+      chat: _conv.id,
+      chatNombre: d.nombre || _conv.nombre || ''
     }).then(function (ok) {
       if (ok) toast(datosOk(d) ? 'Venta armada con el cliente y su cotización: revisa y registra' : 'Completa los datos que faltan y registra', 'success');
     });

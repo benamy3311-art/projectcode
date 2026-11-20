@@ -305,6 +305,7 @@
         v.items.push({ sku: sku, nombre: it.name, categoria: cat, cantidad: Number(it.qty) || 1, precioUnit: Math.round(Number(it.price) * 1000), iva: it.iva !== false, garantia: (prod || {}).garantia || '', noInventariable: manual || sku === '55002' });
       });
       if (o.referencia) v.orden.numero = String(o.referencia).slice(0, 40);
+      v._chat = o.chat ? { id: String(o.chat), nombre: o.chatNombre || '' } : null; // venta que salió de un chat
       // El medio que el cliente nombró en el chat (si la empresa lo tiene)
       if (o.medio && T.mediosPago().indexOf(o.medio) >= 0) v.pagos[0].medio = o.medio;
       if (v.cliente && v.cliente.direccion) v.orden.entrega = v.cliente.direccion;
@@ -597,6 +598,7 @@
     if (!previa.ok) { if (err) err.textContent = previa.errores[0]; if (window.TactoApp) TactoApp.fallo(err); return; }
     guardando = true; pintarResumen();
     var pagosConComp = v.pagos.slice();
+    var chat = v._chat || null;
     db.registrarVenta(borrador, { usuario: A.usuario() }).then(function (r) {
       guardando = false;
       var venta = r.venta;
@@ -607,7 +609,7 @@
       v = borradorNuevo();
       try { sessionStorage.removeItem(CLAVE_BORRADOR); } catch (_) {}
       pintarVista();
-      mostrarDocumento(venta, true);
+      mostrarDocumento(venta, true, chat);
       if (window.tacto) tacto.sentir('exito');
       if (r.avisos && r.avisos.length) toast('Vendido sin existencias registradas: revisa el inventario', 'warn');
     }, function (e) {
@@ -619,7 +621,7 @@
   }
 
   // ── Documento ──────────────────────────────────────
-  function mostrarDocumento(venta, recien) {
+  function mostrarDocumento(venta, recien, chat) {
     var m = document.getElementById('venModal');
     var tel = String((venta.cliente || {}).telefono || '').replace(/\D/g, '');
     m.innerHTML = '<div class="tv-modal-caja" role="dialog" aria-modal="true" aria-label="' + esc((T.TIPOS_VENTA[venta.tipo] || {}).nombre) + ' ' + esc(venta.numero) + '">' +
@@ -628,7 +630,10 @@
       '<div class="tv-modal-doc">' + A.documentoHTML(venta) + '</div>' +
       '<footer class="tv-modal-pie">' +
         '<button type="button" class="tv-btn tv-btn-suave" data-acc="imprimir" data-id="' + esc(venta.id) + '">Imprimir o PDF</button>' +
-        '<a class="tv-btn tv-btn-menta" href="' + esc(A.enlaceWhatsApp(venta)) + '" target="_blank" rel="noopener">' + (tel ? 'Enviar por WhatsApp' : 'Compartir por WhatsApp') + '</a>' +
+        // Venta que salió de un chat: el recibo va a ese mismo chat y se vuelve a la conversación
+        (chat ? '<button type="button" class="tv-btn tv-btn-menta" data-acc="doc-chat">Enviar al chat' + (chat.nombre ? ' de ' + esc(String(chat.nombre).split(' ')[0]) : '') + '</button>'
+          : '<a class="tv-btn tv-btn-menta" href="' + esc(A.enlaceWhatsApp(venta)) + '" target="_blank" rel="noopener">' + (tel ? 'Enviar por WhatsApp' : 'Compartir por WhatsApp') + '</a>') +
+        (chat && recien ? '<button type="button" class="tv-btn tv-btn-suave" data-acc="volver-chat">Volver al chat</button>' : '') +
         (venta.estado !== 'anulada' && !recien ? '<button type="button" class="tv-btn tv-btn-rosa" data-acc="anular" data-id="' + esc(venta.id) + '">Anular</button>' : '') +
         (recien ? '<button type="button" class="tv-btn tv-btn-tinta" data-acc="cerrar-modal">Nueva venta</button>' : '') +
       '</footer>' +
@@ -636,9 +641,36 @@
     '</div>';
     m.hidden = false;
     m._venta = venta;
+    m._chat = chat || null;
     var b = m.querySelector('[data-acc="cerrar-modal"].tv-btn') || m.querySelector('.tv-x');
     if (b) b.focus();
   }
+  function volverAlChat(chat) {
+    cerrarModal();
+    if (!chat || !window.WaInbox) return;
+    switchTab('wa');
+    setTimeout(function () { WaInbox.abrir(chat.id); }, 120);
+  }
+  // Imagen del recibo → portapapeles → WhatsApp del mismo cliente; queda en su hilo.
+  function enviarAlChat(venta, chat) {
+    var doc = document.querySelector('#venModal .tv-modal-doc > *');
+    if (!doc || !chat || typeof html2canvas !== 'function') { window.open(A.enlaceWhatsApp(venta), '_blank', 'noopener'); return; }
+    html2canvas(doc, { scale: 2, backgroundColor: '#ffffff', logging: false }).then(function (cv) {
+      return new Promise(function (ok) { cv.toBlob(function (b) { ok({ cv: cv, b: b }); }, 'image/png'); });
+    }).then(function (r) {
+      var copiar = r.b && navigator.clipboard && window.ClipboardItem ? navigator.clipboard.write([new ClipboardItem({ 'image/png': r.b })]).then(function () { return true; }, function () { return false; }) : Promise.resolve(false);
+      return copiar.then(function (ok) {
+        var texto = 'Hola' + (chat.nombre ? ' ' + String(chat.nombre).split(' ')[0] : '') + ', te envío el recibo de tu compra ' + venta.numero + '.';
+        window.open('https://wa.me/' + encodeURIComponent(chat.id) + '?text=' + encodeURIComponent(texto), '_blank', 'noopener');
+        var mini = document.createElement('canvas'); var k = 220 / r.cv.width; mini.width = 220; mini.height = Math.round(r.cv.height * k);
+        mini.getContext('2d').drawImage(r.cv, 0, 0, mini.width, mini.height);
+        if (window.FichaCliente && FichaCliente.registrarEnviado) FichaCliente.registrarEnviado(chat.id, texto, mini.toDataURL('image/jpeg', 0.6));
+        toast(ok ? 'Recibo copiado: pégalo en su chat de WhatsApp con Ctrl+V.' : 'Abre su chat y adjunta el recibo.');
+        volverAlChat(chat);
+      });
+    }, function () { window.open(A.enlaceWhatsApp(venta), '_blank', 'noopener'); });
+  }
+
   function cerrarModal() {
     var m = document.getElementById('venModal');
     m.hidden = true; m.innerHTML = '';
@@ -745,6 +777,8 @@
       case 'descartar': if (!v.items.length && v.clienteModo === 'buscar' || confirm('¿Descartar esta venta? No se guardó nada todavía.')) { v = borradorNuevo(); try { sessionStorage.removeItem(CLAVE_BORRADOR); } catch (_) {} pintarVista(); enfocarInicio(); } break;
       case 'cerrar-modal': cerrarModal(); break;
       case 'imprimir': A.imprimir(m._venta); break;
+      case 'doc-chat': enviarAlChat(m._venta, m._chat); break;
+      case 'volver-chat': volverAlChat(m._chat); break;
       case 'anular': document.getElementById('venAnular').hidden = false; enfocar('venMotivo'); break;
       case 'confirmar-anular':
         db.anularVenta(b.dataset.id, (document.getElementById('venMotivo') || {}).value, { usuario: A.usuario() }).then(function (venta) {
