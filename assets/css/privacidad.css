@@ -1,0 +1,54 @@
+/* ProjectCode — página de privacidad. Usa los tokens de estilos.css; solo compone el texto largo. */
+
+.legal-pagina {
+  max-width: calc(760px + 2 * var(--margen));
+  margin: var(--e12) auto 0; padding: 0 var(--margen);
+}
+@media (min-width: 900px) { .legal-pagina { margin-top: var(--e24); } }
+
+.legal-pagina .titulo-seccion { max-width: 22ch; margin-top: var(--e3); }
+.legal-meta { margin-top: var(--e5); font-size: 14px; line-height: 20px; color: var(--tinta-2); }
+.legal-intro { margin-top: var(--e5); font-size: 17px; line-height: 26px; color: var(--tinta-2); max-width: 60ch; }
+
+.legal-indice {
+  margin-top: var(--e8); padding: var(--e5);
+  border-radius: var(--r-tarjeta); background: var(--tarjeta);
+}
+.legal-indice h2 { font-size: 13px; line-height: 16px; font-weight: 500; letter-spacing: .01em; color: var(--tinta-2); }
+.legal-indice ol { display: grid; margin-top: var(--e2); }
+.legal-indice a {
+  display: flex; align-items: center; min-height: var(--alto-control);
+  font-size: 15px; text-decoration: none; color: var(--tinta);
+}
+@media (hover: hover) { .legal-indice a:hover { text-decoration: underline; text-underline-offset: 3px; } }
+
+.legal-bloque { margin-top: var(--e12); }
+.legal-bloque h2 { font-size: 22px; line-height: 28px; font-weight: 600; letter-spacing: -.02em; }
+.legal-bloque p { margin-top: var(--e3); font-size: 16px; line-height: 25px; color: var(--tinta-2); max-width: 68ch; }
+.legal-bloque p b { color: var(--tinta); }
+.legal-bloque a { text-underline-offset: 3px; }
+
+.legal-aparte {
+  margin-top: var(--e4); padding: var(--e4) var(--e5);
+  border-radius: var(--r-control); background: var(--hundido);
+  font-size: 15px; line-height: 23px; color: var(--tinta-2); max-width: 68ch;
+}
+.legal-aparte b { color: var(--tinta); }
+
+.legal-nota-final {
+  margin-top: var(--e12); padding: var(--e3);
+  border-radius: var(--r-control); background: var(--hundido);
+  font-size: 14px; line-height: 21px; color: var(--tinta-2);
+}
+
+.cabecera .volver { display: inline-flex; }
+
+.legal-pasos { display: grid; gap: var(--e2); margin-top: var(--e3); padding-left: var(--e5); list-style: decimal; max-width: 68ch; }
+.legal-pasos li { font-size: 16px; line-height: 25px; color: var(--tinta-2); padding-left: var(--e1); }
+.legal-pasos li::marker { color: var(--tinta); font-weight: 600; }
+
+@media print {
+  .cabecera, .legal-indice, .pie, .saltar { display: none; }
+  body { background: #fff; padding-bottom: 0; }
+  .legal-pagina { margin-top: 0; }
+}
