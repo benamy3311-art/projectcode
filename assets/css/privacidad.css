@@ -7,7 +7,7 @@
 @media (min-width: 900px) { .legal-pagina { margin-top: var(--e24); } }
 
 .legal-pagina .titulo-seccion { max-width: 22ch; margin-top: var(--e3); }
-.legal-meta { margin-top: var(--e5); font-size: 14px; line-height: 20px; color: var(--tinta-3); }
+.legal-meta { margin-top: var(--e5); font-size: 14px; line-height: 20px; color: var(--tinta-2); }
 .legal-intro { margin-top: var(--e5); font-size: 17px; line-height: 26px; color: var(--tinta-2); max-width: 60ch; }
 
 .legal-indice {
@@ -42,3 +42,13 @@
 }
 
 .cabecera .volver { display: inline-flex; }
+
+.legal-pasos { display: grid; gap: var(--e2); margin-top: var(--e3); padding-left: var(--e5); list-style: decimal; max-width: 68ch; }
+.legal-pasos li { font-size: 16px; line-height: 25px; color: var(--tinta-2); padding-left: var(--e1); }
+.legal-pasos li::marker { color: var(--tinta); font-weight: 600; }
+
+@media print {
+  .cabecera, .legal-indice, .pie, .saltar { display: none; }
+  body { background: #fff; padding-bottom: 0; }
+  .legal-pagina { margin-top: 0; }
+}
